@@ -1,0 +1,7 @@
+{
+  "local_paths": {
+    "ultra_fineweb": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/openbmb/Ultra-FineWeb/main",
+    "fineweb_10b": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/EleutherAI/fineweb-edu-dedup-10b/main",
+    "wikipedia": "/path/to/local/wikipedia"
+  }
+}
