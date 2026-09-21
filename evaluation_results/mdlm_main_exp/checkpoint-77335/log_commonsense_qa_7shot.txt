@@ -1,0 +1,141 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "commonsense_qa"             --num_fewshot "7"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: commonsense_qa
+Few-shot: 7
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: commonsense_qa (7-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: commonsense_qa
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+[commonsense_qa] Setting up 'random' sampler with seed 42
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+[commonsense_qa] Processing (num_proc=16): 100%|██████████| 1221/1221 [00:00<?, ? examples/s][commonsense_qa] Processing (num_proc=16): 1297 examples [00:01, 72.77 examples/s]           [commonsense_qa] Processing (num_proc=16): 2214 examples [00:01, 1156.21 examples/s][commonsense_qa] Processing (num_proc=16): 2442 examples [00:01, 877.46 examples/s] 
+
+--- Sample Preview (commonsense_qa) ---
+Prompt:
+Question: He fantasied about getting a what while driving to work and the pros and cons of the extra responsibilities and benefits?
+Answer: promotion
+
+Question: He was good at traditional science but excelled at social science, his favorite subject was what?
+Answer: history studies
+
+Question: Jan wasn't very good at studying.  What might help him study better?
+Answer: more intelligence
+
+Question: The cat was wild but like all others he was always read for a cat what?
+Answer: nap
+
+Question: Cats ...
+Token IDs (first 20): [50285, 23433, 27, 754, 36159, 728, 670, 2970, 247, 752, 1223, 6276, 281, 789, 285, 253, 5847, 285, 772, 273]
+
+Choices (5 options):
+  1. 'bank...' -> [4310, 50279]
+  2. 'library...' -> [6335, 50279]
+  3. 'department store...' -> [7811, 4657, 50279]
+  4. 'mall...' -> [28974, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 6105 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 764 samples
+[INFO] GPU 1: 763 samples
+[INFO] GPU 2: 763 samples
+[INFO] GPU 3: 763 samples
+[INFO] GPU 4: 763 samples
+[INFO] GPU 5: 763 samples
+[INFO] GPU 6: 763 samples
+[INFO] GPU 7: 763 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 5] Starting on cuda:5, processing 763 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 0] Starting on cuda:0, processing 764 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 2] Starting on cuda:2, processing 763 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 1] Starting on cuda:1, processing 763 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 7] Starting on cuda:7, processing 763 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 6] Starting on cuda:6, processing 763 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 3] Starting on cuda:3, processing 763 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 4] Starting on cuda:4, processing 763 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 2] Completed 763 samples
+[Worker 0] Completed 764 samples
+[Worker 6] Completed 763 samples
+[Worker 5] Completed 763 samples
+[Worker 7] Completed 763 samples
+[Worker 3] Completed 763 samples
+[Worker 4] Completed 763 samples
+[Worker 1] Completed 763 samples
+[INFO] Waiting for 8 workers to complete...
+[INFO] Successfully collected 6105 results from all workers
+
+[STATS] commonsense_qa option lengths:
+  Tokens - avg: 2.73, min: 2, max: 9
+  Chars  - avg: 9.20
+✓ Detailed results saved: evaluation_results/mdlm_main_exp/checkpoint-77335/commonsense_qa/3632e6ab.results.json
+
+============================================================
+Results for: COMMONSENSE_QA
+Model: mdlm_main_exp_checkpoint-77335
+============================================================
+acc: 0.4267 (521/1221)
+acc_norm_char: 0.3931 (480/1221)
+acc_norm_token: 0.3800 (464/1221)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

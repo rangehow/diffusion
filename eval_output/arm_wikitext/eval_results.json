@@ -1,0 +1,10 @@
+{
+    "eval_loss": 3.7017884254455566,
+    "eval_model_preparation_time": 0.0038,
+    "eval_runtime": 24.6892,
+    "eval_samples_per_second": 176.515,
+    "eval_steps_per_second": 2.795,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_main_exp",
+    "dataset_name": "sh_wikitext"
+}

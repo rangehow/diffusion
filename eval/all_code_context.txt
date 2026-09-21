@@ -1,0 +1,4835 @@
+This is the directory structure of my project:
+----------------------------------------
+.
+├── collators
+├── config.py
+├── data
+│   ├── collator.py
+│   ├── eval_collators.py
+│   ├── __init__.py
+│   └── __pycache__
+├── dataset_paths.py
+├── engine
+│   ├── distributed.py
+│   ├── evaluator.py
+│   ├── __init__.py
+│   ├── metrics.py
+│   ├── __pycache__
+│   └── simple_evaluator.py
+├── export_results.py
+├── __init__.py
+├── io
+│   ├── export.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   └── results.py
+├── main.py
+├── models
+│   ├── base.py
+│   ├── causal.py
+│   ├── diffusion.py
+│   ├── __init__.py
+│   └── __pycache__
+├── scripts
+│   ├── a.txt
+│   └── run_eval.sh
+└── tasks
+    ├── arc.py
+    ├── base.py
+    ├── commonsense_qa.py
+    ├── hellaswag.py
+    ├── __init__.py
+    ├── mmlu.py
+    ├── mmlu_redux.py
+    ├── piqa.py
+    ├── __pycache__
+    ├── registry.py
+    ├── sampler.py
+    ├── sciq.py
+    ├── truthfulqa.py
+    └── winogrande.py
+
+13 directories, 35 files
+----------------------------------------
+
+Below is the content of the files:
+
+================================================================================
+File Path: __init__.py
+================================================================================
+
+# eval/__init__.py
+"""
+Evaluation Framework for Language Models
+
+A modular framework for evaluating language models on standard benchmarks.
+
+Supported model types:
+    - Causal (autoregressive) language models
+    - Discrete diffusion language models
+
+Supported tasks:
+    - HellaSwag
+    - ARC (Easy and Challenge)
+    - MMLU
+    - PIQA
+    - Winogrande
+    - TruthfulQA (MC1 and MC2)
+    - CommonsenseQA
+    - SciQ
+
+Example usage:
+    from eval import Evaluator, ModelConfig, ModelType
+    
+    config = ModelConfig(
+        name_or_path="path/to/model",
+        model_type=ModelType.CAUSAL,
+    )
+    
+    with Evaluator(config) as evaluator:
+        result = evaluator.evaluate_task("hellaswag", num_fewshot=10)
+        print(result.metrics)
+"""
+
+from .config import (
+    ModelConfig,
+    TaskConfig,
+    EvaluationConfig,
+    ModelType,
+    DiffusionEvalMode,
+    SamplerType,
+)
+from .engine import Evaluator, EvaluationResult
+from .tasks import TaskRegistry, get_task, BaseTask
+from .io import ResultsManager, export_to_excel
+
+__version__ = "2.0.0"
+
+__all__ = [
+    # Config
+    "ModelConfig",
+    "TaskConfig",
+    "EvaluationConfig",
+    "ModelType",
+    "DiffusionEvalMode",
+    "SamplerType",
+    
+    # Engine
+    "Evaluator",
+    "EvaluationResult",
+    
+    # Tasks
+    "TaskRegistry",
+    "get_task",
+    "BaseTask",
+    
+    # IO
+    "ResultsManager",
+    "export_to_excel",
+]
+
+================================================================================
+File Path: config.py
+================================================================================
+
+# eval/config.py
+"""
+Centralized configuration for the evaluation framework.
+All configuration dataclasses and constants live here.
+"""
+
+from dataclasses import dataclass, field
+from typing import Optional, Any, Literal
+from enum import Enum
+
+
+class ModelType(str, Enum):
+    """Supported model types."""
+    CAUSAL = "causal"
+    DISCRETE_DIFFUSION = "discrete_diffusion"
+
+
+class DiffusionEvalMode(str, Enum):
+    """Evaluation modes for discrete diffusion models."""
+    MONTE_CARLO = "mc"
+    PSEUDO_LOG_LIKELIHOOD = "pll"
+
+
+class DiffusionType(str, Enum):
+    """Diffusion model architectures/training objectives."""
+    CAUSAL = "causal"      # CausalMLM style (tail-biased masking)
+    MDLM = "mdlm"          # Masked Diffusion LM (uniform random masking)
+    BD3LM = "bd3lm"        # Block Denoising Discrete Diffusion LM
+
+
+class SamplerType(str, Enum):
+    """Available few-shot sampling strategies."""
+    FIRST_N = "first_n"
+    RANDOM = "random"
+    BALANCED = "balanced"
+
+
+@dataclass
+class ModelConfig:
+    """Configuration for model loading and inference."""
+    name_or_path: str
+    model_type: ModelType = ModelType.CAUSAL
+    trust_remote_code: bool = False
+    torch_dtype: str = "bfloat16"
+    device: str = "cuda"
+    
+    # Diffusion-specific settings
+    diffusion_eval_mode: DiffusionEvalMode = DiffusionEvalMode.PSEUDO_LOG_LIKELIHOOD
+    diffusion_type: DiffusionType = DiffusionType.MDLM  # NEW: which diffusion variant
+    mc_num: int = 128
+    mc_batch_size: int = 16
+    
+    # BD3LM specific
+    block_size: int = 16
+
+
+@dataclass
+class TaskConfig:
+    """Configuration for task processing."""
+    tokenizer: Optional[Any] = None
+    num_fewshot: int = 0
+    sampler_type: SamplerType = SamplerType.RANDOM
+    sampler_seed: int = 42
+    text_only: bool = False
+    local_dir: Optional[str] = None
+    model_type: ModelType = ModelType.CAUSAL
+
+    def __post_init__(self):
+        # Convert string to enum if needed
+        if isinstance(self.sampler_type, str):
+            self.sampler_type = SamplerType(self.sampler_type)
+        if isinstance(self.model_type, str):
+            self.model_type = ModelType(self.model_type)
+
+
+@dataclass
+class EvaluationConfig:
+    """Configuration for the evaluation run."""
+    model: ModelConfig
+    tasks: list[str]
+    batch_size: int = 8
+    limit: int = 0  # 0 means no limit
+    num_workers: int = 4
+    output_dir: str = "results"
+    
+    @classmethod
+    def from_args(cls, args) -> "EvaluationConfig":
+        """Create config from argparse namespace."""
+        model_config = ModelConfig(
+            name_or_path=args.model_name_or_path,
+            model_type=ModelType(args.model_type),
+            trust_remote_code=args.trust_remote_code,
+            diffusion_eval_mode=DiffusionEvalMode(args.diffusion_eval_mode),
+            diffusion_type=DiffusionType(getattr(args, 'diffusion_type', 'mdlm')),
+            mc_num=args.mc_num,
+            block_size=getattr(args, 'block_size', 16),
+        )
+        
+        tasks = [t.strip() for t in args.tasks.split(',') if t.strip()]
+        
+        return cls(
+            model=model_config,
+            tasks=tasks,
+            batch_size=args.batch_size,
+            limit=args.limit,
+            num_workers=args.num_workers,
+            output_dir=args.output_dir,
+        )
+
+
+@dataclass
+class RunMetadata:
+    """Metadata about a single evaluation run."""
+    model_name_or_path: str
+    model_short_name: str
+    model_type: str
+    task_name: str
+    timestamp_utc: str
+    run_args: dict = field(default_factory=dict)
+
+================================================================================
+File Path: data/__init__.py
+================================================================================
+
+# eval/data/__init__.py
+"""
+Data handling utilities for the evaluation framework.
+"""
+
+from .collator import LogProbCollator
+
+__all__ = ["LogProbCollator"]
+
+================================================================================
+File Path: data/collator.py
+================================================================================
+
+# eval/data/collator.py
+"""
+Data collators for batching evaluation samples.
+"""
+
+from typing import List, Dict, Any
+
+import torch
+from transformers import PreTrainedTokenizer
+
+
+class LogProbCollator:
+    """
+    Collator for log-probability evaluation.
+    
+    Takes a list of processed samples and creates a batched tensor dictionary
+    suitable for model inference.
+    
+    Each sample is expected to have:
+        - input_ids: Token IDs for the prompt
+        - continuation_ids: Token IDs for the continuation
+        - group_id: Identifier linking choices to the same question
+        - is_correct: Whether this option is the correct answer
+        - continuation_len: Length of continuation in tokens
+        - continuation_char_len: Length of continuation in characters
+    """
+    
+    def __init__(self, tokenizer: PreTrainedTokenizer):
+        self.tokenizer = tokenizer
+        self.pad_token_id = tokenizer.pad_token_id
+    
+    def __call__(self, batch: List[Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Collate a batch of samples.
+        
+        Args:
+            batch: List of sample dictionaries
+            
+        Returns:
+            Dictionary with batched tensors and metadata
+        """
+        input_ids_list = []
+        continuation_masks = []
+        attention_masks = []
+        
+        group_ids = []
+        is_correct_list = []
+        continuation_len_list = []
+        continuation_char_len_list = []
+        
+        max_length = 0
+        
+        # First pass: collect sequences and find max length
+        for item in batch:
+            full_sequence = item['input_ids'] + item['continuation_ids']
+            input_ids_list.append(full_sequence)
+            
+            # Continuation mask: 0 for prompt, 1 for continuation
+            continuation_mask = (
+                [0] * len(item['input_ids']) + 
+                [1] * len(item['continuation_ids'])
+            )
+            continuation_masks.append(continuation_mask)
+            
+            attention_masks.append([1] * len(full_sequence))
+            
+            group_ids.append(item['group_id'])
+            is_correct_list.append(item['is_correct'])
+            continuation_len_list.append(item['continuation_len'])
+            continuation_char_len_list.append(
+                item.get('continuation_char_len', 1)
+            )
+            
+            max_length = max(max_length, len(full_sequence))
+        
+        # Second pass: pad to max length
+        padded_input_ids = []
+        padded_continuation_masks = []
+        padded_attention_masks = []
+        
+        for seq, cont_mask, att_mask in zip(
+            input_ids_list, continuation_masks, attention_masks
+        ):
+            pad_length = max_length - len(seq)
+            padded_input_ids.append(seq + [self.pad_token_id] * pad_length)
+            padded_continuation_masks.append(cont_mask + [0] * pad_length)
+            padded_attention_masks.append(att_mask + [0] * pad_length)
+        
+        return {
+            'input_ids': torch.tensor(padded_input_ids, dtype=torch.long),
+            'attention_mask': torch.tensor(padded_attention_masks, dtype=torch.long),
+            'continuation_mask': torch.tensor(padded_continuation_masks, dtype=torch.bool),
+            'group_ids': group_ids,
+            'is_correct': is_correct_list,
+            'continuation_len': continuation_len_list,
+            'continuation_char_len': continuation_char_len_list,
+        }
+
+================================================================================
+File Path: data/eval_collators.py
+================================================================================
+
+# eval/data/eval_collators.py
+"""
+Evaluation-specific collators for Monte Carlo estimation of diffusion models.
+
+These collators apply noise to sequences following the same logic as training collators,
+enabling proper MC estimation using the model's forward pass.
+
+IMPORTANT: Noise is ONLY applied to continuation tokens, not prompt tokens.
+The prompt serves as conditioning context and should remain unmasked.
+"""
+
+from typing import List, Dict, Any, Tuple, Optional
+import random
+
+import torch
+import torch.nn.functional as F
+from torch.nn.utils.rnn import pad_sequence
+from transformers import PreTrainedTokenizer
+
+from ..config import DiffusionType
+
+
+class BaseMCCollator:
+    """
+    Base class for MC evaluation collators.
+    
+    Handles common operations like padding, special token masking, and
+    antithetic sampling of noise levels.
+    """
+    
+    def __init__(
+        self,
+        tokenizer: PreTrainedTokenizer,
+        mc_num: int = 128,
+        mc_batch_size: int = 16,
+    ):
+        self.tokenizer = tokenizer
+        self.mc_num = mc_num
+        self.mc_batch_size = mc_batch_size
+        
+        # Token IDs
+        self.pad_token_id = tokenizer.pad_token_id
+        self.mask_token_id = tokenizer.mask_token_id
+        self.bos_token_id = tokenizer.bos_token_id
+        self.eos_token_id = tokenizer.eos_token_id
+        
+        if self.mask_token_id is None:
+            raise ValueError("Tokenizer must have mask_token_id for diffusion evaluation")
+        
+        # Build special tokens set for masking protection
+        self.special_token_ids = {
+            tok_id for tok_id in [
+                self.pad_token_id, self.bos_token_id, self.eos_token_id,
+                tokenizer.cls_token_id, tokenizer.sep_token_id, self.mask_token_id
+            ] if tok_id is not None
+        }
+    
+    def build_special_tokens_mask(self, input_ids: torch.Tensor) -> torch.Tensor:
+        """Create boolean mask where True = special token (should not be masked)."""
+        mask = torch.zeros_like(input_ids, dtype=torch.bool)
+        for token_id in self.special_token_ids:
+            mask = mask | (input_ids == token_id)
+        return mask
+    
+    def build_non_maskable_mask(
+        self, 
+        input_ids: torch.Tensor, 
+        continuation_mask: torch.Tensor
+    ) -> torch.Tensor:
+        """
+        Create boolean mask where True = should NOT be masked.
+        
+        This combines:
+        1. Special tokens (BOS, EOS, PAD, etc.) - should never be masked
+        2. Prompt tokens (continuation_mask == False) - should never be masked
+        
+        Only continuation tokens that are not special can be masked.
+        """
+        # Ensure continuation_mask is on the same device as input_ids
+        continuation_mask = continuation_mask.to(input_ids.device)
+        special_mask = self.build_special_tokens_mask(input_ids)
+        prompt_mask = ~continuation_mask  # True for prompt tokens
+        return special_mask | prompt_mask
+    
+    def sample_antithetic_probs(
+        self, 
+        batch_size: int, 
+        low: float = 0.001, 
+        high: float = 0.999
+    ) -> torch.Tensor:
+        """
+        Generate stratified/antithetic sampling of noise probabilities.
+        
+        Divides [low, high] into batch_size intervals and samples one point per interval,
+        then shuffles. This reduces variance in MC estimation.
+        """
+        steps = torch.arange(batch_size, dtype=torch.float32)
+        noise = torch.rand(batch_size)
+        probs_01 = (steps + noise) / batch_size
+        probs = low + probs_01 * (high - low)
+        shuffled_indices = torch.randperm(batch_size)
+        return probs[shuffled_indices]
+    
+    def _pad_sequences(
+        self, 
+        sequences: List[torch.Tensor], 
+        padding_value: int
+    ) -> torch.Tensor:
+        """Pad list of tensors to same length."""
+        return pad_sequence(sequences, batch_first=True, padding_value=padding_value)
+
+
+class CausalMCCollator(BaseMCCollator):
+    """
+    MC collator for Causal MLM style diffusion (tail-biased masking).
+    
+    Masks tokens with higher probability towards the end of the sequence,
+    mimicking autoregressive generation patterns.
+    
+    NOTE: Only continuation tokens are masked; prompt tokens remain unchanged.
+    """
+    
+    def __init__(
+        self,
+        tokenizer: PreTrainedTokenizer,
+        mc_num: int = 128,
+        mc_batch_size: int = 16,
+        tail_bias_factor: float = 1.5,
+        start_prob: float = 0.0,
+        end_prob: float = 1.0,
+    ):
+        super().__init__(tokenizer, mc_num, mc_batch_size)
+        self.tail_bias_factor = max(1.0, tail_bias_factor)
+        self.start_prob = start_prob
+        self.end_prob = end_prob
+    
+    def _tail_bias_indices(
+        self, 
+        seq_len: int, 
+        prob: float,
+        non_maskable_mask: torch.Tensor
+    ) -> List[int]:
+        """
+        Select indices to mask with tail bias.
+        
+        Focuses masking on later positions in the sequence.
+        Only considers positions where non_maskable_mask is False.
+        """
+        # Get maskable positions (excluding special tokens AND prompt tokens)
+        maskable = [i for i in range(seq_len) if not non_maskable_mask[i].item()]
+        if not maskable:
+            return []
+        
+        num = max(1, int(len(maskable) * prob))
+        pool = min(int(num * self.tail_bias_factor), len(maskable))
+        pool = max(pool, num)
+        
+        # Focus on later positions within the maskable set
+        candidates = maskable[-pool:]
+        return random.sample(candidates, min(num, len(candidates)))
+    
+    def create_mc_samples(
+        self,
+        input_ids: torch.Tensor,
+        continuation_mask: torch.Tensor,
+        device: torch.device,
+    ) -> List[Dict[str, torch.Tensor]]:
+        """
+        Create MC samples with tail-biased masking.
+        
+        Args:
+            input_ids: (seq_len,) token IDs
+            continuation_mask: (seq_len,) boolean mask for continuation tokens
+            device: Target device
+            
+        Returns:
+            List of batch dictionaries for MC estimation
+        """
+        seq_len = input_ids.size(0)
+        
+        # Build mask: True = should NOT be masked (special tokens OR prompt tokens)
+        non_maskable_mask = self.build_non_maskable_mask(input_ids, continuation_mask)
+        
+        # Sample noise levels
+        p_min = max(1e-3, min(self.start_prob, self.end_prob))
+        p_max = min(1.0 - 1e-3, max(self.start_prob, self.end_prob))
+        
+        batches = []
+        samples_generated = 0
+        
+        while samples_generated < self.mc_num:
+            current_batch_size = min(self.mc_batch_size, self.mc_num - samples_generated)
+            probs = self.sample_antithetic_probs(current_batch_size, p_min, p_max)
+            
+            batch_input_ids = []
+            batch_labels = []
+            batch_probs = []
+            
+            for i in range(current_batch_size):
+                prob = probs[i].item()
+                indices_to_mask = self._tail_bias_indices(seq_len, prob, non_maskable_mask)
+                
+                # Create masked input
+                masked_ids = input_ids.clone()
+                for idx in indices_to_mask:
+                    masked_ids[idx] = self.mask_token_id
+                
+                batch_input_ids.append(masked_ids)
+                batch_labels.append(input_ids.clone())
+                batch_probs.append(probs[i])
+            
+            # Stack into batch
+            stacked_input_ids = torch.stack(batch_input_ids).to(device)
+            stacked_labels = torch.stack(batch_labels).to(device)
+            stacked_labels[stacked_labels == self.pad_token_id] = -100
+            attention_mask = (stacked_input_ids != self.pad_token_id).long()
+            
+            # Calculate num_items_in_batch (number of non-ignored tokens)
+            num_items_in_batch = (stacked_labels != -100).sum()
+            
+            batches.append({
+                'input_ids': stacked_input_ids,
+                'attention_mask': attention_mask,
+                'labels': stacked_labels,
+                'current_mlm_prob': torch.stack(batch_probs).to(device),
+                'continuation_mask': continuation_mask.unsqueeze(0).expand(current_batch_size, -1).to(device),
+                'causal': True,
+                'use_daum': False,
+                'num_items_in_batch': num_items_in_batch,
+            })
+            
+            samples_generated += current_batch_size
+        
+        return batches
+
+
+class MDLMMCCollator(BaseMCCollator):
+    """
+    MC collator for MDLM (Masked Diffusion Language Model).
+    
+    Applies uniform random masking with probability t sampled from [0, 1].
+    
+    NOTE: Only continuation tokens are masked; prompt tokens remain unchanged.
+    """
+    
+    def __init__(
+        self,
+        tokenizer: PreTrainedTokenizer,
+        mc_num: int = 128,
+        mc_batch_size: int = 16,
+        eps: float = 1e-5,
+    ):
+        super().__init__(tokenizer, mc_num, mc_batch_size)
+        self.eps = eps
+    
+    def mask_tokens(
+        self,
+        input_ids: torch.Tensor,
+        mlm_probability: torch.Tensor,
+        non_maskable_mask: torch.Tensor,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """
+        Apply random masking with given probability per sample.
+        
+        Args:
+            input_ids: (batch, seq_len) token IDs
+            mlm_probability: (batch,) masking probability per sample
+            non_maskable_mask: (batch, seq_len) boolean mask where True = should NOT be masked
+            
+        Returns:
+            Tuple of (masked_input_ids, labels)
+        """
+        prob_matrix = mlm_probability.unsqueeze(1).expand_as(input_ids)
+        masked_indices = torch.rand_like(input_ids, dtype=torch.float) < prob_matrix
+        
+        # Only mask where non_maskable_mask is False (i.e., continuation tokens that aren't special)
+        masked_indices = masked_indices & (~non_maskable_mask)
+        
+        # Ensure at least one token is masked per sample (within maskable region)
+        maskable_mask = ~non_maskable_mask
+        for i in range(input_ids.size(0)):
+            if not masked_indices[i].any():
+                candidates = maskable_mask[i].nonzero(as_tuple=True)[0]
+                if len(candidates) > 0:
+                    chosen = candidates[torch.randint(len(candidates), (1,))]
+                    masked_indices[i, chosen] = True
+        
+        labels = input_ids.clone()
+        labels[labels == self.pad_token_id] = -100
+        
+        inputs = input_ids.clone()
+        inputs[masked_indices] = self.mask_token_id
+        
+        return inputs, labels
+    
+    def create_mc_samples(
+        self,
+        input_ids: torch.Tensor,
+        continuation_mask: torch.Tensor,
+        device: torch.device,
+    ) -> List[Dict[str, torch.Tensor]]:
+        """
+        Create MC samples with uniform random masking.
+        
+        Only continuation tokens are masked.
+        """
+        seq_len = input_ids.size(0)
+        
+        # Build mask: True = should NOT be masked (special tokens OR prompt tokens)
+        non_maskable_mask = self.build_non_maskable_mask(input_ids, continuation_mask)
+        
+        batches = []
+        samples_generated = 0
+        
+        while samples_generated < self.mc_num:
+            current_batch_size = min(self.mc_batch_size, self.mc_num - samples_generated)
+            
+            # Expand input for batch processing
+            batch_input_ids = input_ids.unsqueeze(0).expand(current_batch_size, -1).clone()
+            batch_non_maskable = non_maskable_mask.unsqueeze(0).expand(current_batch_size, -1)
+            
+            # Sample noise levels with antithetic sampling
+            probs = self.sample_antithetic_probs(current_batch_size, 0.001, 0.999)
+            probs = (1.0 - self.eps) * probs
+            
+            # Apply masking (only to continuation tokens)
+            masked_ids, labels = self.mask_tokens(
+                batch_input_ids.to(device),
+                probs.to(device),
+                batch_non_maskable.to(device),
+            )
+            
+            attention_mask = (masked_ids != self.pad_token_id).long()
+            
+            # Calculate num_items_in_batch (number of non-ignored tokens)
+            num_items_in_batch = (labels != -100).sum()
+            
+            batches.append({
+                'input_ids': masked_ids,
+                'attention_mask': attention_mask,
+                'labels': labels,
+                'current_mlm_prob': probs.to(device),
+                'continuation_mask': continuation_mask.unsqueeze(0).expand(current_batch_size, -1).to(device),
+                'zero_mask_prob': True,
+                'num_items_in_batch': num_items_in_batch,
+            })
+            
+            samples_generated += current_batch_size
+        
+        return batches
+
+
+class BD3LMMCCollator(BaseMCCollator):
+    """
+    MC collator for BD3LM (Block Denoising Discrete Diffusion LM).
+    
+    Applies block-structured masking with time-varying noise levels.
+    
+    NOTE: Only continuation tokens are masked; prompt tokens remain unchanged.
+    """
+    
+    def __init__(
+        self,
+        tokenizer: PreTrainedTokenizer,
+        mc_num: int = 128,
+        mc_batch_size: int = 16,
+        block_size: int = 16,
+        sampling_eps_min: float = 1e-3,
+        sampling_eps_max: float = 1.0,
+        resample: bool = True,
+    ):
+        super().__init__(tokenizer, mc_num, mc_batch_size)
+        self.block_size = block_size
+        self.sampling_eps_min = sampling_eps_min
+        self.sampling_eps_max = sampling_eps_max
+        self.resample = resample
+    
+    def _sample_block_t(
+        self, 
+        input_ids: torch.Tensor
+    ) -> Tuple[torch.Tensor, int]:
+        """
+        Sample block-wise timesteps for BD3LM.
+        
+        Each block gets a different timestep, creating a structured noise pattern.
+        """
+        B, L = input_ids.shape
+        num_blocks = (L + self.block_size - 1) // self.block_size
+        total_units = B * num_blocks
+        
+        offset = torch.arange(total_units, device=input_ids.device) / total_units
+        offset = offset.view(B, num_blocks)
+        
+        rand_noise = torch.rand((B, num_blocks), device=input_ids.device)
+        t_blocks = (rand_noise / total_units + offset) % 1.0
+        
+        # Expand to sequence length
+        t_expanded = t_blocks.repeat_interleave(self.block_size, dim=-1)
+        t_expanded = t_expanded[:, :L]
+        
+        # Scale to sampling range
+        t_final = t_expanded * (self.sampling_eps_max - self.sampling_eps_min) + self.sampling_eps_min
+        
+        return t_final, num_blocks
+    
+    def _resample_mask(
+        self,
+        input_ids: torch.Tensor,
+        xt: torch.Tensor,
+        t_map: torch.Tensor,
+        non_maskable_mask: torch.Tensor,
+    ) -> torch.Tensor:
+        """Resample masks to ensure proper coverage per block."""
+        if not self.resample:
+            return xt
+        
+        B, L = input_ids.shape
+        pad_len = (self.block_size - (L % self.block_size)) % self.block_size
+        
+        def to_blocks(x, pad_val=0):
+            if pad_len > 0:
+                x = F.pad(x, (0, pad_len), value=pad_val)
+            return x.view(B, -1, self.block_size)
+        
+        def from_blocks(x_blocked):
+            return x_blocked.view(B, -1)[:, :L]
+        
+        t_blocks = to_blocks(t_map)[:, :, 0]
+        
+        for _ in range(5):
+            xt_blocked = to_blocks(xt, pad_val=self.pad_token_id)
+            is_masked = (xt_blocked == self.mask_token_id).float()
+            perc_masked = is_masked.sum(dim=-1) / self.block_size
+            
+            too_low = perc_masked < self.sampling_eps_min
+            too_high = perc_masked > self.sampling_eps_max
+            
+            if self.sampling_eps_min <= 1e-3:
+                too_low = torch.zeros_like(too_low, dtype=torch.bool)
+            if self.sampling_eps_max >= 1.0:
+                too_high = torch.zeros_like(too_high, dtype=torch.bool)
+            
+            needs_regen = too_low | too_high
+            if not needs_regen.any():
+                break
+            
+            current_p = t_blocks
+            current_p_expanded = current_p.unsqueeze(-1).expand_as(xt_blocked)
+            new_decisions = torch.rand_like(current_p_expanded) < current_p_expanded
+            
+            mask_needs_update = needs_regen.unsqueeze(-1).expand_as(xt_blocked)
+            input_blocked = to_blocks(input_ids, pad_val=self.pad_token_id)
+            non_maskable_blocked = to_blocks(non_maskable_mask, pad_val=1)  # pad with 1 = non-maskable
+            
+            new_xt_blocked = torch.where(
+                new_decisions,
+                torch.full_like(xt_blocked, self.mask_token_id),
+                input_blocked
+            )
+            # Only update where: needs update AND is maskable (continuation, not special)
+            update_locs = mask_needs_update & (~non_maskable_blocked)
+            xt_blocked = torch.where(update_locs, new_xt_blocked, xt_blocked)
+            xt = from_blocks(xt_blocked)
+        
+        return xt
+    
+    def create_mc_samples(
+        self,
+        input_ids: torch.Tensor,
+        continuation_mask: torch.Tensor,
+        device: torch.device,
+    ) -> List[Dict[str, torch.Tensor]]:
+        """
+        Create MC samples with block-structured masking.
+        
+        Only continuation tokens are masked.
+        """
+        seq_len = input_ids.size(0)
+        
+        batches = []
+        samples_generated = 0
+        
+        while samples_generated < self.mc_num:
+            current_batch_size = min(self.mc_batch_size, self.mc_num - samples_generated)
+            
+            # Expand input for batch
+            batch_input_ids = input_ids.unsqueeze(0).expand(current_batch_size, -1).clone().to(device)
+            batch_continuation_mask = continuation_mask.unsqueeze(0).expand(current_batch_size, -1).to(device)
+            
+            # Build non-maskable mask: True = should NOT be masked (special tokens OR prompt tokens)
+            non_maskable_mask = self.build_non_maskable_mask(batch_input_ids[0], continuation_mask).to(device)
+            non_maskable_mask = non_maskable_mask.unsqueeze(0).expand(current_batch_size, -1)
+            
+            # Also include padding in non-maskable
+            non_maskable_mask = non_maskable_mask | (batch_input_ids == self.pad_token_id)
+            
+            # Sample block-wise timesteps
+            t_map, _ = self._sample_block_t(batch_input_ids)
+            
+            # Generate initial mask - only where maskable (continuation tokens, not special)
+            rand_matrix = torch.rand_like(t_map)
+            mask_decision = rand_matrix < t_map
+            mask_decision = mask_decision & (~non_maskable_mask)  # Only mask continuation tokens
+            
+            xt = batch_input_ids.clone()
+            xt[mask_decision] = self.mask_token_id
+            
+            # Resample if needed
+            if self.resample:
+                xt = self._resample_mask(batch_input_ids, xt, t_map, non_maskable_mask)
+            
+            # Prepare labels
+            labels = batch_input_ids.clone()
+            labels[batch_input_ids == self.pad_token_id] = -100
+            
+            attention_mask = (xt != self.pad_token_id).long()
+            
+            # Calculate num_items_in_batch (number of non-ignored tokens)
+            num_items_in_batch = (labels != -100).sum()
+            
+            batches.append({
+                'input_ids': xt,
+                'attention_mask': attention_mask,
+                'labels': labels,
+                'cond_ids': batch_input_ids,
+                'timesteps': t_map,
+                'continuation_mask': batch_continuation_mask,
+                'causal': False,
+                'num_items_in_batch': num_items_in_batch,
+            })
+            
+            samples_generated += current_batch_size
+        
+        return batches
+
+
+def get_mc_collator(
+    diffusion_type: DiffusionType,
+    tokenizer: PreTrainedTokenizer,
+    mc_num: int = 128,
+    mc_batch_size: int = 16,
+    **kwargs,
+) -> BaseMCCollator:
+    """
+    Factory function to create the appropriate MC collator.
+    
+    Args:
+        diffusion_type: Type of diffusion model (causal, mdlm, bd3lm)
+        tokenizer: Tokenizer with mask_token_id
+        mc_num: Number of MC samples
+        mc_batch_size: Batch size for MC sampling
+        **kwargs: Additional arguments for specific collators
+            - For BD3LM: block_size, sampling_eps_min, sampling_eps_max, resample
+            - For Causal: tail_bias_factor, start_prob, end_prob
+            - For MDLM: eps
+        
+    Returns:
+        Appropriate MC collator instance
+    """
+    if diffusion_type == DiffusionType.CAUSAL:
+        # Filter kwargs to only include parameters accepted by CausalMCCollator
+        causal_kwargs = {
+            k: v for k, v in kwargs.items() 
+            if k in ['tail_bias_factor', 'start_prob', 'end_prob']
+        }
+        return CausalMCCollator(tokenizer, mc_num, mc_batch_size, **causal_kwargs)
+    
+    elif diffusion_type == DiffusionType.MDLM:
+        # Filter kwargs to only include parameters accepted by MDLMMCCollator
+        mdlm_kwargs = {
+            k: v for k, v in kwargs.items() 
+            if k in ['eps']
+        }
+        return MDLMMCCollator(tokenizer, mc_num, mc_batch_size, **mdlm_kwargs)
+    
+    elif diffusion_type == DiffusionType.BD3LM:
+        # Filter kwargs to only include parameters accepted by BD3LMMCCollator
+        bd3lm_kwargs = {
+            k: v for k, v in kwargs.items() 
+            if k in ['block_size', 'sampling_eps_min', 'sampling_eps_max', 'resample']
+        }
+        return BD3LMMCCollator(tokenizer, mc_num, mc_batch_size, **bd3lm_kwargs)
+    
+    else:
+        raise ValueError(f"Unknown diffusion type: {diffusion_type}")
+
+================================================================================
+File Path: dataset_paths.py
+================================================================================
+
+# eval/dataset_paths.py
+"""
+Configuration for local dataset paths.
+Maps TASK_NAME to local directory paths.
+"""
+
+import os
+
+LOCAL_DATASETS = {
+    "mmlu": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/cais/mmlu/main",
+    "hellaswag": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main",
+    "sciq": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/sciq/main",
+    "winogrande": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/winogrande/main",
+    "piqa": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/baber/piqa/main",
+    
+    # Fixed: Use TASK_NAME as keys
+    "arc_easy": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main",
+    "arc_challenge": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main",
+    "commonsense_qa": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main",
+    "truthfulqa_mc1": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/truthful_qa/main",
+    "truthfulqa_mc2": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/truthful_qa/main",
+}
+
+def get_local_path(task_name: str):
+    """
+    Get the local path for a task if configured and exists.
+    """
+    path = LOCAL_DATASETS.get(task_name)
+    
+    # Handle sub-task cases like "mmlu:anatomy" -> look up "mmlu"
+    if not path and ":" in task_name:
+        parent_task = task_name.split(":")[0]
+        path = LOCAL_DATASETS.get(parent_task)
+        
+    if path and os.path.exists(path):
+        return path
+    return None
+
+================================================================================
+File Path: engine/__init__.py
+================================================================================
+
+# eval/engine/__init__.py
+"""
+Evaluation engine package.
+
+Contains the core evaluation orchestration, distributed processing,
+and metrics calculation.
+"""
+
+from .evaluator import Evaluator, EvaluationResult
+from .simple_evaluator import SimpleEvaluator, evaluate_dataset_simple
+from .distributed import DistributedEvaluator, EvaluatorActor
+from .metrics import (
+    calculate_accuracy_metrics,
+    calculate_mc2_metrics,
+    aggregate_results,
+    AccuracyMetrics,
+    MC2Metrics,
+)
+
+__all__ = [
+    "Evaluator",
+    "EvaluationResult",
+    "SimpleEvaluator",
+    "evaluate_dataset_simple",
+    "DistributedEvaluator",
+    "EvaluatorActor",
+    "calculate_accuracy_metrics",
+    "calculate_mc2_metrics",
+    "aggregate_results",
+    "AccuracyMetrics",
+    "MC2Metrics",
+]
+
+================================================================================
+File Path: engine/distributed.py
+================================================================================
+
+# eval/engine/distributed.py
+"""
+Distributed evaluation using Ray.
+"""
+
+from typing import Dict, List, Any
+from itertools import cycle
+
+import ray
+import torch
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+from transformers import PreTrainedTokenizer
+
+from ..config import ModelConfig
+from ..models import load_model
+from ..data import LogProbCollator
+
+
+@ray.remote(num_gpus=1)
+class EvaluatorActor:
+    """
+    Ray actor for distributed evaluation.
+    
+    Each actor loads a copy of the model on a single GPU and processes batches.
+    """
+    
+    def __init__(self, config: ModelConfig):
+        """
+        Initialize the evaluator actor.
+        
+        Args:
+            config: Model configuration
+        """
+        self.adapter = load_model(config)
+        self.tokenizer = self.adapter.tokenizer
+    
+    def evaluate_batch(self, batch: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """
+        Evaluate a single batch and return results.
+        
+        Args:
+            batch: Collated batch from LogProbCollator
+            
+        Returns:
+            List of result dictionaries, one per item in the batch
+        """
+        logprobs = self.adapter.compute_logprobs(batch)
+        
+        return [
+            {
+                'group_id': gid,
+                'logprob': lp,
+                'is_correct': ic,
+                'continuation_len': cl,
+                'continuation_char_len': ccl,
+            }
+            for gid, lp, ic, cl, ccl in zip(
+                batch['group_ids'],
+                logprobs,
+                batch['is_correct'],
+                batch['continuation_len'],
+                batch['continuation_char_len'],
+            )
+        ]
+
+
+class DistributedEvaluator:
+    """
+    Manages distributed evaluation across multiple GPUs using Ray.
+    """
+    
+    def __init__(
+        self,
+        config: ModelConfig,
+        num_gpus: int = None,
+    ):
+        """
+        Initialize the distributed evaluator.
+        
+        Args:
+            config: Model configuration
+            num_gpus: Number of GPUs to use. If None, uses all available.
+        """
+        self.config = config
+        
+        if not ray.is_initialized():
+            ray.init()
+        
+        if num_gpus is None:
+            num_gpus = torch.cuda.device_count()
+        
+        if num_gpus == 0:
+            raise ValueError("No GPUs found for distributed evaluation.")
+        
+        print(f"[INFO] Initializing {num_gpus} evaluator actors...")
+        self.actors = [
+            EvaluatorActor.remote(config) for _ in range(num_gpus)
+        ]
+        self.num_gpus = num_gpus
+    
+    def evaluate(
+        self,
+        dataset,
+        tokenizer: PreTrainedTokenizer,
+        batch_size: int,
+        num_workers: int = 4,
+    ) -> List[Dict[str, Any]]:
+        """
+        Evaluate a dataset across all GPUs.
+        
+        Args:
+            dataset: HuggingFace dataset with processed samples
+            tokenizer: Tokenizer for the collator
+            batch_size: Batch size per GPU
+            num_workers: DataLoader workers
+            
+        Returns:
+            List of all result dictionaries
+        """
+        print(f"[INFO] Evaluating {len(dataset)} samples on {self.num_gpus} GPUs...")
+        
+        collator = LogProbCollator(tokenizer)
+        dataloader = DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            collate_fn=collator,
+            num_workers=num_workers,
+        )
+        
+        # Distribute batches across actors in round-robin fashion
+        futures = [
+            actor.evaluate_batch.remote(batch)
+            for actor, batch in zip(cycle(self.actors), dataloader)
+        ]
+        
+        # Collect results with progress bar
+        all_results = []
+        for future in tqdm(futures, desc="Collecting results"):
+            batch_results = ray.get(future)
+            all_results.extend(batch_results)
+        
+        return all_results
+    
+    def shutdown(self):
+        """Shutdown Ray and release resources."""
+        ray.shutdown()
+
+
+def evaluate_dataset(
+    config: ModelConfig,
+    dataset,
+    tokenizer: PreTrainedTokenizer,
+    batch_size: int,
+    num_workers: int = 4,
+) -> List[Dict[str, Any]]:
+    """
+    Convenience function for single-use evaluation.
+    
+    Args:
+        config: Model configuration
+        dataset: Dataset to evaluate
+        tokenizer: Tokenizer for collation
+        batch_size: Batch size
+        num_workers: DataLoader workers
+        
+    Returns:
+        List of result dictionaries
+    """
+    evaluator = DistributedEvaluator(config)
+    try:
+        return evaluator.evaluate(dataset, tokenizer, batch_size, num_workers)
+    finally:
+        evaluator.shutdown()
+
+================================================================================
+File Path: engine/evaluator.py
+================================================================================
+
+# eval/engine/evaluator.py
+"""
+Core evaluation orchestrator.
+
+Ties together models, tasks, and metrics into a cohesive evaluation pipeline.
+
+Uses SimpleEvaluator by default which supports:
+- Single GPU: Sequential processing (default, most reliable)
+- Multi GPU: Multiprocessing with one process per GPU (no NCCL needed)
+"""
+
+from typing import Dict, Any, Optional
+from dataclasses import dataclass
+from datetime import datetime, timezone
+
+from transformers import AutoTokenizer
+
+from ..config import ModelConfig, TaskConfig, EvaluationConfig, ModelType, DiffusionEvalMode, DiffusionType
+from ..tasks import get_task, TaskRegistry
+from .simple_evaluator import SimpleEvaluator
+from .metrics import (
+    calculate_accuracy_metrics,
+    calculate_mc2_metrics,
+    aggregate_results,
+    AccuracyMetrics,
+    MC2Metrics,
+)
+from ..io.results import ResultsManager
+
+
+@dataclass
+class EvaluationResult:
+    """Container for evaluation results."""
+    task_name: str
+    metrics: Dict[str, Any]
+    detailed_results: list
+    metadata: Dict[str, Any]
+    
+    def print_summary(self):
+        """Print a formatted summary of results."""
+        print(f"\n{'='*60}")
+        print(f"Results for: {self.task_name.upper()}")
+        print(f"Model: {self.metadata.get('model_short_name', 'Unknown')}")
+        print(f"{'='*60}")
+        
+        if self.task_name == 'truthfulqa_mc2':
+            score = self.metrics.get('mc2_prob_mass_score', 0.0)
+            total = self.metrics.get('total_questions', 0)
+            scored = self.metrics.get('scored_count', 0)
+            print(f"Metric: Normalized Probability Mass (MC2)")
+            print(f"Score: {score:.4f} (Evaluated on {scored}/{total} questions)")
+        else:
+            total = self.metrics.get('total', 0)
+            for name, value in self.metrics.items():
+                if name.startswith('acc') and 'correct' not in name:
+                    correct = self.metrics.get(f"{name}_correct", 0)
+                    print(f"{name}: {value:.4f} ({correct}/{total})")
+        
+        print(f"{'='*60}\n")
+
+
+class Evaluator:
+    """
+    Main evaluator class that orchestrates the evaluation pipeline.
+    
+    By default, uses SimpleEvaluator which is more reliable than Ray.
+    Set use_ray=True to use distributed Ray evaluation if needed.
+    """
+    
+    def __init__(
+        self,
+        model_config: ModelConfig,
+        batch_size: int = 8,
+        num_workers: int = 4,
+        use_ray: bool = False,
+        use_multi_gpu: bool = False,
+    ):
+        """
+        Initialize the evaluator.
+        
+        Args:
+            model_config: Configuration for the model
+            batch_size: Batch size for evaluation (per GPU if multi-GPU)
+            num_workers: DataLoader workers
+            use_ray: If True, use Ray distributed evaluation (may hang)
+            use_multi_gpu: If True and not using Ray, use multiprocessing across GPUs
+        """
+        self.model_config = model_config
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.use_ray = use_ray
+        self.use_multi_gpu = use_multi_gpu
+        
+        # Load tokenizer for task processing
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            model_config.name_or_path,
+            trust_remote_code=model_config.trust_remote_code,
+            use_fast=True,
+        )
+        
+        # Set pad token for causal models
+        if (
+            self.tokenizer.pad_token_id is None and 
+            model_config.model_type == ModelType.CAUSAL
+        ):
+            self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
+        
+        self._simple_evaluator: Optional[SimpleEvaluator] = None
+        self._distributed_evaluator = None  # Only created if use_ray=True
+    
+    @property
+    def simple_evaluator(self) -> SimpleEvaluator:
+        """Lazy initialization of simple evaluator."""
+        if self._simple_evaluator is None:
+            self._simple_evaluator = SimpleEvaluator(
+                self.model_config,
+                use_multi_gpu=self.use_multi_gpu,
+            )
+        return self._simple_evaluator
+    
+    @property
+    def distributed_evaluator(self):
+        """Lazy initialization of distributed (Ray) evaluator."""
+        if self._distributed_evaluator is None:
+            from .distributed import DistributedEvaluator
+            self._distributed_evaluator = DistributedEvaluator(self.model_config)
+        return self._distributed_evaluator
+    
+    def _build_run_signature(
+        self, 
+        task_name: str, 
+        num_fewshot: int, 
+        sampler_name: str, 
+        sampler_seed: int,
+        limit: int
+    ) -> Dict[str, Any]:
+        """
+        Construct the dictionary that defines the identity of a run.
+        Changes to these parameters will result in a new evaluation run.
+        """
+        sig = {
+            "task": task_name,
+            "fewshot": {
+                "num": num_fewshot,
+                "sampler": sampler_name,
+                "seed": sampler_seed
+            },
+            "limit": limit,
+            "model_type": self.model_config.model_type.value,
+        }
+        
+        # Add diffusion specific args if applicable
+        if self.model_config.model_type == ModelType.DISCRETE_DIFFUSION:
+            sig["diffusion"] = {
+                "type": self.model_config.diffusion_type.value,
+                "mode": self.model_config.diffusion_eval_mode.value,
+            }
+            # Only add MC params if mode is MC
+            if self.model_config.diffusion_eval_mode == DiffusionEvalMode.MONTE_CARLO:
+                sig["diffusion"]["mc_num"] = self.model_config.mc_num
+                
+                # BD3LM specific
+                if self.model_config.diffusion_type == DiffusionType.BD3LM:
+                    sig["diffusion"]["block_size"] = getattr(self.model_config, 'block_size', 16)
+        
+        return sig
+
+    def evaluate_task(
+        self,
+        task_name: str,
+        num_fewshot: int = 0,
+        sampler_name: str = "random",
+        sampler_seed: int = 42,
+        limit: int = 0,
+        output_dir: str = "results",
+    ) -> EvaluationResult:
+        """
+        Evaluate a single task with automatic result reuse.
+        
+        Args:
+            task_name: Name of the task to evaluate
+            num_fewshot: Number of few-shot examples
+            sampler_name: Few-shot sampler type
+            sampler_seed: Random seed for sampling
+            limit: Limit number of samples (0 for no limit)
+            output_dir: Directory to store/check results
+            
+        Returns:
+            EvaluationResult with metrics and detailed results
+        """
+        # 1. Build Run Signature
+        run_params = self._build_run_signature(
+            task_name, num_fewshot, sampler_name, sampler_seed, limit
+        )
+        
+        # 2. Check for existing result
+        results_manager = ResultsManager(output_dir, self.model_config.name_or_path, task_name)
+        existing_entry = results_manager.find_existing_run(run_params)
+        
+        if existing_entry:
+            run_id = existing_entry['id']
+            print(f"\n{'='*60}")
+            print(f"Skipping: {task_name} ({num_fewshot}-shot)")
+            print(f"Reason: Found existing run (ID: {run_id})")
+            print(f"{'='*60}")
+            
+            cached_result = results_manager.load_result(run_id)
+            if cached_result:
+                cached_result.print_summary()
+                return cached_result
+        
+        # 3. Proceed with Evaluation
+        print(f"\n{'='*60}")
+        print(f"Evaluating: {task_name} ({num_fewshot}-shot)")
+        if self.model_config.model_type == ModelType.DISCRETE_DIFFUSION:
+            print(f"Diffusion eval mode: {self.model_config.diffusion_eval_mode.value}")
+        
+        if self.use_ray:
+            eval_method = "Ray distributed"
+        elif self.use_multi_gpu:
+            eval_method = "Multi-GPU (multiprocessing)"
+        else:
+            eval_method = "Single GPU"
+        print(f"Evaluation method: {eval_method}")
+        print(f"{'='*60}")
+        
+        # Create task configuration
+        task_config = TaskConfig(
+            tokenizer=self.tokenizer,
+            num_fewshot=num_fewshot,
+            sampler_type=sampler_name,
+            sampler_seed=sampler_seed,
+            model_type=self.model_config.model_type,
+        )
+        
+        # Load and process task
+        task = get_task(task_name, task_config)
+        dataset = task.process()
+        
+        if limit > 0:
+            dataset = dataset.select(range(min(limit, len(dataset))))
+        
+        # Log sample info
+        self._log_sample_info(dataset, task_name)
+        
+        # Run evaluation - choose method based on flags
+        if self.use_ray:
+            results = self.distributed_evaluator.evaluate(
+                dataset,
+                self.tokenizer,
+                self.batch_size,
+                self.num_workers,
+            )
+        else:
+            results = self.simple_evaluator.evaluate(
+                dataset,
+                self.tokenizer,
+                self.batch_size,
+                self.num_workers,
+            )
+        
+        # Aggregate and compute metrics
+        group_results = aggregate_results(results)
+        
+        if task_name == 'truthfulqa_mc2':
+            metrics_obj = calculate_mc2_metrics(group_results)
+        else:
+            metrics_obj = calculate_accuracy_metrics(group_results)
+        
+        # Log option length statistics
+        self._log_option_stats(group_results, task_name)
+        
+        # Create result object
+        result = EvaluationResult(
+            task_name=task_name,
+            metrics=metrics_obj.to_dict(),
+            detailed_results=results,
+            metadata={
+                'model_name_or_path': self.model_config.name_or_path,
+                'model_short_name': self._get_model_short_name(),
+                'model_type': self.model_config.model_type.value,
+                'task_name': task_name,
+                'timestamp_utc': datetime.now(timezone.utc).isoformat(),
+                'run_params': run_params,
+            },
+        )
+        
+        # 4. Save results
+        results_manager.save(result, run_params)
+        
+        result.print_summary()
+        return result
+    
+    def _get_model_short_name(self) -> str:
+        """Extract a short name from the model path."""
+        from pathlib import Path
+        path = Path(self.model_config.name_or_path)
+        
+        if path.name == '':
+            path = path.parent
+        
+        if path.name.startswith('checkpoint-'):
+            return f"{path.parent.name}_{path.name}"
+        
+        return path.name
+    
+    def _log_sample_info(self, dataset, task_name: str):
+        """Log information about sample structure."""
+        if not dataset:
+            return
+        
+        try:
+            example_group_id = dataset[0]['group_id']
+            
+            prompt_info = None
+            choices_info = []
+            
+            for item in dataset:
+                if item['group_id'] == example_group_id:
+                    if prompt_info is None:
+                        prompt_info = {
+                            'text': self.tokenizer.decode(
+                                item['input_ids'], skip_special_tokens=True
+                            ),
+                            'ids': item['input_ids'],
+                        }
+                    choices_info.append({
+                        'text': self.tokenizer.decode(
+                            item['continuation_ids'], skip_special_tokens=True
+                        ).strip(),
+                        'ids': item['continuation_ids'],
+                    })
+            
+            if prompt_info and choices_info:
+                print(f"\n--- Sample Preview ({task_name}) ---")
+                print(f"Prompt:\n{prompt_info['text'][:500]}...")
+                print(f"Token IDs (first 20): {prompt_info['ids'][:20]}")
+                print(f"\nChoices ({len(choices_info)} options):")
+                for i, choice in enumerate(choices_info[:4]):  # Show first 4
+                    print(f"  {i+1}. '{choice['text'][:50]}...' -> {choice['ids']}")
+                print("---\n")
+        except Exception as e:
+            print(f"[WARNING] Could not log sample info: {e}")
+    
+    def _log_option_stats(
+        self, 
+        group_results: Dict[str, list], 
+        task_name: str
+    ):
+        """Log statistics about option lengths."""
+        token_lengths = []
+        char_lengths = []
+        
+        for group_data in group_results.values():
+            for item in group_data:
+                token_lengths.append(item['continuation_len'])
+                char_lengths.append(item['continuation_char_len'])
+        
+        if token_lengths:
+            print(f"\n[STATS] {task_name} option lengths:")
+            print(f"  Tokens - avg: {sum(token_lengths)/len(token_lengths):.2f}, "
+                  f"min: {min(token_lengths)}, max: {max(token_lengths)}")
+            print(f"  Chars  - avg: {sum(char_lengths)/len(char_lengths):.2f}")
+    
+    def shutdown(self):
+        """Release resources."""
+        if self._simple_evaluator is not None:
+            self._simple_evaluator.shutdown()
+        if self._distributed_evaluator is not None:
+            self._distributed_evaluator.shutdown()
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.shutdown()
+
+================================================================================
+File Path: engine/metrics.py
+================================================================================
+
+# eval/engine/metrics.py
+"""
+Metrics calculation for evaluation tasks.
+"""
+
+from typing import Dict, List, Any, Tuple
+from dataclasses import dataclass
+
+import numpy as np
+
+
+@dataclass
+class AccuracyMetrics:
+    """Standard accuracy metrics for multiple choice tasks."""
+    accuracy: float
+    accuracy_norm_char: float
+    accuracy_norm_token: float
+    correct_count: int
+    correct_norm_char_count: int
+    correct_norm_token_count: int
+    total: int
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "acc": self.accuracy,
+            "acc_norm_char": self.accuracy_norm_char,
+            "acc_norm_token": self.accuracy_norm_token,
+            "acc_correct": self.correct_count,
+            "acc_norm_char_correct": self.correct_norm_char_count,
+            "acc_norm_token_correct": self.correct_norm_token_count,
+            "total": self.total,
+        }
+
+
+@dataclass
+class MC2Metrics:
+    """Metrics for TruthfulQA MC2 task."""
+    prob_mass_score: float
+    scored_count: int
+    total_questions: int
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "mc2_prob_mass_score": self.prob_mass_score,
+            "scored_count": self.scored_count,
+            "total_questions": self.total_questions,
+        }
+
+
+def calculate_accuracy_metrics(
+    group_results: Dict[str, List[Dict[str, Any]]]
+) -> AccuracyMetrics:
+    """
+    Calculate accuracy metrics from grouped results.
+    
+    Args:
+        group_results: Dictionary mapping group_id to list of option results.
+            Each option result should have:
+                - logprob: Log probability of the option
+                - is_correct: Whether this option is correct (0 or 1)
+                - continuation_len: Length in tokens
+                - continuation_char_len: Length in characters
+                
+    Returns:
+        AccuracyMetrics dataclass with all metrics
+    """
+    total_groups = len(group_results)
+    
+    if total_groups == 0:
+        return AccuracyMetrics(
+            accuracy=0.0,
+            accuracy_norm_char=0.0,
+            accuracy_norm_token=0.0,
+            correct_count=0,
+            correct_norm_char_count=0,
+            correct_norm_token_count=0,
+            total=0,
+        )
+    
+    correct_raw = 0
+    correct_norm_char = 0
+    correct_norm_token = 0
+    
+    for group_id, group_data in group_results.items():
+        # Raw accuracy: highest log-prob
+        best_option = max(group_data, key=lambda x: x['logprob'])
+        if best_option['is_correct'] == 1:
+            correct_raw += 1
+        
+        # Character-normalized accuracy
+        best_norm_char = max(
+            group_data,
+            key=lambda x: x['logprob'] / max(x['continuation_char_len'], 1)
+        )
+        if best_norm_char['is_correct'] == 1:
+            correct_norm_char += 1
+        
+        # Token-normalized accuracy
+        best_norm_token = max(
+            group_data,
+            key=lambda x: x['logprob'] / max(x['continuation_len'], 1)
+        )
+        if best_norm_token['is_correct'] == 1:
+            correct_norm_token += 1
+    
+    return AccuracyMetrics(
+        accuracy=correct_raw / total_groups,
+        accuracy_norm_char=correct_norm_char / total_groups,
+        accuracy_norm_token=correct_norm_token / total_groups,
+        correct_count=correct_raw,
+        correct_norm_char_count=correct_norm_char,
+        correct_norm_token_count=correct_norm_token,
+        total=total_groups,
+    )
+
+
+def calculate_mc2_metrics(
+    group_results: Dict[str, List[Dict[str, Any]]]
+) -> MC2Metrics:
+    """
+    Calculate MC2 probability mass metric for TruthfulQA.
+    
+    This metric measures the probability mass assigned to all correct answers.
+    
+    Args:
+        group_results: Dictionary mapping group_id to list of option results.
+            
+    Returns:
+        MC2Metrics dataclass
+    """
+    total_groups = len(group_results)
+    
+    if total_groups == 0:
+        return MC2Metrics(prob_mass_score=0.0, scored_count=0, total_questions=0)
+    
+    prob_mass_scores = []
+    
+    for group_id, group_data in group_results.items():
+        if not group_data:
+            continue
+        
+        logprobs = np.array([item['logprob'] for item in group_data])
+        labels = np.array([item['is_correct'] for item in group_data])
+        
+        # Convert to probabilities via softmax
+        probs = np.exp(logprobs - np.max(logprobs))  # Subtract max for numerical stability
+        probs = probs / np.sum(probs)
+        
+        # Sum probability mass for correct answers
+        prob_mass_true = np.sum(probs[labels == 1])
+        prob_mass_scores.append(prob_mass_true)
+    
+    score = np.mean(prob_mass_scores) if prob_mass_scores else 0.0
+    
+    return MC2Metrics(
+        prob_mass_score=score,
+        scored_count=len(prob_mass_scores),
+        total_questions=total_groups,
+    )
+
+
+def aggregate_results(
+    results: List[Dict[str, Any]]
+) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Aggregate flat results into groups by group_id.
+    
+    Args:
+        results: List of individual result dictionaries
+        
+    Returns:
+        Dictionary mapping group_id to list of results
+    """
+    group_results: Dict[str, List[Dict[str, Any]]] = {}
+    
+    for result in results:
+        group_id = result['group_id']
+        if group_id not in group_results:
+            group_results[group_id] = []
+        group_results[group_id].append(result)
+    
+    return group_results
+
+================================================================================
+File Path: engine/simple_evaluator.py
+================================================================================
+
+"""
+Simple single-node multi-GPU evaluation without Ray or NCCL.
+
+This module provides evaluation approaches that:
+1. Single GPU: Loads model once, processes batches sequentially
+2. Multi GPU: Spawns one process per GPU, each loads model independently
+
+No Ray, no NCCL - just simple multiprocessing with independent GPU processes.
+"""
+
+from typing import Dict, List, Any, Optional
+
+import torch
+import torch.multiprocessing as mp
+from torch.utils.data import DataLoader, Subset
+from tqdm import tqdm
+from transformers import PreTrainedTokenizer
+
+from ..config import ModelConfig
+from ..models import load_model
+from ..data import LogProbCollator
+
+
+def _disable_dynamo():
+    """Disable torch dynamo to avoid compilation errors with dynamic shapes."""
+    try:
+        import torch._dynamo
+        torch._dynamo.config.suppress_errors = True
+        torch._dynamo.disable()
+    except (ImportError, AttributeError):
+        pass
+
+
+def _worker_init(
+    gpu_id: int,
+    config_dict: dict,
+    dataset_indices: List[int],
+    dataset,
+    tokenizer_path: str,
+    batch_size: int,
+    num_workers: int,
+    result_queue: mp.Queue,
+    trust_remote_code: bool,
+):
+    """
+    Worker function that runs on each GPU.
+    
+    Each worker:
+    1. Loads the model and explicitly moves it to the assigned GPU
+    2. Processes its assigned subset of data
+    3. Puts results in the shared queue
+    """
+    try:
+        # CRITICAL: Disable dynamo FIRST before any model operations
+        _disable_dynamo()
+        
+        device = f"cuda:{gpu_id}"
+        print(f"[Worker {gpu_id}] Starting on {device}, processing {len(dataset_indices)} samples")
+        
+        # Reconstruct config with explicit device
+        from ..config import ModelConfig, ModelType, DiffusionEvalMode, DiffusionType
+        config = ModelConfig(
+            name_or_path=config_dict['name_or_path'],
+            model_type=ModelType(config_dict['model_type']),
+            trust_remote_code=config_dict['trust_remote_code'],
+            torch_dtype=config_dict['torch_dtype'],
+            device=device,
+            diffusion_eval_mode=DiffusionEvalMode(config_dict['diffusion_eval_mode']),
+            diffusion_type=DiffusionType(config_dict['diffusion_type']),
+            mc_num=config_dict['mc_num'],
+            mc_batch_size=config_dict['mc_batch_size'],
+            block_size=config_dict.get('block_size', 16),
+        )
+        
+        # Load model and move to target device
+        adapter = load_model(config).to(device).eval()
+        
+        # Load tokenizer
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained(
+            tokenizer_path,
+            trust_remote_code=trust_remote_code,
+            use_fast=True,
+        )
+        if tokenizer.pad_token_id is None:
+            tokenizer.pad_token_id = tokenizer.eos_token_id
+        
+        # Create subset dataloader
+        subset = Subset(dataset, dataset_indices)
+        collator = LogProbCollator(tokenizer)
+        dataloader = DataLoader(
+            subset,
+            batch_size=batch_size,
+            shuffle=False,
+            collate_fn=collator,
+            num_workers=num_workers,
+            pin_memory=False,
+        )
+        
+        # Process batches
+        results = []
+        for batch in dataloader:
+            # Move batch tensors to target device
+            batch = _move_batch_to_device(batch, device)
+            logprobs = adapter.compute_logprobs(batch)
+            
+            for gid, lp, ic, cl, ccl in zip(
+                batch['group_ids'],
+                logprobs,
+                batch['is_correct'],
+                batch['continuation_len'],
+                batch['continuation_char_len'],
+            ):
+                results.append({
+                    'group_id': gid,
+                    'logprob': lp,
+                    'is_correct': ic,
+                    'continuation_len': cl,
+                    'continuation_char_len': ccl,
+                })
+        
+        print(f"[Worker {gpu_id}] Completed {len(results)} samples")
+        result_queue.put((gpu_id, results, None))
+        
+    except Exception as e:
+        import traceback
+        error_msg = f"Worker {gpu_id} error: {e}\n{traceback.format_exc()}"
+        print(error_msg)
+        result_queue.put((gpu_id, [], error_msg))
+
+
+def _move_batch_to_device(batch: Dict[str, Any], device: str) -> Dict[str, Any]:
+    """Move tensor values in a batch dict to the specified device."""
+    moved = {}
+    for key, value in batch.items():
+        if isinstance(value, torch.Tensor):
+            moved[key] = value.to(device, non_blocking=True)
+        else:
+            moved[key] = value
+    return moved
+
+
+class SimpleEvaluator:
+    """
+    Simple evaluator for single-node evaluation.
+    
+    Supports:
+    - Single GPU: Sequential processing (default)
+    - Multi GPU: Multiprocessing with one process per GPU (no NCCL)
+    """
+    
+    def __init__(
+        self,
+        config: ModelConfig,
+        use_multi_gpu: bool = False,
+        device_ids: Optional[List[int]] = None,
+    ):
+        """
+        Initialize the simple evaluator.
+        
+        Args:
+            config: Model configuration
+            use_multi_gpu: If True, use multiprocessing across GPUs
+            device_ids: List of GPU IDs to use (None = all available)
+        """
+        # Disable dynamo at initialization
+        _disable_dynamo()
+        
+        self.config = config
+        self.use_multi_gpu = use_multi_gpu
+        
+        # Determine devices
+        if device_ids is None:
+            self.device_ids = list(range(torch.cuda.device_count()))
+        else:
+            self.device_ids = device_ids
+        
+        self.num_gpus = len(self.device_ids)
+        
+        print(f"[INFO] Evaluator initialized")
+        print(f"[INFO] Available GPUs: {self.device_ids}")
+        print(f"[INFO] Multi-GPU mode: {use_multi_gpu}")
+        
+        # For single GPU mode, load model immediately
+        if not use_multi_gpu or self.num_gpus <= 1:
+            self.use_multi_gpu = False
+            device = f"cuda:{self.device_ids[0]}" if self.device_ids else "cuda:0"
+            print(f"[INFO] Loading model on {device}...")
+            self.adapter = load_model(config).to(device).eval()
+            self.device = device
+            self.tokenizer = self.adapter.tokenizer
+        else:
+            self.adapter = None
+            self.tokenizer = None
+            self.device = None
+    
+    def evaluate(
+        self,
+        dataset,
+        tokenizer: PreTrainedTokenizer,
+        batch_size: int,
+        num_workers: int = 4,
+    ) -> List[Dict[str, Any]]:
+        """
+        Evaluate a dataset.
+        
+        Args:
+            dataset: HuggingFace dataset with processed samples
+            tokenizer: Tokenizer for the collator
+            batch_size: Batch size per GPU
+            num_workers: DataLoader workers per GPU
+            
+        Returns:
+            List of all result dictionaries
+        """
+        if self.use_multi_gpu and self.num_gpus > 1:
+            return self._evaluate_multi_gpu(dataset, tokenizer, batch_size, num_workers)
+        else:
+            return self._evaluate_single_gpu(dataset, tokenizer, batch_size, num_workers)
+    
+    def _evaluate_single_gpu(
+        self,
+        dataset,
+        tokenizer: PreTrainedTokenizer,
+        batch_size: int,
+        num_workers: int,
+    ) -> List[Dict[str, Any]]:
+        """Single GPU evaluation - simple and reliable."""
+        print(f"[INFO] Evaluating {len(dataset)} samples on {self.device}...")
+        
+        collator = LogProbCollator(tokenizer)
+        dataloader = DataLoader(
+            dataset,
+            batch_size=batch_size,
+            shuffle=False,
+            collate_fn=collator,
+            num_workers=num_workers,
+            pin_memory=True,
+        )
+        
+        all_results = []
+        
+        for batch in tqdm(dataloader, desc="Evaluating"):
+            batch = _move_batch_to_device(batch, self.device)
+            logprobs = self.adapter.compute_logprobs(batch)
+            
+            for gid, lp, ic, cl, ccl in zip(
+                batch['group_ids'],
+                logprobs,
+                batch['is_correct'],
+                batch['continuation_len'],
+                batch['continuation_char_len'],
+            ):
+                all_results.append({
+                    'group_id': gid,
+                    'logprob': lp,
+                    'is_correct': ic,
+                    'continuation_len': cl,
+                    'continuation_char_len': ccl,
+                })
+        
+        return all_results
+    
+    def _evaluate_multi_gpu(
+        self,
+        dataset,
+        tokenizer: PreTrainedTokenizer,
+        batch_size: int,
+        num_workers: int,
+    ) -> List[Dict[str, Any]]:
+        """Multi-GPU evaluation using multiprocessing (no NCCL)."""
+        print(f"[INFO] Evaluating {len(dataset)} samples across {self.num_gpus} GPUs...")
+        print(f"[INFO] Batch size per GPU: {batch_size}")
+        
+        # Split dataset indices across GPUs
+        total_samples = len(dataset)
+        indices_per_gpu = self._split_indices(total_samples, self.num_gpus)
+        
+        # Track expected samples per worker for validation
+        expected_samples_per_worker = {}
+        for i, indices in enumerate(indices_per_gpu):
+            if indices:
+                print(f"[INFO] GPU {self.device_ids[i]}: {len(indices)} samples")
+                expected_samples_per_worker[self.device_ids[i]] = len(indices)
+        
+        # Prepare config dict for serialization
+        config_dict = {
+            'name_or_path': self.config.name_or_path,
+            'model_type': self.config.model_type.value,
+            'trust_remote_code': self.config.trust_remote_code,
+            'torch_dtype': self.config.torch_dtype,
+            'diffusion_eval_mode': self.config.diffusion_eval_mode.value,
+            'diffusion_type': self.config.diffusion_type.value,
+            'mc_num': self.config.mc_num,
+            'mc_batch_size': self.config.mc_batch_size,
+            'block_size': getattr(self.config, 'block_size', 16),
+        }
+        
+        # Use spawn to avoid CUDA issues
+        ctx = mp.get_context('spawn')
+        result_queue = ctx.Queue()
+        
+        # Start worker processes
+        processes = []
+        worker_gpu_ids = []  # Track which GPU each process is assigned to
+        for i, gpu_id in enumerate(self.device_ids):
+            if not indices_per_gpu[i]:
+                continue
+            
+            p = ctx.Process(
+                target=_worker_init,
+                args=(
+                    gpu_id,
+                    config_dict,
+                    indices_per_gpu[i],
+                    dataset,
+                    self.config.name_or_path,
+                    batch_size,
+                    max(1, num_workers // self.num_gpus),
+                    result_queue,
+                    self.config.trust_remote_code,
+                ),
+            )
+            p.start()
+            processes.append(p)
+            worker_gpu_ids.append(gpu_id)
+        
+        # Collect results with timeout to detect crashed workers
+        all_results = []
+        errors = []
+        received_from = set()
+        
+        print(f"[INFO] Waiting for {len(processes)} workers to complete...")
+        
+        # Use timeout-based collection to detect hung/crashed workers
+        timeout_per_worker = 3600  # 1 hour timeout per worker (adjust as needed)
+        
+        for idx in range(len(processes)):
+            try:
+                # Check if any process has died before waiting
+                for i, p in enumerate(processes):
+                    if not p.is_alive() and worker_gpu_ids[i] not in received_from:
+                        # Process died without sending results
+                        exit_code = p.exitcode
+                        if exit_code is not None and exit_code != 0:
+                            error_msg = (
+                                f"Worker on GPU {worker_gpu_ids[i]} crashed with exit code {exit_code}. "
+                                f"This is likely due to OOM or another fatal error."
+                            )
+                            errors.append(error_msg)
+                            received_from.add(worker_gpu_ids[i])
+                
+                # Try to get result with timeout
+                try:
+                    gpu_id, results, error = result_queue.get(timeout=timeout_per_worker)
+                    received_from.add(gpu_id)
+                    
+                    if error:
+                        errors.append(error)
+                    else:
+                        # Validate result count
+                        expected = expected_samples_per_worker.get(gpu_id, 0)
+                        if len(results) != expected:
+                            error_msg = (
+                                f"Worker on GPU {gpu_id} returned {len(results)} results "
+                                f"but expected {expected}. Possible partial failure (OOM mid-batch)."
+                            )
+                            errors.append(error_msg)
+                        else:
+                            all_results.extend(results)
+                            
+                except Exception as e:
+                    # Queue.get failed - check for dead processes
+                    dead_workers = []
+                    for i, p in enumerate(processes):
+                        if not p.is_alive() and worker_gpu_ids[i] not in received_from:
+                            dead_workers.append((worker_gpu_ids[i], p.exitcode))
+                            received_from.add(worker_gpu_ids[i])
+                    
+                    if dead_workers:
+                        for gpu_id, exit_code in dead_workers:
+                            error_msg = (
+                                f"Worker on GPU {gpu_id} died unexpectedly "
+                                f"(exit code: {exit_code}). Likely OOM or crash."
+                            )
+                            errors.append(error_msg)
+                    else:
+                        errors.append(f"Timeout or error waiting for worker results: {e}")
+                    
+            except Exception as e:
+                errors.append(f"Unexpected error collecting results: {e}")
+        
+        # Wait for processes to finish and check exit codes
+        for i, p in enumerate(processes):
+            p.join(timeout=60)  # Give 60s for cleanup
+            if p.is_alive():
+                print(f"[WARNING] Worker on GPU {worker_gpu_ids[i]} did not terminate, killing...")
+                p.terminate()
+                p.join(timeout=10)
+                if p.is_alive():
+                    p.kill()
+            
+            # Check exit code
+            if p.exitcode is not None and p.exitcode != 0:
+                if worker_gpu_ids[i] not in received_from:
+                    error_msg = (
+                        f"Worker on GPU {worker_gpu_ids[i]} exited with code {p.exitcode} "
+                        f"without returning results."
+                    )
+                    if p.exitcode == -9:
+                        error_msg += " (Killed by OOM killer)"
+                    elif p.exitcode < 0:
+                        import signal
+                        try:
+                            sig_name = signal.Signals(-p.exitcode).name
+                            error_msg += f" (Signal: {sig_name})"
+                        except (ValueError, AttributeError):
+                            error_msg += f" (Signal: {-p.exitcode})"
+                    errors.append(error_msg)
+        
+        # CRITICAL: Raise error if any worker failed
+        if errors:
+            error_summary = "\n".join(f"  - {err}" for err in errors)
+            raise RuntimeError(
+                f"Evaluation failed due to {len(errors)} worker error(s):\n{error_summary}\n\n"
+                f"Only {len(all_results)} of {total_samples} samples were processed successfully.\n"
+                f"This is likely due to OOM. Try reducing batch_size or mc_num."
+            )
+        
+        # Validate total results
+        if len(all_results) != total_samples:
+            raise RuntimeError(
+                f"Result count mismatch: got {len(all_results)} results "
+                f"but expected {total_samples}. Some samples were lost."
+            )
+        
+        print(f"[INFO] Successfully collected {len(all_results)} results from all workers")
+        
+        return all_results
+    
+    def _split_indices(self, total: int, num_parts: int) -> List[List[int]]:
+        """Split indices as evenly as possible across parts."""
+        indices = list(range(total))
+        result = [[] for _ in range(num_parts)]
+        
+        for i, idx in enumerate(indices):
+            result[i % num_parts].append(idx)
+        
+        return result
+    
+    def shutdown(self):
+        """Release resources."""
+        if hasattr(self, 'adapter') and self.adapter is not None:
+            del self.adapter
+        torch.cuda.empty_cache()
+
+
+def evaluate_dataset_simple(
+    config: ModelConfig,
+    dataset,
+    tokenizer: PreTrainedTokenizer,
+    batch_size: int,
+    num_workers: int = 4,
+    use_multi_gpu: bool = False,
+) -> List[Dict[str, Any]]:
+    """
+    Convenience function for single-use evaluation.
+    
+    Args:
+        config: Model configuration
+        dataset: Dataset to evaluate
+        tokenizer: Tokenizer for collation
+        batch_size: Batch size
+        num_workers: DataLoader workers
+        use_multi_gpu: Whether to use multi-GPU multiprocessing
+        
+    Returns:
+        List of result dictionaries
+    """
+    evaluator = SimpleEvaluator(config, use_multi_gpu=use_multi_gpu)
+    try:
+        return evaluator.evaluate(dataset, tokenizer, batch_size, num_workers)
+    finally:
+        evaluator.shutdown()
+
+================================================================================
+File Path: export_results.py
+================================================================================
+
+# Excel export CLI
+
+
+================================================================================
+File Path: io/__init__.py
+================================================================================
+
+# eval/io/__init__.py
+"""
+Input/Output utilities for the evaluation framework.
+"""
+
+from .results import ResultsManager
+from .export import export_to_excel, gather_results, create_pivot_table
+
+__all__ = [
+    "ResultsManager",
+    "export_to_excel",
+    "gather_results",
+    "create_pivot_table",
+]
+
+================================================================================
+File Path: io/export.py
+================================================================================
+
+# eval/io/export.py
+"""
+Export utilities for evaluation results.
+"""
+
+import json
+from pathlib import Path
+from typing import List, Dict, Any, Optional
+
+import pandas as pd
+
+
+def parse_run_key(key: str) -> Optional[Dict[str, Any]]:
+    """
+    Parse summary.json key into components.
+    
+    Example: "hellaswag_0shot_causal" -> {'task': 'hellaswag', 'fewshot': 0, 'type': 'causal'}
+    """
+    parts = key.split('_')
+    try:
+        task = parts[0]
+        shot_part = next((p for p in parts if "shot" in p), "0shot")
+        fewshot = int(shot_part.replace("shot", ""))
+        return {'task': task, 'fewshot': fewshot}
+    except (IndexError, ValueError):
+        return None
+
+
+def gather_results(results_dir: Path) -> List[Dict[str, Any]]:
+    """
+    Collect all results from summary.json files.
+    
+    Args:
+        results_dir: Root directory containing model results
+        
+    Returns:
+        List of flattened result dictionaries
+    """
+    all_data = []
+    summary_files = list(results_dir.rglob('summary.json'))
+    
+    if not summary_files:
+        print(f"No summary.json files found in {results_dir}")
+        return []
+    
+    print(f"Found {len(summary_files)} summary files")
+    
+    for summary_file in summary_files:
+        model_name = summary_file.parent.name
+        print(f"  Processing: {model_name}")
+        
+        try:
+            with open(summary_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            for run_key, details in data.items():
+                parsed = parse_run_key(run_key)
+                if not parsed:
+                    continue
+                
+                record = {
+                    'model_name': model_name,
+                    'task_name': parsed['task'],
+                    'num_fewshot': parsed['fewshot'],
+                }
+                record.update(details.get('metrics', {}))
+                all_data.append(record)
+                
+        except json.JSONDecodeError:
+            print(f"  Error: Could not parse {summary_file}")
+        except Exception as e:
+            print(f"  Error processing {summary_file}: {e}")
+    
+    return all_data
+
+
+def create_pivot_table(data: List[Dict[str, Any]]) -> pd.DataFrame:
+    """
+    Create a pivot table from flattened results.
+    
+    Rows: model names
+    Columns: task metrics
+    """
+    if not data:
+        return pd.DataFrame()
+    
+    df = pd.DataFrame(data)
+    
+    # Create display name for tasks
+    df['task_display'] = df.apply(
+        lambda row: f"{row['task_name']} ({row['num_fewshot']}-shot)",
+        axis=1
+    )
+    
+    # Find metric columns
+    meta_cols = {'model_name', 'task_name', 'num_fewshot', 'task_display'}
+    metric_cols = [c for c in df.columns if c not in meta_cols]
+    
+    if not metric_cols:
+        print("Warning: No metric columns found")
+        return pd.DataFrame()
+    
+    # Create pivot table
+    pivot = df.pivot_table(
+        index='model_name',
+        columns='task_display',
+        values=metric_cols,
+    )
+    
+    # Reorder columns: (task, metric) instead of (metric, task)
+    pivot = pivot.swaplevel(0, 1, axis=1)
+    pivot.sort_index(axis=1, level=0, inplace=True)
+    
+    return pivot
+
+
+def export_to_excel(
+    results_dir: str,
+    output_file: str = "evaluation_summary.xlsx",
+) -> Optional[Path]:
+    """
+    Export all results to an Excel file.
+    
+    Args:
+        results_dir: Directory containing evaluation results
+        output_file: Output Excel filename
+        
+    Returns:
+        Path to created Excel file, or None if failed
+    """
+    results_path = Path(results_dir)
+    output_path = Path(output_file)
+    
+    if not results_path.is_dir():
+        print(f"Error: {results_path} is not a directory")
+        return None
+    
+    # Gather and process data
+    flat_data = gather_results(results_path)
+    
+    if not flat_data:
+        print("No data to export")
+        return None
+    
+    # Create pivot table
+    table = create_pivot_table(flat_data)
+    
+    if table.empty:
+        print("Could not create summary table")
+        return None
+    
+    # Save to Excel
+    try:
+        table.to_excel(output_path)
+        print(f"✓ Exported to: {output_path.absolute()}")
+        return output_path
+    except Exception as e:
+        print(f"✗ Error saving Excel: {e}")
+        return None
+
+================================================================================
+File Path: io/results.py
+================================================================================
+
+# eval/io/results.py
+"""
+Results persistence and management.
+"""
+
+import json
+import os
+import uuid
+import time
+from pathlib import Path
+from datetime import datetime, timezone
+from typing import Dict, Any, Optional, List, TYPE_CHECKING
+
+from ..config import ModelType
+
+if TYPE_CHECKING:
+    from ..engine.evaluator import EvaluationResult
+
+
+class ResultsManager:
+    """
+    Manages saving and organizing evaluation results using a manifest (index) system.
+    
+    Results are organized in a hierarchical structure:
+        output_dir/
+            model_name/
+                task_name/
+                    index.json              # Registry of runs and parameters
+                    {uuid}.results.json     # Detailed results
+                    {uuid}.params.json      # Run configuration
+    """
+    
+    def __init__(self, output_dir: str, model_path: str, task_name: str):
+        """
+        Initialize results manager.
+        
+        Args:
+            output_dir: Base output directory
+            model_path: Path to the model being evaluated
+            task_name: Name of the task
+        """
+        self.output_dir = Path(output_dir)
+        self.model_path = model_path
+        self.task_name = task_name
+        self.task_dir = self._prepare_task_dir()
+        self.index_path = self.task_dir / "index.json"
+    
+    def _prepare_task_dir(self) -> Path:
+        """
+        Create and return the task-specific output directory.
+        """
+        path = Path(self.model_path)
+        
+        # Handle trailing slash
+        if path.name == '':
+            path = path.parent
+        
+        # Check if this is a checkpoint
+        if path.name.startswith('checkpoint-'):
+            experiment_name = path.parent.name
+            checkpoint_name = path.name
+            model_dir = self.output_dir / experiment_name / checkpoint_name
+        else:
+            model_dir = self.output_dir / path.name
+        
+        # Create directory structure: model/task
+        task_dir = model_dir / self.task_name
+        task_dir.mkdir(parents=True, exist_ok=True)
+        
+        return task_dir
+
+    def _normalize_params(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Normalize parameters for consistent comparison (sort keys, handle non-serializable).
+        """
+        # Round-trip through JSON to handle Enums and non-standard types transparently
+        # sort_keys=True ensures parameter order doesn't affect the signature
+        return json.loads(json.dumps(params, sort_keys=True, default=str))
+
+    def _load_index(self) -> List[Dict[str, Any]]:
+        """Load the index.json manifest."""
+        if not self.index_path.exists():
+            return []
+        try:
+            with open(self.index_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"[WARNING] Could not read index file {self.index_path}: {e}")
+            return []
+
+    def _save_index(self, index: List[Dict[str, Any]]):
+        """Atomic save of the index."""
+        temp_path = self.index_path.with_suffix('.tmp')
+        try:
+            with open(temp_path, 'w', encoding='utf-8') as f:
+                json.dump(index, f, indent=2)
+            os.replace(temp_path, self.index_path)
+        except Exception as e:
+            print(f"[ERROR] Failed to update index: {e}")
+            if temp_path.exists():
+                os.remove(temp_path)
+
+    def find_existing_run(self, params: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """
+        Check if a run with the given parameters already exists.
+        
+        Args:
+            params: Dictionary of parameters to check
+            
+        Returns:
+            Index entry if found, None otherwise
+        """
+        index = self._load_index()
+        target_params = self._normalize_params(params)
+        
+        for entry in index:
+            # Check if parameters match
+            if entry.get('params') == target_params:
+                # Verify the actual result file exists
+                result_file = self.task_dir / f"{entry['id']}.results.json"
+                if result_file.exists():
+                    return entry
+        
+        return None
+
+    def load_result(self, run_id: str) -> Optional["EvaluationResult"]:
+        """
+        Load a specific result by its run ID.
+        """
+        # Local import to avoid circular dependency
+        from ..engine.evaluator import EvaluationResult
+        
+        path = self.task_dir / f"{run_id}.results.json"
+        if not path.exists():
+            return None
+            
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            return EvaluationResult(
+                task_name=self.task_name,
+                metrics=data['metrics'],
+                detailed_results=data.get('detailed_results', []),
+                metadata=data.get('metadata', {})
+            )
+        except Exception as e:
+            print(f"[ERROR] Failed to load result {run_id}: {e}")
+            return None
+    
+    def save(self, result: "EvaluationResult", params: Dict[str, Any]) -> Path:
+        """
+        Save evaluation results.
+        
+        1. Generates a unique run ID (UUID)
+        2. Saves detailed results to {uuid}.results.json
+        3. Saves parameters to {uuid}.params.json (for readability)
+        4. Updates index.json
+        
+        Args:
+            result: EvaluationResult to save
+            params: Parameters defining this run
+            
+        Returns:
+            Path to the detailed results file
+        """
+        # Generate short UUID
+        run_id = uuid.uuid4().hex[:8]
+        
+        results_file = self.task_dir / f"{run_id}.results.json"
+        params_file = self.task_dir / f"{run_id}.params.json"
+        
+        # 1. Save Params (Readable file)
+        normalized_params = self._normalize_params(params)
+        try:
+            with open(params_file, 'w', encoding='utf-8') as f:
+                json.dump(normalized_params, f, indent=2)
+        except Exception as e:
+            print(f"✗ Error saving params file: {e}")
+
+        # 2. Save Detailed Results
+        result_data = {
+            "metadata": result.metadata,
+            "metrics": result.metrics,
+            "detailed_results": result.detailed_results,
+        }
+        
+        try:
+            with open(results_file, 'w', encoding='utf-8') as f:
+                json.dump(result_data, f, indent=2, ensure_ascii=False)
+            print(f"✓ Detailed results saved: {results_file}")
+        except Exception as e:
+            print(f"✗ Error saving detailed results: {e}")
+            raise
+        
+        # 3. Update Index
+        index = self._load_index()
+        
+        # Remove old entry if exact params match (overwrite logic behavior)
+        index = [i for i in index if i.get('params') != normalized_params]
+        
+        new_entry = {
+            "id": run_id,
+            "timestamp_utc": result.metadata.get('timestamp_utc'),
+            "metrics": {k: v for k, v in result.metrics.items() if 'correct' not in k},
+            "params": normalized_params
+        }
+        
+        index.append(new_entry)
+        self._save_index(index)
+        
+        return results_file
+
+================================================================================
+File Path: main.py
+================================================================================
+
+#!/usr/bin/env python3
+# eval/main.py
+"""
+Command-line interface for the evaluation framework.
+
+Usage:
+    python -m eval.main --model_name_or_path /path/to/model --tasks hellaswag,mmlu --num_fewshot 5
+
+For multi-GPU evaluation (no NCCL needed):
+    python -m eval.main ... --use_multi_gpu
+
+For diffusion models:
+    python -m eval.main --model_name_or_path /path/to/diffusion_model \\
+        --model_type discrete_diffusion \\
+        --diffusion_type mdlm \\
+        --diffusion_eval_mode mc \\
+        --tasks hellaswag
+"""
+
+import argparse
+import sys
+
+from .config import ModelConfig, ModelType, DiffusionEvalMode, DiffusionType
+from .engine import Evaluator
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Evaluate language models on standard benchmarks.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    
+    # Model arguments
+    model_group = parser.add_argument_group("Model Configuration")
+    model_group.add_argument(
+        "--model_name_or_path",
+        type=str,
+        required=True,
+        help="Path or HuggingFace model name",
+    )
+    model_group.add_argument(
+        "--model_type",
+        type=str,
+        required=True,
+        choices=['causal', 'discrete_diffusion'],
+        help="Type of language model",
+    )
+    model_group.add_argument(
+        "--trust_remote_code",
+        action='store_true',
+        help="Trust remote code when loading model",
+    )
+    
+    # Task arguments
+    task_group = parser.add_argument_group("Task Configuration")
+    task_group.add_argument(
+        "--tasks",
+        type=str,
+        required=True,
+        help="Comma-separated list of tasks to evaluate",
+    )
+    task_group.add_argument(
+        "--num_fewshot",
+        type=int,
+        default=0,
+        help="Number of few-shot examples",
+    )
+    task_group.add_argument(
+        "--sampler",
+        type=str,
+        default="random",
+        choices=['first_n', 'random', 'balanced'],
+        help="Few-shot sampling strategy",
+    )
+    task_group.add_argument(
+        "--sampler_seed",
+        type=int,
+        default=42,
+        help="Random seed for few-shot sampling",
+    )
+    
+    # Evaluation arguments
+    eval_group = parser.add_argument_group("Evaluation Settings")
+    eval_group.add_argument(
+        "--batch_size",
+        type=int,
+        default=8,
+        help="Batch size per GPU",
+    )
+    eval_group.add_argument(
+        "--limit",
+        type=int,
+        default=0,
+        help="Limit number of samples (0 = no limit)",
+    )
+    eval_group.add_argument(
+        "--num_workers",
+        type=int,
+        default=4,
+        help="DataLoader workers",
+    )
+    eval_group.add_argument(
+        "--use_ray",
+        action='store_true',
+        help="Use Ray distributed evaluation (may hang on some systems). "
+             "Default is to use simple single-node evaluation.",
+    )
+    eval_group.add_argument(
+        "--use_multi_gpu",
+        action='store_true',
+        help="Use multiprocessing across GPUs (no NCCL). Each GPU runs independently.",
+    )
+    
+    # Diffusion-specific arguments
+    diff_group = parser.add_argument_group("Diffusion Model Settings")
+    diff_group.add_argument(
+        "--diffusion_eval_mode",
+        type=str,
+        default="pll",
+        choices=['mc', 'pll'],
+        help="Evaluation mode: 'mc' (Monte Carlo) or 'pll' (Pseudo-Log-Likelihood)",
+    )
+    diff_group.add_argument(
+        "--diffusion_type",
+        type=str,
+        default="mdlm",
+        choices=['causal', 'mdlm', 'bd3lm'],
+        help="Diffusion model architecture: 'causal' (tail-biased), 'mdlm' (uniform), 'bd3lm' (block)",
+    )
+    diff_group.add_argument(
+        "--mc_num",
+        type=int,
+        default=32,
+        help="Number of Monte Carlo samples",
+    )
+    diff_group.add_argument(
+        "--mc_batch_size",
+        type=int,
+        default=16,
+        help="Batch size for Monte Carlo sampling",
+    )
+    diff_group.add_argument(
+        "--block_size",
+        type=int,
+        default=16,
+        help="Block size for BD3LM (only used when diffusion_type=bd3lm)",
+    )
+    
+    # Output arguments
+    output_group = parser.add_argument_group("Output Settings")
+    output_group.add_argument(
+        "--output_dir",
+        type=str,
+        default="results",
+        help="Directory for saving results",
+    )
+    
+    return parser.parse_args()
+
+
+def main():
+    """Main entry point."""
+    args = parse_args()
+    
+    print("=" * 60)
+    print("Evaluation Framework v2.0")
+    print("=" * 60)
+    print(f"Model: {args.model_name_or_path}")
+    print(f"Type: {args.model_type}")
+    print(f"Tasks: {args.tasks}")
+    print(f"Few-shot: {args.num_fewshot}")
+    
+    # Report evaluation method
+    if args.use_ray:
+        print(f"Evaluation: Ray distributed")
+    elif args.use_multi_gpu:
+        print(f"Evaluation: Multi-GPU (multiprocessing, no NCCL)")
+    else:
+        print(f"Evaluation: Single GPU")
+    
+    if args.model_type == 'discrete_diffusion':
+        print(f"Diffusion Type: {args.diffusion_type}")
+        print(f"Eval Mode: {args.diffusion_eval_mode}")
+        if args.diffusion_eval_mode == 'mc':
+            print(f"MC Samples: {args.mc_num}")
+    print("=" * 60)
+    
+    # Create model configuration
+    model_config = ModelConfig(
+        name_or_path=args.model_name_or_path,
+        model_type=ModelType(args.model_type),
+        trust_remote_code=args.trust_remote_code,
+        diffusion_eval_mode=DiffusionEvalMode(args.diffusion_eval_mode),
+        diffusion_type=DiffusionType(args.diffusion_type),
+        mc_num=args.mc_num,
+        mc_batch_size=args.mc_batch_size if hasattr(args, 'mc_batch_size') else args.batch_size,
+    )
+    
+    # Parse task list
+    tasks = [t.strip() for t in args.tasks.split(',') if t.strip()]
+    
+    if not tasks:
+        print("Error: No tasks specified")
+        sys.exit(1)
+    
+    # Run evaluation - track failed tasks
+    failed_tasks = []
+    
+    with Evaluator(
+        model_config, 
+        args.batch_size, 
+        args.num_workers,
+        use_ray=args.use_ray,
+        use_multi_gpu=args.use_multi_gpu,
+    ) as evaluator:
+        for task_name in tasks:
+            try:
+                # Evaluation logic handles caching and saving internally
+                evaluator.evaluate_task(
+                    task_name=task_name,
+                    num_fewshot=args.num_fewshot,
+                    sampler_name=args.sampler,
+                    sampler_seed=args.sampler_seed,
+                    limit=args.limit,
+                    output_dir=args.output_dir,
+                )
+                
+            except Exception as e:
+                print(f"Error evaluating {task_name}: {e}")
+                import traceback
+                traceback.print_exc()
+                failed_tasks.append((task_name, str(e)))
+    
+    print("\n" + "=" * 60)
+    if failed_tasks:
+        print("Evaluation FAILED!")
+        print("=" * 60)
+        print(f"Failed tasks ({len(failed_tasks)}/{len(tasks)}):")
+        for task, error in failed_tasks:
+            # Truncate long error messages
+            error_short = error[:200] + "..." if len(error) > 200 else error
+            print(f"  - {task}: {error_short}")
+        print("=" * 60)
+        sys.exit(1)
+    else:
+        print("Evaluation complete!")
+        print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
+
+================================================================================
+File Path: models/__init__.py
+================================================================================
+
+# eval/models/__init__.py
+"""
+Model adapters package.
+
+Provides a unified interface for different model types (causal, diffusion, etc.)
+"""
+
+from .base import ModelAdapter
+from .causal import CausalModelAdapter
+from .diffusion import DiffusionModelAdapter
+from ..config import ModelConfig, ModelType
+
+
+def load_model(config: ModelConfig) -> ModelAdapter:
+    """
+    Factory function to load the appropriate model adapter.
+    
+    Args:
+        config: Model configuration specifying type and parameters
+        
+    Returns:
+        Initialized ModelAdapter instance
+        
+    Raises:
+        ValueError: If model type is not supported
+    """
+    adapters = {
+        ModelType.CAUSAL: CausalModelAdapter,
+        ModelType.DISCRETE_DIFFUSION: DiffusionModelAdapter,
+    }
+    
+    adapter_class = adapters.get(config.model_type)
+    if adapter_class is None:
+        raise ValueError(
+            f"Unsupported model type: {config.model_type}. "
+            f"Supported types: {list(adapters.keys())}"
+        )
+    
+    return adapter_class.load(config)
+
+
+__all__ = [
+    "ModelAdapter",
+    "CausalModelAdapter", 
+    "DiffusionModelAdapter",
+    "load_model",
+]
+
+================================================================================
+File Path: models/base.py
+================================================================================
+
+# eval/models/base.py
+"""
+Abstract base class for model adapters.
+Model adapters encapsulate model-specific logic for computing log-probabilities.
+"""
+
+from abc import ABC, abstractmethod
+from typing import Dict, List, Any
+
+import torch
+from transformers import PreTrainedModel, PreTrainedTokenizer
+
+from ..config import ModelConfig
+
+
+class ModelAdapter(ABC):
+    """
+    Abstract base class for model adapters.
+    
+    Each model type (causal LM, diffusion, etc.) should have its own adapter
+    that implements the compute_logprobs method.
+    """
+    
+    def __init__(
+        self,
+        model: PreTrainedModel,
+        tokenizer: PreTrainedTokenizer,
+        config: ModelConfig,
+    ):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.config = config
+    
+    @property
+    def device(self) -> torch.device:
+        """Return the device the model is on."""
+        return self.model.device
+    
+    @abstractmethod
+    def compute_logprobs(self, batch: Dict[str, torch.Tensor]) -> List[float]:
+        """
+        Compute log-probabilities for each item in the batch.
+        
+        Args:
+            batch: A dictionary containing:
+                - input_ids: Tensor of shape (batch_size, seq_len)
+                - attention_mask: Tensor of shape (batch_size, seq_len)
+                - continuation_mask: Boolean tensor marking continuation tokens
+                
+        Returns:
+            List of log-probabilities, one per item in the batch.
+        """
+        pass
+    
+    @classmethod
+    @abstractmethod
+    def load(cls, config: ModelConfig) -> "ModelAdapter":
+        """
+        Load a model and create an adapter instance.
+        
+        Args:
+            config: Model configuration
+            
+        Returns:
+            Initialized ModelAdapter instance
+        """
+        pass
+    
+    def to(self, device: str) -> "ModelAdapter":
+        """Move model to specified device."""
+        self.model = self.model.to(device)
+        return self
+    
+    def eval(self) -> "ModelAdapter":
+        """Set model to evaluation mode."""
+        self.model.eval()
+        return self
+
+================================================================================
+File Path: models/causal.py
+================================================================================
+
+# eval/models/causal.py
+"""
+Adapter for causal (autoregressive) language models.
+"""
+
+from typing import Dict, List
+
+import torch
+import torch.nn.functional as F
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoModel
+
+from .base import ModelAdapter
+from ..config import ModelConfig
+
+
+class CausalModelAdapter(ModelAdapter):
+    """
+    Adapter for causal language models (GPT-style).
+    
+    Computes log-probabilities by extracting the probability of each token
+    given all previous tokens in the sequence.
+    """
+    
+    def compute_logprobs(self, batch: Dict[str, torch.Tensor]) -> List[float]:
+        """
+        Compute log-probabilities for continuation tokens using causal LM.
+        
+        For each position, we use the logits from the previous position
+        to compute P(token_t | token_1, ..., token_{t-1}).
+        """
+        input_ids = batch['input_ids'].to(self.device)
+        attention_mask = batch['attention_mask'].to(self.device)
+        continuation_mask = batch['continuation_mask'].to(self.device)
+        
+        with torch.inference_mode():
+            # Get logits: shape (batch, seq_len, vocab_size)
+            logits = self.model(input_ids, attention_mask=attention_mask).logits
+            
+            # Shift: logits[t-1] predicts token[t]
+            # So we take logits[:, :-1] to predict labels[:, 1:]
+            logits = logits[:, :-1, :]
+            labels = input_ids[:, 1:]
+            
+            # Compute log probabilities
+            log_probs = F.log_softmax(logits, dim=-1)
+            
+            # Gather the log prob of the actual token at each position
+            token_logprobs = torch.gather(
+                log_probs, 
+                dim=-1, 
+                index=labels.unsqueeze(-1)
+            ).squeeze(-1)
+            
+            # Mask to only count continuation tokens
+            # continuation_mask[:, 1:] aligns with our shifted labels
+            masked_logprobs = token_logprobs * continuation_mask[:, 1:]
+            
+            # Sum over sequence dimension to get total log prob per sample
+            total_logprobs = masked_logprobs.sum(dim=1)
+        
+        return total_logprobs.cpu().tolist()
+    
+    @classmethod
+    def load(cls, config: ModelConfig) -> "CausalModelAdapter":
+        """Load a causal language model."""
+        tokenizer = AutoTokenizer.from_pretrained(
+            config.name_or_path,
+            trust_remote_code=config.trust_remote_code,
+            use_fast=True,
+        )
+        
+        # Set pad token if not present
+        if tokenizer.pad_token_id is None:
+            tokenizer.pad_token_id = tokenizer.eos_token_id
+        
+        # Try AutoModelForCausalLM first, fallback to AutoModel
+        dtype = getattr(torch, config.torch_dtype)
+        
+        try:
+            model = AutoModelForCausalLM.from_pretrained(
+                config.name_or_path,
+                torch_dtype=dtype,
+                trust_remote_code=config.trust_remote_code,
+            )
+            print(f"[INFO] Loaded model using AutoModelForCausalLM: {config.name_or_path}")
+        except (ValueError, OSError, ImportError) as e:
+            print(f"[WARNING] AutoModelForCausalLM failed: {e}")
+            print(f"[INFO] Falling back to AutoModel...")
+            model = AutoModel.from_pretrained(
+                config.name_or_path,
+                torch_dtype=dtype,
+                trust_remote_code=config.trust_remote_code,
+            )
+            print(f"[INFO] Loaded model using AutoModel: {config.name_or_path}")
+        
+        adapter = cls(model, tokenizer, config)
+        return adapter.to(config.device).eval()
+
+================================================================================
+File Path: models/diffusion.py
+================================================================================
+
+# eval/models/diffusion.py
+"""
+Adapter for discrete diffusion language models.
+
+Supports three diffusion architectures:
+- Causal: Tail-biased masking (CausalMLM style)
+- MDLM: Uniform random masking
+- BD3LM: Block-structured masking
+
+Evaluation modes:
+- Monte Carlo (MC): Uses model's forward pass with proper noise sampling
+- Pseudo-Log-Likelihood (PLL): Masks one token at a time
+
+The MC implementation uses the same masking logic as training collators,
+and relies on the model's forward pass to compute properly weighted losses.
+"""
+
+from typing import Dict, List, Optional, Any
+
+import torch
+import torch.nn.functional as F
+from transformers import AutoTokenizer, AutoModel
+
+from .base import ModelAdapter
+from ..config import ModelConfig, DiffusionEvalMode, DiffusionType
+from ..data.eval_collators import get_mc_collator
+
+
+# Disable torch.compile/dynamo for evaluation to avoid issues with dynamic shapes
+# This is especially important for BD3LM which uses flex_attention
+def _disable_dynamo():
+    """Disable torch dynamo to avoid compilation errors with dynamic shapes."""
+    try:
+        import torch._dynamo
+        torch._dynamo.config.suppress_errors = True
+        # Optionally disable completely
+        torch._dynamo.disable()
+        print("[INFO] Disabled torch.dynamo for evaluation")
+    except (ImportError, AttributeError):
+        pass  # torch._dynamo not available in older versions
+
+
+class DiffusionModelAdapter(ModelAdapter):
+    """
+    Adapter for discrete diffusion language models.
+    
+    Supports MC and PLL evaluation modes, with three diffusion variants.
+    """
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._mc_collator = None
+    
+    @property
+    def mc_collator(self):
+        """Lazy initialization of MC collator."""
+        if self._mc_collator is None:
+            # Build kwargs based on diffusion type
+            collator_kwargs = {}
+            
+            # Only pass block_size for BD3LM
+            if self.config.diffusion_type == DiffusionType.BD3LM:
+                block_size = getattr(self.config, 'block_size', 16)
+                collator_kwargs['block_size'] = block_size
+            
+            self._mc_collator = get_mc_collator(
+                diffusion_type=self.config.diffusion_type,
+                tokenizer=self.tokenizer,
+                mc_num=self.config.mc_num,
+                mc_batch_size=self.config.mc_batch_size,
+                **collator_kwargs,
+            )
+        return self._mc_collator
+    
+    def compute_logprobs(self, batch: Dict[str, torch.Tensor]) -> List[float]:
+        """
+        Compute log-probabilities for continuation tokens.
+        
+        Dispatches to the appropriate method based on eval_mode.
+        """
+        eval_mode = self.config.diffusion_eval_mode
+        
+        if eval_mode == DiffusionEvalMode.MONTE_CARLO:
+            return self._compute_mc(batch)
+        else:
+            return self._compute_pll(batch)
+    
+    def _compute_mc(self, batch: Dict[str, torch.Tensor]) -> List[float]:
+        """
+        Compute log-probs using Monte Carlo estimation.
+        
+        Uses the model's forward pass with proper noise sampling from collators.
+        The model's loss computation handles the ELBO weighting automatically.
+        """
+        input_ids = batch['input_ids']
+        continuation_mask = batch['continuation_mask']
+        
+        batch_size = input_ids.shape[0]
+        results = [0.0] * batch_size
+        
+        pad_token_id = self.tokenizer.pad_token_id
+        
+        with torch.inference_mode(), torch.amp.autocast('cuda', dtype=torch.bfloat16):
+            for i in range(batch_size):
+                sample_ids = input_ids[i]
+                sample_cont_mask = continuation_mask[i]
+                
+                # Get actual sequence length (excluding padding)
+                seq_len = (
+                    (sample_ids != pad_token_id).sum().item()
+                    if pad_token_id is not None
+                    else len(sample_ids)
+                )
+                
+                # Extract unpadded sequence
+                seq = sample_ids[:seq_len]
+                cont_mask_unpadded = sample_cont_mask[:seq_len]
+                
+                target_len = cont_mask_unpadded.sum().item()
+                if target_len == 0:
+                    continue
+                
+                # Create MC samples using collator
+                mc_batches = self.mc_collator.create_mc_samples(
+                    input_ids=seq,
+                    continuation_mask=cont_mask_unpadded,
+                    device=self.device,
+                )
+                
+                # Compute losses using model's forward pass
+                total_loss = 0.0
+                num_samples = 0
+                
+                for mc_batch in mc_batches:
+                    loss = self._forward_loss(mc_batch, cont_mask_unpadded)
+                    batch_samples = mc_batch['input_ids'].size(0)
+                    total_loss += loss * batch_samples
+                    num_samples += batch_samples
+                
+                # Average loss across MC samples -> negative log-prob
+                avg_loss = total_loss / num_samples if num_samples > 0 else 0.0
+                results[i] = -avg_loss  # Convert loss to log-prob
+        
+        return results
+    
+    def _forward_loss(
+        self,
+        mc_batch: Dict[str, torch.Tensor],
+        continuation_mask: torch.Tensor,
+    ) -> float:
+        """
+        Compute loss using model's forward pass.
+        
+        The model should implement proper ELBO/loss computation that accounts
+        for the noise level (current_mlm_prob, timesteps, etc.).
+        
+        Args:
+            mc_batch: Batch from MC collator with masked inputs and metadata
+            continuation_mask: Mask indicating continuation tokens
+            
+        Returns:
+            Average loss over continuation tokens
+        """
+        # Prepare model inputs
+        model_inputs = {
+            'input_ids': mc_batch['input_ids'],
+            'attention_mask': mc_batch['attention_mask'],
+        }
+        
+        # Add labels for loss computation
+        if 'labels' in mc_batch:
+            model_inputs['labels'] = mc_batch['labels']
+        
+        # Add num_items_in_batch - required by diffusion models for loss calculation
+        if 'num_items_in_batch' in mc_batch:
+            model_inputs['num_items_in_batch'] = mc_batch['num_items_in_batch']
+        else:
+            # Calculate it if not provided by the collator
+            labels = mc_batch.get('labels')
+            if labels is not None:
+                num_items_in_batch = (labels != -100).sum()
+                model_inputs['num_items_in_batch'] = num_items_in_batch
+        
+        # Add diffusion-specific parameters if model expects them
+        optional_keys = [
+            'current_mlm_prob', 'timesteps', 'cond_ids',
+            'causal', 'use_daum', 'zero_mask_prob'
+        ]
+        for key in optional_keys:
+            if key in mc_batch:
+                model_inputs[key] = mc_batch[key]
+        
+        # Forward pass - wrapped to handle potential compilation issues
+        try:
+            outputs = self.model(**model_inputs)
+        except Exception as e:
+            # If forward fails (e.g., due to dynamo issues), try with dynamo disabled
+            if "dynamo" in str(e).lower() or "inductor" in str(e).lower() or "Symbol" in str(e):
+                print(f"[WARNING] Dynamo/Inductor error detected, retrying with compilation disabled...")
+                _disable_dynamo()
+                # Reset model to non-compiled version if possible
+                if hasattr(self.model, '_orig_mod'):
+                    self.model = self.model._orig_mod
+                outputs = self.model(**model_inputs)
+            else:
+                raise
+        
+        # If model returns loss directly, use it
+        if hasattr(outputs, 'loss') and outputs.loss is not None:
+            return outputs.loss.mean().item()
+        
+        # Otherwise compute loss from logits
+        logits = outputs.logits  # (batch, seq_len, vocab_size)
+        labels = mc_batch['labels']
+        
+        # Compute cross-entropy loss
+        batch_size, seq_len, vocab_size = logits.shape
+        logits_flat = logits.view(-1, vocab_size)
+        labels_flat = labels.view(-1)
+        
+        # Get per-token losses
+        loss_fct = torch.nn.CrossEntropyLoss(reduction='none', ignore_index=-100)
+        per_token_loss = loss_fct(logits_flat, labels_flat)
+        per_token_loss = per_token_loss.view(batch_size, seq_len)
+        
+        # Apply continuation mask - only count loss on continuation tokens
+        cont_mask_expanded = continuation_mask.unsqueeze(0).expand(batch_size, -1)
+        
+        # Handle potential length mismatch
+        min_len = min(per_token_loss.size(1), cont_mask_expanded.size(1))
+        per_token_loss = per_token_loss[:, :min_len]
+        cont_mask_expanded = cont_mask_expanded[:, :min_len].float()
+        
+        masked_loss = per_token_loss * cont_mask_expanded
+        
+        # Average over continuation tokens
+        num_cont_tokens = cont_mask_expanded.sum(dim=1).clamp(min=1)
+        sample_losses = masked_loss.sum(dim=1) / num_cont_tokens
+        
+        return sample_losses.mean().item()
+    
+    def _compute_pll(self, batch: Dict[str, torch.Tensor]) -> List[float]:
+        """
+        Compute Pseudo-Log-Likelihood by masking one token at a time.
+        
+        PLL(x) = sum_i log P(x_i | x_{-i})
+        
+        This is more expensive but provides a different estimate.
+        """
+        input_ids = batch['input_ids']
+        continuation_mask = batch['continuation_mask']
+        
+        mask_token_id = self.tokenizer.mask_token_id
+        pad_token_id = self.tokenizer.pad_token_id
+        
+        batch_size = input_ids.shape[0]
+        results = [0.0] * batch_size
+        
+        with torch.inference_mode(), torch.amp.autocast('cuda', dtype=torch.bfloat16):
+            for i in range(batch_size):
+                sample_ids = input_ids[i]
+                sample_cont_mask = continuation_mask[i]
+                
+                seq_len = (
+                    (sample_ids != pad_token_id).sum().item()
+                    if pad_token_id is not None
+                    else len(sample_ids)
+                )
+                
+                seq = sample_ids[:seq_len].to(self.device)
+                cont_mask_unpadded = sample_cont_mask[:seq_len]
+                prompt_len = (~cont_mask_unpadded).sum().item()
+                target_len = cont_mask_unpadded.sum().item()
+                
+                if target_len == 0:
+                    continue
+                
+                results[i] = self._pll_single(seq, prompt_len, target_len, mask_token_id)
+        
+        return results
+    
+    def _pll_single(
+        self,
+        seq: torch.Tensor,
+        prompt_len: int,
+        target_len: int,
+        mask_token_id: int,
+    ) -> float:
+        """Compute PLL for a single sequence by masking one token at a time."""
+        # Create batch with all masked positions
+        seq_batch = seq.unsqueeze(0).expand(target_len, -1).clone()
+        
+        # Vectorized mask creation
+        target_indices = torch.arange(target_len, device=self.device)
+        mask_positions = prompt_len + target_indices
+        
+        # Apply masks using advanced indexing
+        seq_batch[target_indices, mask_positions] = mask_token_id
+        
+        # Forward pass - handle potential compilation issues
+        try:
+            outputs = self.model(seq_batch)
+        except Exception as e:
+            if "dynamo" in str(e).lower() or "inductor" in str(e).lower() or "Symbol" in str(e):
+                print(f"[WARNING] Dynamo/Inductor error in PLL, retrying with compilation disabled...")
+                _disable_dynamo()
+                if hasattr(self.model, '_orig_mod'):
+                    self.model = self.model._orig_mod
+                outputs = self.model(seq_batch)
+            else:
+                raise
+        
+        logits_batch = outputs.logits
+        
+        # Extract logits at masked positions and compute log probs
+        logits_at_masked = logits_batch[target_indices, mask_positions]
+        original_tokens = seq[mask_positions]
+        
+        log_probs = F.log_softmax(logits_at_masked, dim=-1)
+        token_log_probs = log_probs.gather(1, original_tokens.unsqueeze(-1)).squeeze(-1)
+        
+        return token_log_probs.sum().item()
+    
+    @classmethod
+    def load(cls, config: ModelConfig) -> "DiffusionModelAdapter":
+        """Load a discrete diffusion language model."""
+        # Disable dynamo BEFORE loading to prevent compilation during model init
+        _disable_dynamo()
+        
+        tokenizer = AutoTokenizer.from_pretrained(
+            config.name_or_path,
+            trust_remote_code=config.trust_remote_code,
+            use_fast=True,
+        )
+        
+        # Ensure mask token exists
+        if tokenizer.mask_token_id is None:
+            raise ValueError(
+                f"Tokenizer for {config.name_or_path} does not have mask_token_id. "
+                "This is required for diffusion model evaluation."
+            )
+        
+        dtype = getattr(torch, config.torch_dtype)
+        
+        # Load model with torch.compile disabled
+        model = AutoModel.from_pretrained(
+            config.name_or_path,
+            torch_dtype=dtype,
+            trust_remote_code=config.trust_remote_code,
+        )
+        
+        # If model was compiled, try to get the original
+        if hasattr(model, '_orig_mod'):
+            print("[INFO] Unwrapping compiled model for evaluation")
+            model = model._orig_mod
+        
+        print(f"[INFO] Loaded diffusion model: {config.name_or_path}")
+        print(f"[INFO] Diffusion type: {config.diffusion_type.value}")
+        print(f"[INFO] Eval mode: {config.diffusion_eval_mode.value}")
+        
+        adapter = cls(model, tokenizer, config)
+        return adapter.to(config.device).eval()
+
+================================================================================
+File Path: scripts/run_eval.sh
+================================================================================
+
+#!/bin/bash
+# eval/scripts/run_eval.sh
+#
+# Example batch evaluation script using the refactored framework.
+# This script mirrors the functionality of your original main.sh
+
+set -e
+
+# ==========================================
+# Environment Setup
+# ==========================================
+
+cd /mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion
+source /mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/.bashrc
+mamba activate sglang
+# proxy
+
+
+export NUMEXPR_MAX_THREADS=1000
+export WANDB_DISABLED=true
+
+echo "=================================="
+echo "Evaluation Framework v2.0"
+echo "=================================="
+
+# ==========================================
+# Configuration
+# ==========================================
+
+# Model discovery settings
+TARGET_PARENT_DIR="/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion/model_output/niu_1B_100b_daum_2node/checkpoint-309339"
+BATCH_MODEL_TYPE="causal"
+
+# Initialize model arrays
+MODELS=()
+MODEL_TYPES=()
+
+# Auto-discover checkpoints
+if [ -d "$TARGET_PARENT_DIR" ]; then
+    echo "Scanning for checkpoints: $TARGET_PARENT_DIR"
+    
+    while IFS= read -r cp_path; do
+        MODELS+=("$cp_path")
+        MODEL_TYPES+=("$BATCH_MODEL_TYPE")
+        echo "  Found: $(basename "$cp_path")"
+    done < <(find "$TARGET_PARENT_DIR" -maxdepth 1 -type d -name "checkpoint-*" | sort -V)
+fi
+
+# Manual model additions (optional)
+# MODELS+=("/path/to/specific/model")
+# MODEL_TYPES+=("causal")
+
+# Check if we have models
+if [ ${#MODELS[@]} -eq 0 ]; then
+    echo "ERROR: No models found!"
+    exit 1
+fi
+
+echo "Total models to evaluate: ${#MODELS[@]}"
+
+# ==========================================
+# Task Configuration
+# ==========================================
+# Format: task_name=num_fewshot
+declare -A TASK_SHOTS
+TASK_SHOTS=(
+    ["hellaswag"]=3
+    # ["mmlu"]=5
+    # ["arc_easy"]=25
+    # ["arc_challenge"]=25
+    # ["piqa"]=0
+    # ["winogrande"]=5
+    # ["commonsense_qa"]=7
+    # ["truthfulqa_mc2"]=0
+    # ["sciq"]=0
+)
+
+# ==========================================
+# Evaluation Settings
+# ==========================================
+OUTPUT_DIR="./evaluation_results"
+BATCH_SIZE=32
+LIMIT=0  # 0 = no limit
+TRUST_REMOTE_CODE=true
+NUM_WORKERS=8
+
+# Diffusion-specific settings
+DIFFUSION_EVAL_MODE="mc"   # "mc" (Monte Carlo) or "pll" (Pseudo-Log-Likelihood)
+DIFFUSION_TYPE="causal"      # "causal", "mdlm", or "bd3lm"
+MC_NUM=128                 # Number of Monte Carlo samples (only used when mode=mc)
+MC_BATCH_SIZE=16           # Batch size for MC sampling
+BLOCK_SIZE=16              # Block size for BD3LM (only used when diffusion_type=bd3lm)
+
+# Build trust flag
+TRUST_FLAG=""
+if [ "$TRUST_REMOTE_CODE" = true ]; then
+    TRUST_FLAG="--trust_remote_code"
+fi
+
+mkdir -p "$OUTPUT_DIR"
+
+# ==========================================
+# Execution Loop
+# ==========================================
+for i in "${!MODELS[@]}"; do
+    model_name="${MODELS[$i]}"
+    model_type="${MODEL_TYPES[$i]}"
+    
+    echo ""
+    echo "=================================================================="
+    echo "Model [$((i+1))/${#MODELS[@]}]: $(basename "$model_name")"
+    echo "Type: $model_type"
+    echo "=================================================================="
+    
+    # Prepare log directory
+    model_basename=$(basename "$model_name")
+    parent_name=$(basename "$(dirname "$model_name")")
+    
+    if [[ "$model_basename" == checkpoint-* ]]; then
+        LOG_DIR="${OUTPUT_DIR}/${parent_name}/${model_basename}"
+    else
+        LOG_DIR="${OUTPUT_DIR}/${model_basename}"
+    fi
+    mkdir -p "$LOG_DIR"
+    
+    # Build diffusion-specific arguments
+    DIFFUSION_ARGS=""
+    if [ "$model_type" = "discrete_diffusion" ]; then
+        DIFFUSION_ARGS="--diffusion_eval_mode $DIFFUSION_EVAL_MODE"
+        DIFFUSION_ARGS="$DIFFUSION_ARGS --diffusion_type $DIFFUSION_TYPE"
+        if [ "$DIFFUSION_EVAL_MODE" = "mc" ]; then
+            DIFFUSION_ARGS="$DIFFUSION_ARGS --mc_num $MC_NUM"
+            DIFFUSION_ARGS="$DIFFUSION_ARGS --mc_batch_size $MC_BATCH_SIZE"
+        fi
+        if [ "$DIFFUSION_TYPE" = "bd3lm" ]; then
+            DIFFUSION_ARGS="$DIFFUSION_ARGS --block_size $BLOCK_SIZE"
+        fi
+    fi
+    
+    # Run each task
+    for task_name in "${!TASK_SHOTS[@]}"; do
+        num_shots="${TASK_SHOTS[$task_name]}"
+        log_file="${LOG_DIR}/log_${task_name}_${num_shots}shot.txt"
+        
+        echo "  > Task: $task_name ($num_shots-shot)..."
+        
+        set +e
+        python -m eval.main \
+            --model_name_or_path "$model_name" \
+            --model_type "$model_type" \
+            --tasks "$task_name" \
+            --num_fewshot "$num_shots" \
+            --batch_size "$BATCH_SIZE" \
+            --limit "$LIMIT" \
+            --num_workers "$NUM_WORKERS" \
+            --output_dir "$OUTPUT_DIR" \
+            $DIFFUSION_ARGS \
+            $TRUST_FLAG 
+        
+        exit_code=$?
+        set -e
+        
+        if [ $exit_code -ne 0 ]; then
+            echo "    [FAILED] See: $log_file"
+        else
+            echo "    [SUCCESS] Log: $log_file"
+        fi
+    done
+done
+
+echo ""
+echo "=================================="
+echo "Evaluation Complete!"
+echo "=================================="
+echo "Results saved to: $OUTPUT_DIR"
+echo ""
+echo "To generate Excel summary:"
+echo "  python -m eval.export_results --results_dir $OUTPUT_DIR"
+
+================================================================================
+File Path: tasks/__init__.py
+================================================================================
+
+# eval/tasks/__init__.py
+"""
+Evaluation tasks package.
+
+Tasks are automatically discovered and registered when this package is imported.
+"""
+
+import os
+import importlib
+
+from .registry import TaskRegistry, register_task, get_task
+from .base import BaseTask
+from .sampler import (
+    BaseSampler,
+    FirstNSampler,
+    RandomSampler,
+    BalancedSampler,
+    create_sampler,
+)
+
+
+def _auto_discover_tasks():
+    """
+    Automatically import all task modules in this package.
+    
+    This triggers the @register_task decorators to execute,
+    populating the TaskRegistry.
+    """
+    package_dir = os.path.dirname(__file__)
+    exclude_files = {"__init__.py", "base.py", "registry.py", "sampler.py"}
+    
+    for filename in os.listdir(package_dir):
+        if filename.endswith(".py") and filename not in exclude_files:
+            module_name = filename[:-3]
+            importlib.import_module(f".{module_name}", package=__name__)
+
+
+# Run auto-discovery on import
+_auto_discover_tasks()
+
+
+__all__ = [
+    # Registry
+    "TaskRegistry",
+    "register_task",
+    "get_task",
+    
+    # Base classes
+    "BaseTask",
+    
+    # Samplers
+    "BaseSampler",
+    "FirstNSampler",
+    "RandomSampler",
+    "BalancedSampler",
+    "create_sampler",
+]
+
+================================================================================
+File Path: tasks/base.py
+================================================================================
+
+# eval/tasks/base.py
+"""
+Base class for evaluation tasks.
+"""
+
+from typing import Dict, List, Any, Optional
+
+import datasets
+
+from ..config import TaskConfig, ModelType
+from .sampler import BaseSampler, create_sampler
+from ..dataset_paths import get_local_path
+
+
+class BaseTask:
+    """
+    Abstract base class for evaluation tasks.
+    """
+    
+    # Task metadata - override in subclasses
+    TASK_NAME: str = "base"
+    QUESTION_COL: str = "question"
+    OPTIONS_COL: str = "options"
+    ANSWER_COL: str = "answer"
+    IS_SENTENCE_COMPLETION: bool = False
+    
+    def __init__(self, config: TaskConfig):
+        """
+        Initialize the task.
+        """
+        print(f"[TASK] Initializing: {self.TASK_NAME}")
+        self.config = config
+        self.fewshot_dataset = self._load_fewshot_dataset()
+        self.sampler = self._setup_sampler()
+
+    def load_hf_dataset(self, hf_id: str, *args, **kwargs) -> datasets.Dataset:
+        """
+        Helper to load dataset with local fallback priority.
+        """
+        local_path = get_local_path(self.TASK_NAME)
+        
+        if local_path:
+            print(f"[{self.TASK_NAME}] Found local configuration: {local_path}")
+            try:
+                kwargs_local = kwargs.copy()
+                if 'cache_dir' in kwargs_local:
+                    del kwargs_local['cache_dir']
+                
+                print(f"[{self.TASK_NAME}] Loading from local path...")
+                return datasets.load_dataset(local_path, *args, **kwargs_local)
+            except Exception as e:
+                print(f"[{self.TASK_NAME}] [WARNING] Local load failed: {e}")
+                print(f"[{self.TASK_NAME}] Falling back to HuggingFace ID: {hf_id}")
+        
+        return datasets.load_dataset(hf_id, *args, **kwargs)
+    
+    def _load_dataset(self) -> datasets.Dataset:
+        """Load the evaluation dataset."""
+        raise NotImplementedError("Subclass must implement _load_dataset()")
+    
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        """Load the dataset for few-shot examples."""
+        return None
+    
+    def _setup_sampler(self) -> Optional[BaseSampler]:
+        """Set up the few-shot sampler."""
+        if self.config.num_fewshot > 0 and self.fewshot_dataset is not None:
+            print(f"[{self.TASK_NAME}] Setting up '{self.config.sampler_type.value}' "
+                  f"sampler with seed {self.config.sampler_seed}")
+            return create_sampler(
+                self.config.sampler_type,
+                self.fewshot_dataset,
+                self.config.sampler_seed,
+            )
+        return None
+    
+    def process(self) -> datasets.Dataset:
+        """Process the dataset into evaluation format."""
+        dataset = self._load_dataset()
+        
+        if not self.config.text_only and self.config.tokenizer is None:
+            raise ValueError("Tokenizer must be provided when text_only=False")
+        
+        # Add IDs if not present
+        if "id" not in dataset.column_names:
+            dataset = dataset.add_column("id", range(len(dataset)))
+        
+        # Process using map
+        return dataset.map(
+            self._format_batch,
+            batched=True,
+            num_proc=16,
+            remove_columns=dataset.column_names,
+            desc=f"[{self.TASK_NAME}] Processing",
+            load_from_cache_file=False,
+        )
+    
+    def _format_batch(self, batch: Dict[str, List]) -> Dict[str, List]:
+        """Format a batch of samples into evaluation format."""
+        if self.config.text_only:
+            new_batch = {
+                "context_text": [],
+                "continuation_text": [],
+                "is_correct": [],
+                "group_id": [],
+                "task_name": [],
+            }
+        else:
+            new_batch = {
+                "input_ids": [],
+                "continuation_ids": [],
+                "is_correct": [],
+                "group_id": [],
+                "task_name": [],
+                "continuation_len": [],
+                "continuation_char_len": [],
+            }
+        
+        batch_size = len(batch[self.QUESTION_COL])
+        
+        for i in range(batch_size):
+            fewshot_str = ""
+            if self.sampler:
+                fewshot_str = self.sampler.get_context(
+                    self.config.num_fewshot,
+                    self.QUESTION_COL,
+                    self.OPTIONS_COL,
+                    self.ANSWER_COL,
+                    self.IS_SENTENCE_COMPLETION,
+                )
+            
+            group_id = batch["id"][i]
+            question = batch[self.QUESTION_COL][i]
+            options = batch[self.OPTIONS_COL][i]
+            answer = batch[self.ANSWER_COL][i]
+            
+            correct_idx = self._parse_answer_index(answer, options)
+            is_multi_label = isinstance(answer, list)
+            
+            if self.IS_SENTENCE_COMPLETION:
+                prompt = f"{fewshot_str}{question.strip()}"
+            else:
+                prompt = f"{fewshot_str}Question: {question}\nAnswer:"
+            
+            for j, option_text in enumerate(options):
+                if is_multi_label:
+                    is_correct = 1 if j < len(answer) and answer[j] == 1 else 0
+                else:
+                    is_correct = 1 if j == correct_idx else 0
+                
+                continuation = " " + option_text
+                
+                if self.config.text_only:
+                    new_batch["context_text"].append(prompt)
+                    new_batch["continuation_text"].append(continuation)
+                else:
+                    self._tokenize_sample(new_batch, prompt, continuation)
+                
+                new_batch["is_correct"].append(is_correct)
+                new_batch["group_id"].append(group_id)
+                new_batch["task_name"].append(self.TASK_NAME)
+        
+        return new_batch
+    
+    def _tokenize_sample(self, batch: Dict[str, List], prompt: str, continuation: str):
+        """
+        Tokenize a single sample and add to batch.
+        
+        FIXED: Now properly handles BOS and EOS tokens for both causal and diffusion models.
+        - BOS is added at the start of the prompt
+        - EOS is added at the end of the continuation for diffusion models
+        """
+        tokenizer = self.config.tokenizer
+        model_type = self.config.model_type
+        
+        # Tokenize prompt (without special tokens - we'll add them manually)
+        input_ids = tokenizer(prompt, add_special_tokens=False)['input_ids']
+        
+        # Add BOS at the beginning
+        if tokenizer.bos_token_id is not None:
+            input_ids = [tokenizer.bos_token_id] + input_ids
+        
+        # Tokenize continuation
+        continuation_ids = tokenizer(continuation, add_special_tokens=False)['input_ids']
+        
+        if model_type == ModelType.DISCRETE_DIFFUSION:
+            if tokenizer.eos_token_id is not None:
+                continuation_ids = continuation_ids + [tokenizer.eos_token_id]
+        
+        batch["input_ids"].append(input_ids)
+        batch["continuation_ids"].append(continuation_ids)
+        batch["continuation_len"].append(len(continuation_ids))
+        batch["continuation_char_len"].append(len(continuation.strip()))
+    
+    @staticmethod
+    def _parse_answer_index(answer: Any, options: List) -> int:
+        """Parse answer value into an option index."""
+        if isinstance(answer, int):
+            return answer
+        if isinstance(answer, str):
+            answer_upper = answer.upper()
+            if answer_upper in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                return ord(answer_upper) - ord('A')
+            if answer.isdigit():
+                return int(answer)
+        if isinstance(answer, list) and 1 in answer:
+            return answer.index(1)
+        return -1
+
+================================================================================
+File Path: tasks/mmlu_redux.py
+================================================================================
+
+# eval/tasks/mmlu_redux.py
+"""
+MMLU-Redux task implementation.
+
+MMLU-Redux is a subset of 5,700 manually re-annotated questions across 57 MMLU subjects.
+This implementation supports filtering by error type and using corrected answers.
+
+Dataset: edinburgh-dawg/mmlu-redux-2.0
+Paper: https://arxiv.org/abs/2406.04127
+"""
+
+from typing import Dict, List, Optional, Literal
+import datasets
+from .base import BaseTask
+from .registry import register_task
+from .sampler import BaseSampler, create_sampler
+from ..dataset_paths import get_local_path
+
+
+# Valid error types in MMLU-Redux
+ERROR_TYPES = [
+    "ok",                      # Correctly annotated
+    "bad_question_clarity",    # Question is unclear
+    "bad_options_clarity",     # Options are unclear
+    "no_correct_answer",       # None of the options are correct
+    "multiple_correct_answers", # More than one correct answer
+    "wrong_groundtruth",       # Original MMLU label is wrong
+    "expert",                  # Requires expert verification
+]
+
+
+@register_task("mmlu_redux")
+class MMLUReduxTask(BaseTask):
+    """
+    MMLU-Redux evaluation task.
+
+    By default, evaluates only on samples with error_type="ok" (verified correct).
+    Can optionally include samples with corrected ground truth.
+
+    Attributes:
+        filter_mode: How to filter samples
+            - "ok_only": Only use samples marked as "ok" (default)
+            - "corrected": Use "ok" samples + corrected "wrong_groundtruth" samples
+            - "all": Use all samples with original MMLU labels
+    """
+
+    TASK_NAME = "mmlu_redux"
+    QUESTION_COL = "question"
+    OPTIONS_COL = "choices"
+    ANSWER_COL = "answer"
+    IS_SENTENCE_COMPLETION = False
+
+    CHOICE_LETTERS = ["A", "B", "C", "D"]
+
+    # All 57 MMLU subjects
+    SUBJECTS = [
+        'abstract_algebra', 'anatomy', 'astronomy', 'business_ethics',
+        'clinical_knowledge', 'college_biology', 'college_chemistry',
+        'college_computer_science', 'college_mathematics', 'college_medicine',
+        'college_physics', 'computer_security', 'conceptual_physics',
+        'econometrics', 'electrical_engineering', 'elementary_mathematics',
+        'formal_logic', 'global_facts', 'high_school_biology',
+        'high_school_chemistry', 'high_school_computer_science',
+        'high_school_european_history', 'high_school_geography',
+        'high_school_government_and_politics', 'high_school_macroeconomics',
+        'high_school_mathematics', 'high_school_microeconomics',
+        'high_school_physics', 'high_school_psychology',
+        'high_school_statistics', 'high_school_us_history',
+        'high_school_world_history', 'human_aging', 'human_sexuality',
+        'international_law', 'jurisprudence', 'logical_fallacies',
+        'machine_learning', 'management', 'marketing', 'medical_genetics',
+        'miscellaneous', 'moral_disputes', 'moral_scenarios', 'nutrition',
+        'philosophy', 'prehistory', 'professional_accounting',
+        'professional_law', 'professional_medicine', 'professional_psychology',
+        'public_relations', 'security_studies', 'sociology',
+        'us_foreign_policy', 'virology', 'world_religions',
+    ]
+
+    def __init__(
+        self, 
+        config, 
+        filter_mode: Literal["ok_only", "corrected", "all"] = "ok_only",
+        use_corrected_answers: bool = True,
+    ):
+        """
+        Initialize MMLU-Redux task.
+
+        Args:
+            config: TaskConfig instance
+            filter_mode: How to filter samples:
+                - "ok_only": Only verified correct samples (recommended)
+                - "corrected": Include corrected wrong_groundtruth samples
+                - "all": All samples with original labels
+            use_corrected_answers: If True, use corrected answers for 
+                wrong_groundtruth samples when filter_mode="corrected"
+        """
+        self.filter_mode = filter_mode
+        self.use_corrected_answers = use_corrected_answers
+        self.subject_samplers: Dict[str, BaseSampler] = {}
+        super().__init__(config)
+
+        print(f"[{self.TASK_NAME}] Filter mode: {filter_mode}")
+        print(f"[{self.TASK_NAME}] Use corrected answers: {use_corrected_answers}")
+
+    def _load_subject_dataset(self, subject: str) -> Optional[datasets.Dataset]:
+        """
+        Load a single subject's dataset with local fallback.
+
+        Args:
+            subject: MMLU subject name
+
+        Returns:
+            Dataset for the subject, or None if loading failed
+        """
+        # Check for local path first
+        local_path = get_local_path(self.TASK_NAME)
+
+        if local_path:
+            print(f"[{self.TASK_NAME}] Trying local path for {subject}: {local_path}")
+            try:
+                return datasets.load_dataset(
+                    local_path,
+                    subject,
+                    split='test',
+                )
+            except Exception as e:
+                print(f"[{self.TASK_NAME}] Local load failed for {subject}: {e}")
+
+        # Fallback to HuggingFace Hub
+        print(f"[{self.TASK_NAME}] Loading {subject} from HuggingFace Hub...")
+        try:
+            return datasets.load_dataset(
+                'edinburgh-dawg/mmlu-redux-2.0',
+                subject,
+                split='test',
+                trust_remote_code=True,
+            )
+        except Exception as e:
+            print(f"[{self.TASK_NAME}] Failed to load {subject}: {e}")
+            return None
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """
+        Load MMLU-Redux dataset with filtering based on error_type.
+        Uses local path if available, falls back to HuggingFace Hub.
+        """
+        all_data = []
+
+        print(f"[{self.TASK_NAME}] Loading MMLU-Redux dataset...")
+
+        for subject in self.SUBJECTS:
+            try:
+                subject_data = self._load_subject_dataset(subject)
+
+                if subject_data is None:
+                    continue
+
+                # Add subject column if not present
+                if 'subject' not in subject_data.column_names:
+                    subject_data = subject_data.map(
+                        lambda x: {**x, 'subject': subject},
+                        desc=f"Adding subject: {subject}"
+                    )
+
+                all_data.append(subject_data)
+
+            except Exception as e:
+                print(f"[{self.TASK_NAME}] Warning: Could not load subject '{subject}': {e}")
+                continue
+
+        if not all_data:
+            raise ValueError("Could not load any MMLU-Redux subjects!")
+
+        # Concatenate all subjects
+        dataset = datasets.concatenate_datasets(all_data)
+
+        print(f"[{self.TASK_NAME}] Total samples before filtering: {len(dataset)}")
+
+        # Apply filtering based on filter_mode
+        if self.filter_mode == "ok_only":
+            dataset = dataset.filter(
+                lambda x: x['error_type'] == 'ok',
+                desc="Filtering to 'ok' samples only"
+            )
+        elif self.filter_mode == "corrected":
+            # Keep "ok" samples and "wrong_groundtruth" samples
+            dataset = dataset.filter(
+                lambda x: x['error_type'] in ['ok', 'wrong_groundtruth'],
+                desc="Filtering to 'ok' and 'wrong_groundtruth' samples"
+            )
+        # For "all" mode, keep everything
+
+        print(f"[{self.TASK_NAME}] Total samples after filtering: {len(dataset)}")
+
+        # Print error type distribution
+        error_counts = {}
+        for item in dataset:
+            et = item['error_type']
+            error_counts[et] = error_counts.get(et, 0) + 1
+        print(f"[{self.TASK_NAME}] Error type distribution: {error_counts}")
+
+        return dataset
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        """
+        Load few-shot examples from original MMLU dev set.
+        Uses local path if available, falls back to HuggingFace Hub.
+
+        Note: MMLU-Redux doesn't have its own dev set, so we use
+        the original MMLU dev set for few-shot examples.
+        """
+        if self.config.num_fewshot == 0:
+            return None
+
+        print(f"[{self.TASK_NAME}] Loading MMLU dev set for few-shot examples...")
+
+        # Check for local MMLU path
+        local_path = get_local_path("mmlu")
+
+        if local_path:
+            print(f"[{self.TASK_NAME}] Trying local MMLU path: {local_path}")
+            try:
+                return datasets.load_dataset(
+                    local_path, 
+                    'all',
+                    split='dev',
+                )
+            except Exception as e:
+                print(f"[{self.TASK_NAME}] Local MMLU load failed: {e}")
+
+        # Fallback to HuggingFace Hub
+        try:
+            return datasets.load_dataset(
+                'cais/mmlu', 
+                'all',
+                split='dev',
+                cache_dir=self.config.local_dir,
+            )
+        except Exception as e:
+            print(f"[{self.TASK_NAME}] Warning: Could not load few-shot dataset: {e}")
+            return None
+
+    def _setup_sampler(self) -> Optional[BaseSampler]:
+        """Set up subject-specific samplers for few-shot."""
+        if self.config.num_fewshot > 0 and self.fewshot_dataset:
+            print(f"[{self.TASK_NAME}] Setting up subject-specific samplers...")
+
+            for subject in self.SUBJECTS:
+                subject_data = self.fewshot_dataset.filter(
+                    lambda x: x["subject"] == subject
+                )
+
+                if len(subject_data) == 0:
+                    continue
+
+                if len(subject_data) < self.config.num_fewshot:
+                    print(f"  Warning: {subject} has only {len(subject_data)} few-shot examples")
+
+                self.subject_samplers[subject] = create_sampler(
+                    self.config.sampler_type,
+                    subject_data,
+                    self.config.sampler_seed,
+                )
+
+            print(f"[{self.TASK_NAME}] Created {len(self.subject_samplers)} subject samplers")
+
+        return None
+
+    @staticmethod
+    def _format_subject(subject: str) -> str:
+        """Format subject name for display."""
+        return " ".join(subject.split("_"))
+
+    def _format_example(self, example: Dict, include_answer: bool = True) -> str:
+        """Format a single example for prompt."""
+        prompt = "Question: " + example["question"]
+
+        for i, choice in enumerate(example["choices"]):
+            prompt += f"\n{self.CHOICE_LETTERS[i]}. {choice}"
+
+        if include_answer:
+            answer_idx = int(example["answer"])
+            prompt += "\nAnswer: " + self.CHOICE_LETTERS[answer_idx]
+        else:
+            prompt += "\nAnswer:"
+
+        return prompt
+
+    def _get_corrected_answer(self, example: Dict) -> int:
+        """
+        Get the corrected answer index for a sample.
+
+        For wrong_groundtruth samples, parse the correct_answer field.
+        Returns the original answer if no correction available.
+        """
+        if example['error_type'] != 'wrong_groundtruth':
+            return int(example['answer'])
+
+        if not self.use_corrected_answers:
+            return int(example['answer'])
+
+        correct_answer = example.get('correct_answer', '')
+
+        if not correct_answer:
+            return int(example['answer'])
+
+        # Try to parse the corrected answer
+        correct_answer = correct_answer.strip().upper()
+
+        # Check if it's a letter (A, B, C, D)
+        if correct_answer in self.CHOICE_LETTERS:
+            return self.CHOICE_LETTERS.index(correct_answer)
+
+        # Check if it's a number (0, 1, 2, 3)
+        if correct_answer.isdigit():
+            idx = int(correct_answer)
+            if 0 <= idx < len(example['choices']):
+                return idx
+
+        # Try to match the answer text to choices
+        for i, choice in enumerate(example['choices']):
+            if correct_answer.lower() == choice.lower().strip():
+                return i
+
+        # Fallback to original answer
+        print(f"[{self.TASK_NAME}] Warning: Could not parse corrected answer '{correct_answer}', using original")
+        return int(example['answer'])
+
+    def process(self) -> datasets.Dataset:
+        """Process the dataset into evaluation format."""
+        dataset = self._load_dataset()
+
+        if not self.config.text_only and self.config.tokenizer is None:
+            raise ValueError("Tokenizer required when text_only=False")
+
+        # Add IDs if not present
+        if "id" not in dataset.column_names:
+            dataset = dataset.add_column("id", range(len(dataset)))
+
+        # Sort by subject for consistent ordering
+        dataset = dataset.sort("subject")
+
+        return dataset.map(
+            self._format_batch_mmlu_redux,
+            batched=True,
+            num_proc=16,
+            remove_columns=dataset.column_names,
+            desc=f"[{self.TASK_NAME}] Processing",
+            load_from_cache_file=False,
+        )
+
+    def _format_batch_mmlu_redux(self, batch: Dict[str, List]) -> Dict[str, List]:
+        """Format a batch of MMLU-Redux samples."""
+        if self.config.text_only:
+            new_batch = {
+                "context_text": [],
+                "continuation_text": [],
+                "is_correct": [],
+                "group_id": [],
+                "task_name": [],
+                "error_type": [],
+            }
+        else:
+            new_batch = {
+                "input_ids": [],
+                "continuation_ids": [],
+                "is_correct": [],
+                "group_id": [],
+                "task_name": [],
+                "continuation_len": [],
+                "continuation_char_len": [],
+                "error_type": [],
+            }
+
+        batch_size = len(batch[self.QUESTION_COL])
+
+        for i in range(batch_size):
+            subject = batch['subject'][i]
+            error_type = batch['error_type'][i]
+
+            # Build header
+            header = (
+                f"The following are multiple choice questions (with answers) "
+                f"about {self._format_subject(subject)}.\n\n"
+            )
+
+            # Build few-shot context
+            fewshot_str = ""
+            if self.subject_samplers:
+                sampler = self.subject_samplers.get(subject)
+                if sampler:
+                    samples = sampler.get_samples(self.config.num_fewshot)
+                    formatted = [
+                        self._format_example(s, include_answer=True) 
+                        for s in samples
+                    ]
+                    if formatted:
+                        fewshot_str = "\n\n".join(formatted) + "\n\n"
+
+            # Build current question
+            current_example = {
+                "question": batch[self.QUESTION_COL][i],
+                "choices": batch[self.OPTIONS_COL][i],
+                "answer": batch[self.ANSWER_COL][i],
+                "error_type": error_type,
+                "correct_answer": batch.get('correct_answer', [''] * batch_size)[i],
+            }
+
+            question_str = self._format_example(current_example, include_answer=False)
+            prompt = header + fewshot_str + question_str
+
+            group_id = batch["id"][i]
+            options = batch[self.OPTIONS_COL][i]
+
+            # Get the correct answer index (possibly corrected)
+            correct_idx = self._get_corrected_answer(current_example)
+
+            # Create one sample per option
+            for j in range(len(options)):
+                is_correct = 1 if j == correct_idx else 0
+                continuation = " " + self.CHOICE_LETTERS[j]
+
+                if self.config.text_only:
+                    new_batch["context_text"].append(prompt)
+                    new_batch["continuation_text"].append(continuation)
+                else:
+                    self._tokenize_sample(new_batch, prompt, continuation)
+
+                new_batch["is_correct"].append(is_correct)
+                new_batch["group_id"].append(group_id)
+                new_batch["task_name"].append(f"{self.TASK_NAME}:{subject}")
+                new_batch["error_type"].append(error_type)
+
+        return new_batch
+
+
+@register_task("mmlu_redux_ok")
+class MMLUReduxOkTask(MMLUReduxTask):
+    """
+    MMLU-Redux with only 'ok' (verified correct) samples.
+    This is the recommended configuration for fair evaluation.
+    """
+
+    TASK_NAME = "mmlu_redux_ok"
+
+    def __init__(self, config):
+        super().__init__(config, filter_mode="ok_only", use_corrected_answers=False)
+
+
+@register_task("mmlu_redux_corrected")
+class MMLUReduxCorrectedTask(MMLUReduxTask):
+    """
+    MMLU-Redux with 'ok' samples plus corrected 'wrong_groundtruth' samples.
+    Uses the corrected answers from the annotations.
+    """
+
+    TASK_NAME = "mmlu_redux_corrected"
+
+    def __init__(self, config):
+        super().__init__(config, filter_mode="corrected", use_corrected_answers=True)
+
+
+@register_task("mmlu_redux_all")
+class MMLUReduxAllTask(MMLUReduxTask):
+    """
+    MMLU-Redux with all samples using original MMLU labels.
+    Useful for comparing against original MMLU benchmark results.
+    """
+
+    TASK_NAME = "mmlu_redux_all"
+
+    def __init__(self, config):
+        super().__init__(config, filter_mode="all", use_corrected_answers=False)
+
+================================================================================
+File Path: tasks/registry.py
+================================================================================
+
+# eval/tasks/registry.py
+"""
+Task registry for automatic task discovery and registration.
+"""
+
+from typing import Dict, Type, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .base import BaseTask
+
+
+class TaskRegistry:
+    """
+    Registry for evaluation tasks.
+    
+    Tasks are registered using the @register_task decorator and can be
+    retrieved by name using the get() method.
+    """
+    
+    _tasks: Dict[str, Type["BaseTask"]] = {}
+    
+    @classmethod
+    def register(cls, name: str):
+        """
+        Decorator to register a task class.
+        
+        Args:
+            name: Unique name for the task
+            
+        Returns:
+            Decorator function
+            
+        Raises:
+            ValueError: If task name is already registered
+            
+        Example:
+            @TaskRegistry.register("my_task")
+            class MyTask(BaseTask):
+                ...
+        """
+        def decorator(task_class: Type["BaseTask"]):
+            if name in cls._tasks:
+                raise ValueError(
+                    f"Task '{name}' is already registered by {cls._tasks[name].__name__}"
+                )
+            cls._tasks[name] = task_class
+            return task_class
+        return decorator
+    
+    @classmethod
+    def get(cls, name: str) -> Type["BaseTask"]:
+        """
+        Get a task class by name.
+        
+        Args:
+            name: Name of the task
+            
+        Returns:
+            Task class
+            
+        Raises:
+            ValueError: If task is not registered
+        """
+        if name not in cls._tasks:
+            available = ", ".join(sorted(cls._tasks.keys()))
+            raise ValueError(
+                f"Unknown task: '{name}'. Available tasks: {available}"
+            )
+        return cls._tasks[name]
+    
+    @classmethod
+    def list_tasks(cls) -> list:
+        """Return list of all registered task names."""
+        return sorted(cls._tasks.keys())
+    
+    @classmethod
+    def is_registered(cls, name: str) -> bool:
+        """Check if a task is registered."""
+        return name in cls._tasks
+
+
+# Convenience decorator alias
+register_task = TaskRegistry.register
+
+
+def get_task(name: str, config):
+    """
+    Factory function to instantiate a task.
+    
+    Args:
+        name: Task name
+        config: TaskConfig instance
+        
+    Returns:
+        Instantiated task
+    """
+    task_class = TaskRegistry.get(name)
+    return task_class(config)
+
+================================================================================
+File Path: tasks/sampler.py
+================================================================================
+
+# eval/tasks/sampler.py
+"""
+Few-shot context samplers for evaluation tasks.
+
+Samplers are responsible for selecting examples from a few-shot pool
+and formatting them into context strings.
+"""
+
+import random
+from abc import ABC, abstractmethod
+from typing import List, Dict, Any, Optional
+
+import datasets
+
+from ..config import SamplerType
+
+
+class BaseSampler(ABC):
+    """
+    Base class for few-shot context samplers.
+    
+    Samplers hold a random number generator and a pool of few-shot examples.
+    They provide methods to sample examples and format them into context strings.
+    """
+    
+    def __init__(
+        self, 
+        fewshot_dataset: datasets.Dataset, 
+        seed: int = 42
+    ):
+        """
+        Initialize the sampler.
+        
+        Args:
+            fewshot_dataset: Dataset to sample from
+            seed: Random seed for reproducibility
+        """
+        self.fewshot_dataset = fewshot_dataset
+        self.rng = random.Random(seed)
+    
+    @abstractmethod
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        """
+        Sample indices from the dataset.
+        
+        Args:
+            num_shots: Number of samples to select
+            
+        Returns:
+            List of indices into fewshot_dataset
+        """
+        pass
+    
+    def get_samples(self, num_shots: int) -> List[Dict]:
+        """
+        Get raw samples from the few-shot pool.
+        
+        Args:
+            num_shots: Number of samples to retrieve
+            
+        Returns:
+            List of sample dictionaries
+        """
+        if num_shots == 0:
+            return []
+        indices = self._sample_indices(num_shots)
+        return self.fewshot_dataset.select(indices).to_list()
+    
+    def get_context(
+        self,
+        num_shots: int,
+        question_col: str,
+        options_col: str,
+        answer_col: str,
+        is_sentence_completion: bool = False,
+    ) -> str:
+        """
+        Generate a formatted few-shot context string.
+        
+        Args:
+            num_shots: Number of examples to include
+            question_col: Column name for questions
+            options_col: Column name for options
+            answer_col: Column name for answers
+            is_sentence_completion: If True, format as "question answer",
+                otherwise as "Question: q\nAnswer: a"
+                
+        Returns:
+            Formatted context string
+        """
+        if num_shots == 0:
+            return ""
+        
+        samples = self.get_samples(num_shots)
+        prompts = []
+        
+        for sample in samples:
+            question = sample[question_col]
+            options = sample[options_col]
+            answer_val = sample[answer_col]
+            
+            # Determine the correct answer index
+            answer_idx = self._parse_answer_index(answer_val, options)
+            
+            if 0 <= answer_idx < len(options):
+                correct_answer = options[answer_idx]
+                if is_sentence_completion:
+                    prompt = f"{question.strip()} {correct_answer}"
+                else:
+                    prompt = f"Question: {question}\nAnswer: {correct_answer}"
+                prompts.append(prompt)
+        
+        return "\n\n".join(prompts) + "\n\n" if prompts else ""
+    
+    @staticmethod
+    def _parse_answer_index(answer_val: Any, options: List) -> int:
+        """Parse answer value into an index."""
+        if isinstance(answer_val, int):
+            return answer_val
+        if isinstance(answer_val, str):
+            if answer_val.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                return ord(answer_val.upper()) - ord('A')
+            if answer_val.isdigit():
+                return int(answer_val)
+        if isinstance(answer_val, list) and 1 in answer_val:
+            return answer_val.index(1)
+        return -1
+
+
+class FirstNSampler(BaseSampler):
+    """Always selects the first N samples from the dataset."""
+    
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        num_to_select = min(num_shots, len(self.fewshot_dataset))
+        return list(range(num_to_select))
+
+
+class RandomSampler(BaseSampler):
+    """Randomly selects N samples from the dataset."""
+    
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        num_to_select = min(num_shots, len(self.fewshot_dataset))
+        return self.rng.sample(range(len(self.fewshot_dataset)), num_to_select)
+
+
+class BalancedSampler(BaseSampler):
+    """
+    Selects samples with balanced class distribution.
+    
+    Tries to include equal numbers of samples from each answer class.
+    """
+    
+    def __init__(
+        self,
+        fewshot_dataset: datasets.Dataset,
+        answer_col: str,
+        seed: int = 42,
+    ):
+        super().__init__(fewshot_dataset, seed)
+        self.answer_col = answer_col
+        self.indices_by_label = self._group_indices_by_label()
+    
+    def _group_indices_by_label(self) -> Dict[Any, List[int]]:
+        """Group dataset indices by their answer label."""
+        indices_map: Dict[Any, List[int]] = {}
+        for i, item in enumerate(self.fewshot_dataset):
+            label = item[self.answer_col]
+            if label not in indices_map:
+                indices_map[label] = []
+            indices_map[label].append(i)
+        return indices_map
+    
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        num_to_select = min(num_shots, len(self.fewshot_dataset))
+        if not self.indices_by_label or num_to_select == 0:
+            return []
+        
+        final_indices = []
+        labels = list(self.indices_by_label.keys())
+        self.rng.shuffle(labels)
+        
+        # Create consumable copies
+        label_pools = {
+            label: self.rng.sample(indices, len(indices))
+            for label, indices in self.indices_by_label.items()
+        }
+        
+        # Round-robin selection
+        while len(final_indices) < num_to_select:
+            found_any = False
+            for label in labels:
+                if label_pools[label]:
+                    final_indices.append(label_pools[label].pop(0))
+                    found_any = True
+                    if len(final_indices) == num_to_select:
+                        break
+            if not found_any:
+                break
+        
+        return final_indices
+
+
+# Registry of available samplers
+SAMPLER_REGISTRY = {
+    SamplerType.FIRST_N: FirstNSampler,
+    SamplerType.RANDOM: RandomSampler,
+    SamplerType.BALANCED: BalancedSampler,
+}
+
+
+def create_sampler(
+    sampler_type: SamplerType,
+    fewshot_dataset: datasets.Dataset,
+    seed: int = 42,
+    **kwargs,
+) -> BaseSampler:
+    """
+    Factory function to create a sampler.
+    
+    Args:
+        sampler_type: Type of sampler to create
+        fewshot_dataset: Dataset to sample from
+        seed: Random seed
+        **kwargs: Additional arguments (e.g., answer_col for BalancedSampler)
+        
+    Returns:
+        Sampler instance
+        
+    Raises:
+        ValueError: If sampler type is not recognized
+    """
+    # Convert string to enum if needed
+    if isinstance(sampler_type, str):
+        sampler_type = SamplerType(sampler_type)
+    
+    sampler_class = SAMPLER_REGISTRY.get(sampler_type)
+    if sampler_class is None:
+        raise ValueError(
+            f"Unknown sampler type: {sampler_type}. "
+            f"Available: {list(SAMPLER_REGISTRY.keys())}"
+        )
+    
+    # BalancedSampler needs answer_col
+    if sampler_type == SamplerType.BALANCED:
+        if 'answer_col' not in kwargs:
+            raise ValueError("BalancedSampler requires 'answer_col' argument")
+        return sampler_class(fewshot_dataset, kwargs['answer_col'], seed)
+    
+    return sampler_class(fewshot_dataset, seed)
+

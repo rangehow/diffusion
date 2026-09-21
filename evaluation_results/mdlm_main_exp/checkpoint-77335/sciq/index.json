@@ -1,0 +1,27 @@
+[
+  {
+    "id": "3e2742b9",
+    "timestamp_utc": "2026-01-25T13:44:39.249974+00:00",
+    "metrics": {
+      "acc": 0.771,
+      "acc_norm_char": 0.761,
+      "acc_norm_token": 0.735,
+      "total": 1000
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "sciq"
+    }
+  }
+]

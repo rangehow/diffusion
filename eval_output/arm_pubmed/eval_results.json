@@ -1,0 +1,10 @@
+{
+    "eval_loss": 2.4786465167999268,
+    "eval_model_preparation_time": 0.0038,
+    "eval_runtime": 31.3699,
+    "eval_samples_per_second": 212.242,
+    "eval_steps_per_second": 3.347,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_main_exp",
+    "dataset_name": "sh_pubmed"
+}

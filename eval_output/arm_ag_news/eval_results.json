@@ -1,0 +1,10 @@
+{
+    "eval_loss": 3.4214956760406494,
+    "eval_model_preparation_time": 0.0035,
+    "eval_runtime": 34.0959,
+    "eval_samples_per_second": 222.9,
+    "eval_steps_per_second": 3.49,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_main_exp",
+    "dataset_name": "sh_ag_news"
+}

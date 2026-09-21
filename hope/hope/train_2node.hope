@@ -1,0 +1,52 @@
+[base]
+type = ml-easy-job
+
+[resource]
+usergroup = hadoop-aipnlp
+queue = root.zw05_training_cluster.hadoop-aipnlp.llm_second
+
+[roles]
+worker.script = bash train.sh
+workers = 2
+worker.memory = 1200000 
+worker.vcore = 128
+worker.gcores80g = 8
+worker.ports = 1
+
+[am]
+afo.app.am.resource.mb = 4096
+
+[tensorboard]
+with.tensor.board = false
+board.vcore = 64
+board.memory = 40960
+board.log_dir = /path/to/log_dir
+
+[docker]
+afo.docker.image.name = registry-offlinebiz.sankuai.com/custom_prod/com.sankuai.phxmlp.mtjupyter.singleuser/hdp-mlp_training_cuda12.2_python2.7_glibc2.28_636c2ca6
+
+[data]
+afo.data.prefetch = false
+
+[failover]
+afo.app.support.engine.failover = true
+afo.role.worker.task.attempt.max.retry = 1
+
+[others]
+afo.data.shm.buffer.size=300240
+afo.role.worker.env.YARN_CONTAINER_RUNTIME_DOCKER_SHM_SIZE_BYTES = 343597383680
+afo.app.env.YARN_CONTAINER_RUNTIME_DOCKER_SHM_SIZE_BYTES = 343597383680
+afo.app.env.YARN_CONTAINER_RUNTIME_DOCKER_ULIMITS = memlock=-1
+afo.docker.rw.volume.paths = /cfs/hadoop-aipnlp:/cfs/hadoop-aipnlp,/cfs/hadoop-mlp-ckpt:/cfs/hadoop-mlp-ckpt,/cfs_standard/hadoop-aipnlp:/cfs2/hadoop-aipnlp,/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp:/mnt/dolphinfs/hdd_pool/docker/user/hadoop-aipnlp
+afo.network.mode = RDMA
+with_requirements = false
+afo.afo-base.image.version = llm_sup
+afo.dolphinfs.otherusers = hadoop-aipnlp,hadoop-mlp-ckpt
+afo.use.hdfs.fuse = true
+afo.use.hdfs.fuse.subpath = user:/mnt/hdfs/user,zw04mlnn01:/mnt/hdfs/zw04mlnn01
+afo.use.hdfs.fuse.readonly = false
+client.git.repo.dirty = true
+client.git.branch = master
+client.git.commit = 449d7782f583a80ab4b163fcfa60b33dafd8d3da
+client.git.remote = ssh://git@git.sankuai.com/~yangjian15/llm_draft.git
+client.git.devtools.url = https://dev.sankuai.com/code/repo-detail/~yangjian15/llm_draft/file/list?branch=449d7782f583a80ab4b163fcfa60b33dafd8d3da

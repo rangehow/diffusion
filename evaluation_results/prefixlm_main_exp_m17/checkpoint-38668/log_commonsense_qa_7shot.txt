@@ -1,0 +1,115 @@
+   Command: python3 -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/prefixlm_main_exp_m17/checkpoint-38668"             --model_type "discrete_diffusion"             --tasks "commonsense_qa"             --num_fewshot "7"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/prefixlm_main_exp_m17/checkpoint-38668
+Type: discrete_diffusion
+Tasks: commonsense_qa
+Few-shot: 7
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: commonsense_qa (7-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: commonsense_qa
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+[commonsense_qa] Setting up 'random' sampler with seed 42
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+[commonsense_qa] Processing (num_proc=16): 100%|██████████| 1221/1221 [00:00<?, ? examples/s][commonsense_qa] Processing (num_proc=16): 1298 examples [00:01, 76.66 examples/s]           [commonsense_qa] Processing (num_proc=16): 1834 examples [00:01, 728.97 examples/s][commonsense_qa] Processing (num_proc=16): 2214 examples [00:01, 1159.03 examples/s][commonsense_qa] Processing (num_proc=16): 2442 examples [00:01, 856.35 examples/s] 
+
+--- Sample Preview (commonsense_qa) ---
+Prompt:
+Question: He fantasied about getting a what while driving to work and the pros and cons of the extra responsibilities and benefits?
+Answer: promotion
+
+Question: He was good at traditional science but excelled at social science, his favorite subject was what?
+Answer: history studies
+
+Question: Jan wasn't very good at studying.  What might help him study better?
+Answer: more intelligence
+
+Question: The cat was wild but like all others he was always read for a cat what?
+Answer: nap
+
+Question: Cats ...
+Token IDs (first 20): [50285, 23433, 27, 754, 36159, 728, 670, 2970, 247, 752, 1223, 6276, 281, 789, 285, 253, 5847, 285, 772, 273]
+
+Choices (5 options):
+  1. 'bank...' -> [4310, 50279]
+  2. 'library...' -> [6335, 50279]
+  3. 'department store...' -> [7811, 4657, 50279]
+  4. 'mall...' -> [28974, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 6105 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] Starting 8 workers on cuda:0-7, 763~764 samples each
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[INFO] Waiting for 8 workers to complete...
+[INFO] All 8 workers on cuda:0-7 finished:
+[INFO]   Model loading: 12.9s ~ 14.4s
+[INFO]   Evaluation:    212.5s ~ 214.3s
+[INFO] Successfully collected 6105 results from all workers
+
+[STATS] commonsense_qa option lengths:
+  Tokens - avg: 2.73, min: 2, max: 9
+  Chars  - avg: 9.20
+✓ Detailed results saved: evaluation_results/prefixlm_main_exp_m17/checkpoint-38668/commonsense_qa/9894f945.results.json
+
+============================================================
+Results for: COMMONSENSE_QA
+Model: prefixlm_main_exp_m17_checkpoint-38668
+============================================================
+acc: 0.2563 (313/1221)
+acc_norm_char: 0.2563 (313/1221)
+acc_norm_token: 0.2465 (301/1221)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

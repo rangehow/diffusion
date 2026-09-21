@@ -1,0 +1,146 @@
+# tasks/commonsense_qa.py
+
+import datasets
+from typing import Dict, Any, List, Optional
+from .base import BaseTask, TaskConfig, register_task, get_sampler
+
+@register_task("commonsense_qa")
+class CommonsenseQATask(BaseTask):
+    """
+    CommonsenseQA 任务实现。
+    覆盖 BaseTask.process 以实现 letter-based multiple-choice 格式。
+    """
+    
+    # --- BaseTask 属性配置 ---
+    TASK_NAME: str = "commonsense_qa"
+    QUESTION_COL: str = "question"
+    OPTIONS_COL: str = "options"      # 预处理后创建的列
+    ANSWER_COL: str = "answerKey"     # 值为 'A', 'B' 等
+    IS_SENTENCE_COMPLETION: bool = False
+
+    def __init__(self, config: TaskConfig):
+        super().__init__(config)
+        self.CHOICE_MAP = ['A', 'B', 'C', 'D', 'E'] # 用于生成选项的字母
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """加载用于评估的验证集 (validation split)，并进行预处理。"""
+        ds = datasets.load_dataset("tau/commonsense_qa", split="validation")
+        # 预处理：将嵌套的 choices['text'] 提取到一个名为 'options' 的新顶层列
+        return ds.map(lambda x: {"options": x["choices"]["text"]}, load_from_cache_file=False)
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        """加载用于 few-shot 示例的训练集 (train split)，并进行预处理。"""
+        if self.config.num_fewshot == 0:
+            return None
+        ds = datasets.load_dataset("tau/commonsense_qa", split="train")
+        return ds.map(lambda x: {"options": x["choices"]["text"]}, load_from_cache_file=False)
+
+    
+    def _format_mcqa_doc(self, doc: Dict[str, Any], fewshot: bool = False, answer_key: Optional[str] = None) -> str:
+        """
+        根据用户定义的 doc_to_text 格式，格式化单个文档实例。
+        
+        示例输出:
+        Question: What is a commonly used item for cleaning?
+        A. car
+        B. broom
+        C. dog
+        Answer: B
+        """
+        question = doc[self.QUESTION_COL].strip()
+        options = doc[self.OPTIONS_COL]
+        
+        text = f"Question: {question}\n"
+        
+        # 添加选项列表 (A, B, C...)
+        for i in range(min(len(options), len(self.CHOICE_MAP))):
+            text += f"{self.CHOICE_MAP[i]}. {options[i]}\n"
+            
+        text += "Answer:"
+        
+        # 如果是 few-shot 示例，附加正确答案的字母
+        if fewshot and answer_key:
+            # 确保答案是字母 (如 'A', 'B')
+            text += f" {answer_key}"
+        
+        return text
+
+    def process(self) -> datasets.Dataset:
+        """
+        覆盖 BaseTask.process，实现 CQA 任务的 letter-based multiple-choice 评估格式。
+        """
+        dataset_to_finalize = self._load_dataset()
+        if not self.config.text_only and self.config.tokenizer is None:
+            raise ValueError("Tokenizer must be provided when text_only is False.")
+
+        if "id" not in dataset_to_finalize.column_names:
+            dataset_to_finalize = dataset_to_finalize.add_column("id", range(len(dataset_to_finalize)))
+
+        # --- 1. 生成 Few-Shot 上下文 (预先计算) ---
+        fewshot_prompt_str = ""
+        if self.sampler and self.config.num_fewshot > 0:
+            # 使用 sampler 获取原始样本
+            samples = self.sampler.get_samples(self.config.num_fewshot)
+            prompts = []
+            for sample in samples:
+                # 使用自定义格式化函数生成带答案的 few-shot 字符串
+                answer_key = sample[self.ANSWER_COL] # 确保拿到 'A', 'B', 'C'
+                prompts.append(self._format_mcqa_doc(sample, fewshot=True, answer_key=answer_key))
+            fewshot_prompt_str = "\n\n".join(prompts) + "\n\n"
+
+
+        # --- 2. 批量处理目标实例 ---
+        def _format_instance_cqa(batch: Dict[str, List]) -> Dict[str, List]:
+            # 初始化输出字典 (与 BaseTask 保持一致)
+            if self.config.text_only:
+                new_batch = {"context_text": [], "continuation_text": [], "is_correct": [], "group_id": [], "task_name": []}
+            else:
+                new_batch = {"input_ids": [], "continuation_ids": [], "is_correct": [], "group_id": [], "task_name": [], "continuation_len": [],"continuation_char_len": []}
+
+            for i in range(len(batch[self.QUESTION_COL])):
+                # 构造当前实例的文档对象
+                doc = {col: batch[col][i] for col in batch}
+
+                # 目标问题提示 (Question + Options + Answer:)
+                question_options_prompt = self._format_mcqa_doc(doc, fewshot=False)
+                prompt_str = fewshot_prompt_str + question_options_prompt
+                
+                group_id = doc["id"]
+                target_answer_key = doc[self.ANSWER_COL] # 正确答案的字母，如 'C'
+
+                # 3. 迭代所有可能的连续部分 (Continuation)
+                for j, choice_letter in enumerate(self.CHOICE_MAP):
+                    
+                    # 连续部分是单个字母 (带前导空格，避免与提示尾部 Answer: 粘连)
+                    continuation_str = " " + choice_letter
+                    
+                    is_correct = 1 if target_answer_key == choice_letter else 0
+                    
+                    if self.config.text_only:
+                        new_batch["context_text"].append(prompt_str)
+                        new_batch["continuation_text"].append(continuation_str)
+                    else:
+                        tokenizer = self.config.tokenizer
+                        
+                        # --- Tokenization Logic (与 BaseTask 保持一致) ---
+                        input_ids = tokenizer(prompt_str, add_special_tokens=False)['input_ids']
+                        if tokenizer.bos_token_id is not None:
+                            input_ids = [tokenizer.bos_token_id] + input_ids
+                        continuation_ids = tokenizer(continuation_str, add_special_tokens=False)['input_ids']
+                        
+                        if self.config.model_type == 'discrete_diffusion' and tokenizer.eos_token_id is not None:
+                            # continuation_ids = continuation_ids + [tokenizer.eos_token_id]
+                            continuation_ids = continuation_ids 
+                        new_batch["input_ids"].append(input_ids)
+                        new_batch["continuation_ids"].append(continuation_ids)
+                        new_batch["continuation_len"].append(len(continuation_ids))
+                        new_batch["continuation_char_len"].append(len(choice_letter)) # 字符长度为 1
+
+                    new_batch["is_correct"].append(is_correct)
+                    new_batch["group_id"].append(group_id)
+                    new_batch["task_name"].append(self.TASK_NAME)
+            
+            return new_batch
+        
+        # 使用自定义格式化函数映射数据集
+        return dataset_to_finalize.map(_format_instance_cqa, num_proc=16, batched=True, remove_columns=dataset_to_finalize.column_names, desc=f"[{self.TASK_NAME}] Processing", load_from_cache_file=False)

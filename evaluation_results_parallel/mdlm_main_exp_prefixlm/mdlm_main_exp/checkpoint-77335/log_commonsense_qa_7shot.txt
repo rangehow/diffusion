@@ -1,0 +1,953 @@
+   Command: python3 -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "commonsense_qa"             --num_fewshot "7"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results_parallel/mdlm_main_exp_prefixlm"             --diffusion_eval_mode "mc"             --diffusion_type "prefixlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: commonsense_qa
+Few-shot: 7
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: prefixlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: commonsense_qa (7-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: commonsense_qa
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+Map:   0%|          | 0/9741 [00:00<?, ? examples/s]Map:  10%|█         | 1000/9741 [00:00<00:01, 8699.33 examples/s]Map:  31%|███       | 3001/9741 [00:00<00:00, 12757.22 examples/s]Map:  51%|█████▏    | 5000/9741 [00:00<00:00, 9068.73 examples/s] Map:  72%|███████▏  | 7000/9741 [00:00<00:00, 10446.22 examples/s]Map:  92%|█████████▏| 9000/9741 [00:00<00:00, 11915.46 examples/s]Map: 100%|██████████| 9741/9741 [00:00<00:00, 10351.15 examples/s]
+[commonsense_qa] Setting up 'random' sampler with seed 42
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+Map:   0%|          | 0/1221 [00:00<?, ? examples/s]Map: 100%|██████████| 1221/1221 [00:00<00:00, 9585.91 examples/s]
+[commonsense_qa] Processing (num_proc=16):   0%|          | 0/1221 [00:00<?, ? examples/s][commonsense_qa] Processing (num_proc=16):   6%|▌         | 76/1221 [00:00<00:11, 98.95 examples/s][commonsense_qa] Processing (num_proc=16):  56%|█████▋    | 689/1221 [00:00<00:00, 1031.39 examples/s][commonsense_qa] Processing (num_proc=16):  88%|████████▊ | 1069/1221 [00:00<00:00, 1474.06 examples/s][commonsense_qa] Processing (num_proc=16): 100%|██████████| 1221/1221 [00:01<00:00, 1042.31 examples/s]
+
+--- Sample Preview (commonsense_qa) ---
+Prompt:
+Question: He fantasied about getting a what while driving to work and the pros and cons of the extra responsibilities and benefits?
+Answer: promotion
+
+Question: He was good at traditional science but excelled at social science, his favorite subject was what?
+Answer: history studies
+
+Question: Jan wasn't very good at studying.  What might help him study better?
+Answer: more intelligence
+
+Question: The cat was wild but like all others he was always read for a cat what?
+Answer: nap
+
+Question: Cats ...
+Token IDs (first 20): [50285, 23433, 27, 754, 36159, 728, 670, 2970, 247, 752, 1223, 6276, 281, 789, 285, 253, 5847, 285, 772, 273]
+
+Choices (5 options):
+  1. 'bank...' -> [4310, 50279]
+  2. 'library...' -> [6335, 50279]
+  3. 'department store...' -> [7811, 4657, 50279]
+  4. 'mall...' -> [28974, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 6105 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] Starting 8 workers on cuda:0-7, 763~764 samples each
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+Worker 7 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+Worker 3 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+Worker 6 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+Worker 0 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+Worker 5 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+Worker 4 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+Worker 2 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+Worker 1 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+[INFO] Waiting for 8 workers to complete...
+Error evaluating commonsense_qa: Evaluation failed due to 8 worker error(s):
+  - Worker 7 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 6 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 3 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 0 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 5 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 4 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 2 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 1 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+
+Only 0 of 6105 samples were processed successfully.
+This is likely due to OOM. Try reducing batch_size or mc_num.Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/main.py", line 220, in main
+    evaluator.evaluate_task(
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/evaluator.py", line 255, in evaluate_task
+    results = self.simple_evaluator.evaluate(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 272, in evaluate
+    return self._evaluate_multi_gpu(dataset, tokenizer, batch_size, num_workers)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 507, in _evaluate_multi_gpu
+    raise RuntimeError(
+RuntimeError: Evaluation failed due to 8 worker error(s):
+  - Worker 7 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 6 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 3 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 0 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 5 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 4 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 2 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+  - Worker 1 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 122, in _worker_init
+    adapter = load_model(config).to(device).eval()
+              ^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/__init__.py", line 39, in load_model
+    return adapter_class.load(config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 346, in load
+    model = AutoModel.from_pretrained(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/models/auto/auto_factory.py", line 367, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4138, in from_pretrained
+    loading_info = cls._finalize_model_loading(model, load_config, loading_info)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4279, in _finalize_model_loading
+    model.mark_tied_weights_as_initialized(loading_info)
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/transformers/modeling_utils.py", line 4599, in mark_tied_weights_as_initialized
+    param = self.get_parameter(tied_param)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 839, in get_parameter
+    mod: torch.nn.Module = self.get_submodule(module_path)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 725, in get_submodule
+    raise AttributeError(
+AttributeError: LLaDAModelLM has no attribute `transformer`
+
+
+Only 0 of 6105 samples were processed successfully.
+This is likely due to OOM. Try reducing batch_size or mc_num.
+
+
+============================================================
+Evaluation FAILED!
+============================================================
+Failed tasks (1/1):
+  - commonsense_qa: Evaluation failed due to 8 worker error(s):
+  - Worker 7 error: LLaDAModelLM has no attribute `transformer`
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh...
+============================================================
+   Command: python3 -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "commonsense_qa"             --num_fewshot "7"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results_parallel/mdlm_main_exp_prefixlm"             --diffusion_eval_mode "mc"             --diffusion_type "prefixlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+   Command: python3 -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "commonsense_qa"             --num_fewshot "7"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results_parallel/mdlm_main_exp_prefixlm"             --diffusion_eval_mode "mc"             --diffusion_type "prefixlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: commonsense_qa
+Few-shot: 7
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: prefixlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: commonsense_qa (7-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: commonsense_qa
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+[commonsense_qa] Setting up 'random' sampler with seed 42
+[commonsense_qa] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/tau/commonsense_qa/main
+[commonsense_qa] Loading from local path...
+[commonsense_qa] Processing (num_proc=16): 100%|██████████| 1221/1221 [00:00<?, ? examples/s][commonsense_qa] Processing (num_proc=16): 1297 examples [00:00, 96.55 examples/s]           [commonsense_qa] Processing (num_proc=16): 2062 examples [00:00, 1251.00 examples/s][commonsense_qa] Processing (num_proc=16): 2442 examples [00:01, 1067.22 examples/s]
+
+--- Sample Preview (commonsense_qa) ---
+Prompt:
+Question: He fantasied about getting a what while driving to work and the pros and cons of the extra responsibilities and benefits?
+Answer: promotion
+
+Question: He was good at traditional science but excelled at social science, his favorite subject was what?
+Answer: history studies
+
+Question: Jan wasn't very good at studying.  What might help him study better?
+Answer: more intelligence
+
+Question: The cat was wild but like all others he was always read for a cat what?
+Answer: nap
+
+Question: Cats ...
+Token IDs (first 20): [50285, 23433, 27, 754, 36159, 728, 670, 2970, 247, 752, 1223, 6276, 281, 789, 285, 253, 5847, 285, 772, 273]
+
+Choices (5 options):
+  1. 'bank...' -> [4310, 50279]
+  2. 'library...' -> [6335, 50279]
+  3. 'department store...' -> [7811, 4657, 50279]
+  4. 'mall...' -> [28974, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 6105 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] Starting 8 workers on cuda:0-7, 763~764 samples each
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+[INFO] Waiting for 8 workers to complete...
+[INFO] All 8 workers on cuda:0-7 finished:
+[INFO]   Model loading: 17.7s ~ 19.4s
+[INFO]   Evaluation:    243.4s ~ 244.8s
+[INFO] Successfully collected 6105 results from all workers
+
+[STATS] commonsense_qa option lengths:
+  Tokens - avg: 2.73, min: 2, max: 9
+  Chars  - avg: 9.20
+✓ Detailed results saved: evaluation_results_parallel/mdlm_main_exp_prefixlm/mdlm_main_exp/checkpoint-77335/commonsense_qa/5f93c1f4.results.json
+
+============================================================
+Results for: COMMONSENSE_QA
+Model: mdlm_main_exp_checkpoint-77335
+============================================================
+acc: 0.1851 (226/1221)
+acc_norm_char: 0.1851 (226/1221)
+acc_norm_token: 0.1851 (226/1221)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================
+   Command: python3 -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "commonsense_qa"             --num_fewshot "7"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results_parallel/mdlm_main_exp_prefixlm"             --diffusion_eval_mode "mc"             --diffusion_type "prefixlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: commonsense_qa
+Few-shot: 7
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: prefixlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Skipping: commonsense_qa (7-shot)
+Reason: Found existing run (ID: 5f93c1f4)
+============================================================
+
+============================================================
+Results for: COMMONSENSE_QA
+Model: mdlm_main_exp_checkpoint-77335
+============================================================
+acc: 0.1851 (226/1221)
+acc_norm_char: 0.1851 (226/1221)
+acc_norm_token: 0.1851 (226/1221)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

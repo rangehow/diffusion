@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------------------
+# Large binary model artifacts (checkpoints, weights) are never committed.
+# ---------------------------------------------------------------------------
+model_output*/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.onnx
+*.h5
+*.zip
+
+# Python bytecode / caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Local tooling and editor state
+.tofu/
+.chatui/
+.vscode/
+.idea/
+
+# Logs
+*.log

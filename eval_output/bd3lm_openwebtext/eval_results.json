@@ -1,0 +1,10 @@
+{
+    "eval_loss": 3.712730646133423,
+    "eval_model_preparation_time": 0.0038,
+    "eval_runtime": 472.025,
+    "eval_samples_per_second": 211.853,
+    "eval_steps_per_second": 3.311,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335",
+    "dataset_name": "sh_openwebtext"
+}

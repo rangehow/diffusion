@@ -1,0 +1,64 @@
+[base]
+type = ml-easy-job
+
+[resource]
+usergroup = hadoop-aipnlp
+queue = root.shxs_training_cluster.hadoop-aipnlp.h800_m17_public
+
+[roles]
+
+workers = 4
+worker.memory = 1200000 
+worker.vcore = 128
+worker.gcoresh800-141g = 8
+worker.ports = 1
+worker.script = bash train.sh
+
+[user_args]
+hope.submit.acceleration.enable = true
+afo.use.hadoop.client = true
+
+[am]
+am.memory = 2048
+am.vcore = 1
+
+[tensorboard]
+with.tensor.board = False
+board.vcore = 4
+board.memory = 8192
+board.log_dir = None
+
+[docker]
+afo.docker.image.name = registry-offlinebiz.sankuai.com/custom_prod/com.sankuai.phxmlp.mtjupyter.singleuser/hdp-mlp_training_cuda12.2_python2.7_glibc2.28_636c2ca6
+
+[data]
+afo.data.prefetch = false
+
+[failover]
+afo.app.support.engine.failover = true
+afo.role.worker.task.attempt.max.retry = 1
+
+[others]
+afo.data.shm.buffer.size=300240
+afo.role.worker.env.YARN_CONTAINER_RUNTIME_DOCKER_SHM_SIZE_BYTES = 343597383680
+afo.app.env.YARN_CONTAINER_RUNTIME_DOCKER_SHM_SIZE_BYTES = 343597383680
+afo.app.env.YARN_CONTAINER_RUNTIME_DOCKER_ULIMITS = memlock=-1
+afo.docker.rw.volume.paths = /cfs/hadoop-aipnlp:/cfs/hadoop-aipnlp,/cfs/hadoop-mlp-ckpt:/cfs/hadoop-mlp-ckpt,/cfs_standard/hadoop-aipnlp:/cfs2/hadoop-aipnlp
+afo.role.worker.not.nccl_not_ready = true
+afo.app.blacklist.fail_times = 5
+afo.afo-base.image.version = gpt
+afo.role.worker.nopassword = true
+afo.dolphinfs.otherusers = hadoop-aipnlp,hadoop-mlp-ckpt,hadoop-hldy-nlp,hadoop-nlp-hl02,hadoop-nlp-sh02
+afo.use.host_network = true
+afo.app.env.NCCL_SOCKET_IFNAME = eth5,br0
+afo.app.env.NCCL_IB_TIMEOUT = 23
+afo.app.env.NCCL_IB_RETRY_CNT = 7
+afo.app.env.NCCL_SOCKET_RETRY_CNT = 5
+afo.app.env.NCCL_SOCKET_RETRY_SLEEP_MSEC = 1000
+afo.app.env.TORCH_NCCL_HEARTBEAT_TIMEOUT_SEC = 600
+afo.network.mode = RDMA
+afo.use.hadoop.version = v2
+afo.use.hdfs.fuse = true
+afo.use.hdfs.fuse.subpath = user:/mnt/hdfs/user,zw04mlnn01:/mnt/hdfs/zw04mlnn01
+afo.use.hdfs.fuse.readonly = false
+hope.base_workdir=

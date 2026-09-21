@@ -1,0 +1,27 @@
+[
+  {
+    "id": "ebea99bb",
+    "timestamp_utc": "2026-01-25T13:44:11.615095+00:00",
+    "metrics": {
+      "acc": 0.531965272296764,
+      "acc_norm_char": 0.5217048145224941,
+      "acc_norm_token": 0.526440410418311,
+      "total": 1267
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 5,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "winogrande"
+    }
+  }
+]

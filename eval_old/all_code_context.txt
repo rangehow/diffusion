@@ -1,0 +1,2644 @@
+This is the directory structure of my project:
+----------------------------------------
+.
+├── all_code_context.txt
+├── __init__.py
+├── lm_eval_harness.sh
+├── lm_eval_write_out.py
+├── main.py
+├── main.sh
+├── prompts
+│   ├── arc_challenge.jsonl
+│   └── hellaswag.jsonl
+├── sampler.py
+├── tasks
+│   ├── arc.py
+│   ├── base.py
+│   ├── bbh.py
+│   ├── commonsense_qa.py
+│   ├── commonsense_qa.py_new
+│   ├── hellaswag.py
+│   ├── __init__.py
+│   ├── mmlu.py
+│   ├── piqa.py
+│   ├── __pycache__
+│   ├── sciq.py
+│   ├── truthfulqa.py
+│   └── winogrande.py
+├── to_excel.py
+├── write_out.py
+└── write_out.sh
+
+4 directories, 24 files
+----------------------------------------
+
+Below is the content of the files (Mode: SUFFIX):
+
+================================================================================
+File Path: __init__.py
+================================================================================
+
+
+
+================================================================================
+File Path: lm_eval_harness.sh
+================================================================================
+
+cd /mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion/eval
+accelerate launch -m lm_eval --model hf \
+    --model_args pretrained=/mnt/hdfs/zw04mlnn01/checkpoint/llm_platform/model/Qwen/Qwen2-0.5B/main,dtype="bfloat16" \
+    --tasks mmlu   \
+    --num_fewshot 5 \
+    --batch_size 32
+
+================================================================================
+File Path: lm_eval_write_out.py
+================================================================================
+
+import argparse
+import logging
+import os
+import random
+import json  # 1. Import the json library
+
+import numpy as np
+
+from lm_eval import tasks
+from lm_eval.evaluator_utils import get_task_list
+from lm_eval.tasks import TaskManager
+from lm_eval.utils import join_iters
+
+
+eval_logger = logging.getLogger(__name__)
+
+
+# The EXAMPLE_DIVIDER is no longer needed, but we can leave it for reference
+# EXAMPLE_DIVIDER = "!!@@##@@!! -- Example {i}\n"
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output_base_path", "--output_path", required=True)
+    parser.add_argument("--tasks", default="all_tasks")
+    parser.add_argument("--sets", type=str, default="test")  # example: val,test
+    parser.add_argument("--num_fewshot", type=int, default=10)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--num_examples", type=int, default=0)
+    parser.add_argument(
+        "--include_path",
+        type=str,
+        default=None,
+        help="Additional path to include if there are external tasks to include.",
+    )
+    parser.add_argument(
+        "--verbosity",
+        type=str,
+        default="INFO",
+        help="Log error when tasks are not registered.",
+    )
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+    np.random.seed(args.seed)
+
+    # Set up logging
+    logging.basicConfig(level=getattr(logging, args.verbosity))
+
+    if args.include_path is not None:
+        eval_logger.info(f"Including path: {args.include_path}")
+
+    task_manager = TaskManager(args.verbosity, include_path=args.include_path)
+
+    if args.tasks == "all_tasks":
+        task_names = task_manager.all_tasks
+    else:
+        task_names = args.tasks.split(",")
+    task_dict = tasks.get_task_dict(task_names, task_manager)
+
+    os.makedirs(args.output_base_path, exist_ok=True)
+    for task in [x.task for x in get_task_list(task_dict)]:
+        task_name = task.config.task
+        rnd = random.Random()
+        rnd.seed(args.seed)
+
+        iters = []
+
+        for set_name in args.sets.split(","):
+            docs = None
+            if set_name == "train" and task.has_training_docs():
+                docs = task.training_docs()
+            if set_name == "val" and task.has_validation_docs():
+                docs = task.validation_docs()
+            if set_name == "test" and task.has_test_docs():
+                docs = task.test_docs()
+            if docs is not None:
+                iters.append(docs)
+
+        if len(iters) == 0:
+            raise ValueError(
+                f"Passed --sets '{args.sets}' but this task has no splits which match. Please specify a different --sets value."
+            )
+
+        docs = join_iters(iters)
+
+        # *** MODIFIED SECTION START ***
+
+        # 2. Define the output file path with a .jsonl extension
+        output_file_path = os.path.join(args.output_base_path, f"{task_name}.jsonl")
+        eval_logger.info(f"Writing prompts for task '{task_name}' to {output_file_path}...")
+
+        with open(output_file_path, "w", encoding="utf8") as f:
+            # Determine the document iterator
+            doc_iterator = (
+                zip(range(args.num_examples), docs)
+                if args.num_examples > 0
+                else enumerate(docs)
+            )
+
+            for i, doc in doc_iterator:
+                # Generate the few-shot context (the prompt)
+                ctx = task.fewshot_context(
+                    doc=doc,
+                    num_fewshot=args.num_fewshot,
+                )
+
+                # 3. Create a dictionary and write it as a JSON line
+                output_record = {"prompt": ctx}
+                f.write(json.dumps(output_record, ensure_ascii=False) + "\n")
+
+        # *** MODIFIED SECTION END ***
+
+if __name__ == "__main__":
+    main()
+
+================================================================================
+File Path: main.py
+================================================================================
+
+# main.py
+
+import argparse
+import json
+from typing import Dict, List, Any
+from itertools import cycle, combinations
+from pathlib import Path
+from datetime import datetime
+import math
+import time
+
+from datetime import datetime, timezone
+import os
+import torch
+import torch.nn.functional as F
+from tqdm import tqdm
+from torch.utils.data import DataLoader
+from transformers import (
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    AutoModel,
+    PreTrainedModel,
+    PreTrainedTokenizer
+)
+import numpy as np
+import ray
+
+
+from .tasks import get_task, TASK_REGISTRY
+from .tasks.base import TaskConfig # 或者也在 __init__.py 中暴露 TaskConfig
+
+class LogProbCollator:
+    def __init__(self, tokenizer: PreTrainedTokenizer):
+        self.tokenizer = tokenizer
+        self.pad_token_id = tokenizer.pad_token_id
+
+    def __call__(self, batch: List[Dict[str, Any]]) -> Dict[str, Any]:
+        input_ids_list, continuation_masks, attention_masks = [], [], []
+        group_ids, is_correct_list, continuation_len_list, continuation_char_len_list = [], [], [], []
+        max_length = 0
+
+        for item in batch:
+            full_sequence = item['input_ids'] + item['continuation_ids']
+            input_ids_list.append(full_sequence)
+            continuation_masks.append([0] * len(item['input_ids']) + [1] * len(item['continuation_ids']))
+            attention_masks.append([1] * len(full_sequence))
+
+            group_ids.append(item['group_id'])
+            is_correct_list.append(item['is_correct'])
+            continuation_len_list.append(item['continuation_len'])
+            continuation_char_len_list.append(item.get('continuation_char_len', 1))
+
+            max_length = max(max_length, len(full_sequence))
+
+        padded_input_ids, padded_continuation_masks, padded_attention_masks = [], [], []
+        for seq, cont_mask, att_mask in zip(input_ids_list, continuation_masks, attention_masks):
+            pad_length = max_length - len(seq)
+            padded_input_ids.append(seq + [self.pad_token_id] * pad_length)
+            padded_continuation_masks.append(cont_mask + [0] * pad_length)
+            padded_attention_masks.append(att_mask + [0] * pad_length)
+
+        return {
+            'input_ids': torch.tensor(padded_input_ids, dtype=torch.long),
+            'attention_mask': torch.tensor(padded_attention_masks, dtype=torch.long),
+            'continuation_mask': torch.tensor(padded_continuation_masks, dtype=torch.bool),
+            'group_ids': group_ids,
+            'is_correct': is_correct_list,
+            'continuation_len': continuation_len_list,
+            'continuation_char_len': continuation_char_len_list
+        }
+
+
+def compute_logprobs_causal(model: PreTrainedModel, batch: Dict[str, torch.Tensor], **kwargs) -> List[float]:
+    input_ids, attention_mask, continuation_mask = batch['input_ids'].to(model.device), batch['attention_mask'].to(model.device), batch['continuation_mask'].to(model.device)
+    with torch.inference_mode():
+        logits = model(input_ids, attention_mask=attention_mask).logits[:, :-1, :]
+        labels = input_ids[:, 1:]
+        log_probs = F.log_softmax(logits, dim=-1)
+        token_logprobs = torch.gather(log_probs, dim=-1, index=labels.unsqueeze(-1)).squeeze(-1)
+        masked_logprobs = token_logprobs * continuation_mask[:, 1:]
+        total_logprobs = masked_logprobs.sum(dim=1)
+
+    return total_logprobs.cpu().tolist()
+
+def _compute_nll_deterministic(
+    model: PreTrainedModel,
+    seq: torch.Tensor,
+    prompt_len: int,
+    target_len: int,
+    mask_token_id: int,
+    batch_size: int
+) -> float:
+    """
+    Deterministically computes the exact NLL for a sequence by enumerating all possible masks.
+    This is feasible only when target_len is small.
+    The NLL is calculated as the expectation over all mask sizes k (from 1 to T).
+    NLL = (1/T) * sum_{k=1 to T} [ (T/k) * E_{mask of size k}[loss] ]
+    """
+    device = model.device
+    total_loss_terms = []
+    
+    with torch.inference_mode():
+        for k in range(1, target_len + 1):
+            target_indices = range(target_len)
+            mask_positions_in_target = list(combinations(target_indices, k))
+            num_combinations = len(mask_positions_in_target)
+            
+            k_total_loss = 0.0
+            
+            for i in range(0, num_combinations, batch_size):
+                batch_combinations = mask_positions_in_target[i:i+batch_size]
+                actual_batch_size = len(batch_combinations)
+                
+                seq_batch = seq.unsqueeze(0).repeat(actual_batch_size, 1)
+                mask = torch.zeros_like(seq_batch, dtype=torch.bool, device=device)
+                absolute_indices = torch.tensor(batch_combinations, dtype=torch.long, device=device) + prompt_len
+                rows = torch.arange(actual_batch_size, device=device).unsqueeze(1)
+                mask[rows, absolute_indices] = True
+                
+                perturbed_seq = torch.where(mask, mask_token_id, seq_batch)
+                logits = model(perturbed_seq).logits
+                loss = F.cross_entropy(logits[mask], seq_batch[mask], reduction='sum')
+                k_total_loss += loss.item()
+
+            avg_loss_for_k = k_total_loss / num_combinations
+            weighted_loss = avg_loss_for_k * (target_len / k)
+            total_loss_terms.append(weighted_loss)
+
+    final_nll = sum(total_loss_terms) / target_len
+    return final_nll
+
+# NEW: Function to compute Pseudo-Log-Likelihood in a batched way
+def _compute_pll(
+    model: PreTrainedModel,
+    seq: torch.Tensor,
+    prompt_len: int,
+    target_len: int,
+    mask_token_id: int,
+) -> float:
+    """
+    Computes the Pseudo-Log-Likelihood for the target part of a sequence.
+    This is done by masking one token at a time in the target sequence and summing
+    the log-probabilities of the original token at that position.
+    The process is batched for efficiency.
+    """
+    device = model.device
+    
+    # Create a batch where each row corresponds to masking a different token
+    seq_batch = seq.unsqueeze(0).repeat(target_len, 1)
+    
+    # Create a mask that masks one token per row, diagonally
+    mask = torch.zeros_like(seq_batch, dtype=torch.bool, device=device)
+    target_indices = torch.arange(target_len, device=device)
+    mask[target_indices, prompt_len + target_indices] = True
+    
+    # Apply the mask
+    perturbed_batch = torch.where(mask, mask_token_id, seq_batch)
+    
+    with torch.inference_mode():
+        # Get logits for the entire batch
+        logits_batch = model(perturbed_batch).logits
+        
+        # Extract logits only at the masked positions
+        logits_at_masked_pos = logits_batch[mask]
+        
+        # Get the original token IDs that were masked
+        original_token_ids = seq_batch[mask]
+        
+        # Calculate log-softmax over the vocabulary dimension
+        log_probs = F.log_softmax(logits_at_masked_pos, dim=-1)
+        
+        # Gather the log-probabilities of the correct tokens
+        token_log_probs = torch.gather(log_probs, dim=-1, index=original_token_ids.unsqueeze(-1)).squeeze(-1)
+        
+        # The final PLL is the sum of these log-probabilities
+        total_log_prob = token_log_probs.sum().item()
+        
+    return total_log_prob
+
+
+# MODIFIED: The main diffusion logprob computer now supports different evaluation modes
+def compute_logprobs_diffusion(
+    model: PreTrainedModel,
+    batch: Dict[str, torch.Tensor],
+    tokenizer: PreTrainedTokenizer,
+    mc_num: int,
+    mc_batch_size: int,
+    eval_mode: str = 'mc' # MODIFIED: Added eval_mode parameter
+) -> List[float]:
+    """
+    Computes the log-likelihood for a discrete diffusion model.
+    Supports two modes:
+    - 'mc': Monte Carlo estimation (or deterministic if target is short).
+    - 'pll': Pseudo-Log-Likelihood estimation.
+    """
+    input_ids = batch['input_ids']
+    continuation_mask = batch['continuation_mask']
+
+    mask_token_id = tokenizer.mask_token_id
+    pad_token_id = tokenizer.pad_token_id
+    device = model.device
+
+    if mask_token_id is None:
+        raise ValueError("Tokenizer for Discrete Diffusion Model must have a `mask_token_id`.")
+
+    final_log_probs = []
+
+    for i in range(input_ids.shape[0]):
+        sample_ids = input_ids[i]
+        sample_cont_mask = continuation_mask[i]
+
+        seq_len = (sample_ids != pad_token_id).sum().item() if pad_token_id is not None else len(sample_ids)
+        seq = sample_ids[:seq_len].to(device)
+        cont_mask_unpadded = sample_cont_mask[:seq_len]
+
+        prompt_len = (~cont_mask_unpadded).sum().item()
+        target_len = cont_mask_unpadded.sum().item()
+
+        if target_len == 0:
+            final_log_probs.append(0.0)
+            continue
+        
+        # MODIFIED: Switch between evaluation modes
+        if eval_mode == 'pll':
+            log_prob = _compute_pll(
+                model=model,
+                seq=seq,
+                prompt_len=prompt_len,
+                target_len=target_len,
+                mask_token_id=mask_token_id
+            )
+            final_log_probs.append(log_prob)
+        
+        elif eval_mode == 'mc':
+            if target_len > 0 and (2**target_len) <= mc_num:
+                nll = _compute_nll_deterministic(
+                    model=model,
+                    seq=seq,
+                    prompt_len=prompt_len,
+                    target_len=target_len,
+                    mask_token_id=mask_token_id,
+                    batch_size=mc_batch_size
+                )
+                final_log_probs.append(-nll)
+            
+            else:
+                loss_accumulator = []
+                # Ensure mc_num is a multiple of mc_batch_size for simplicity, or handle remainder
+                if mc_num < mc_batch_size:
+                    mc_batch_size = mc_num
+                mc_loops = mc_num // mc_batch_size
+
+                with torch.inference_mode():
+                    for _ in range(mc_loops):
+                        seq_batch = seq.unsqueeze(0).repeat(mc_batch_size, 1)
+                        k = torch.randint(1, target_len + 1, (mc_batch_size,), device=device)
+                        
+                        # Generate random masks of size k for each item in the batch
+                        target_indices = torch.arange(target_len, device=device)
+                        shuffled_indices = torch.stack([torch.randperm(target_len, device=device) for _ in range(mc_batch_size)])
+                        is_target_mask = shuffled_indices < k.unsqueeze(1)
+                        
+                        prompt_mask = torch.zeros(mc_batch_size, prompt_len, dtype=torch.bool, device=device)
+                        full_mask = torch.cat((prompt_mask, is_target_mask), dim=1)
+                        
+                        perturbed_seq = torch.where(full_mask, mask_token_id, seq_batch)
+                        
+                        # The probability of a specific mask of size k is (1/T) * (1/C(T,k))
+                        # The probability of a mask being chosen is p(k) * p(mask|k) = (1/T) * (1/C(T,k))
+                        # We are estimating E[loss / p(mask)]. The loss is sum over masked tokens.
+                        # The MC estimator for the NLL is avg( loss_i / p(mask_i) ) over samples i.
+                        # NLL = E_k E_mask [ L(mask) * T/k ]. Our p(k) is uniform 1/T, so we get E_mask[ L(mask) / (k/T) ].
+                        p_mask_ratio = (k / target_len).unsqueeze(1).repeat(1, seq_len)
+                        
+                        logits = model(perturbed_seq).logits
+                        # Important: use reduction='none' to get per-token loss
+                        loss = F.cross_entropy(logits.view(-1, logits.size(-1)), seq_batch.view(-1), reduction='none').view_as(seq_batch)
+                        masked_loss = loss * full_mask
+                        
+                        # Sum loss for each sequence in the batch and divide by the sampling probability correction factor
+                        loss_per_sequence = masked_loss.sum(dim=1)
+                        k_float = k.float()
+                        # Avoid division by zero, although k is from 1 to target_len
+                        k_float[k_float == 0] = 1.0
+                        
+                        weighted_loss_per_sequence = loss_per_sequence * (target_len / k_float)
+                        
+                        avg_loss_for_iter = weighted_loss_per_sequence.mean()
+                        loss_accumulator.append(avg_loss_for_iter.item())
+
+                nll = sum(loss_accumulator) / len(loss_accumulator) if loss_accumulator else 0.0
+                final_log_probs.append(-nll)
+        else:
+            raise ValueError(f"Unknown diffusion_eval_mode: {eval_mode}")
+
+    return final_log_probs
+
+
+def calculate_metrics(group_results: Dict[str, List[Dict]]) -> Dict[str, Any]:
+    correct_raw, correct_norm_char, correct_norm_token = 0, 0, 0
+    total_groups = len(group_results)
+
+    if total_groups == 0:
+        return { "acc": 0.0, "acc_norm_char": 0.0, "acc_norm_token": 0.0, "acc_correct": 0, "acc_norm_char_correct": 0, "acc_norm_token_correct": 0, "total": 0 }
+
+    for group_id, group_data in group_results.items():
+        if max(group_data, key=lambda x: x['logprob'])['is_correct'] == 1:
+            correct_raw += 1
+        
+        # Character-level normalized accuracy
+        # The key change is using max(x['..._len'], 1) to prevent division by zero.
+        # This robustly handles cases where an option string is empty.
+        if max(group_data, key=lambda x: x['logprob'] / max(x['continuation_char_len'], 1))['is_correct'] == 1:
+            correct_norm_char += 1
+        
+        # Token-level normalized accuracy
+        if max(group_data, key=lambda x: x['logprob'] / max(x['continuation_len'], 1))['is_correct'] == 1:
+            correct_norm_token += 1
+
+    return {
+        "acc": correct_raw / total_groups,
+        "acc_norm_char": correct_norm_char / total_groups,
+        "acc_norm_token": correct_norm_token / total_groups,
+        "acc_correct": correct_raw,
+        "acc_norm_char_correct": correct_norm_char,
+        "acc_norm_token_correct": correct_norm_token,
+        "total": total_groups
+    }
+
+def calculate_mc2_prob_mass(group_results: Dict[str, List[Dict]]) -> tuple:
+    all_pm_true_scores, total_groups = [], len(group_results)
+    if total_groups == 0: return 0.0, 0, 0
+    for group_id, group_data in group_results.items():
+        if not group_data: continue
+        logprobs = np.array([item['logprob'] for item in group_data])
+        labels = np.array([item['is_correct'] for item in group_data])
+        probs_norm = np.exp(logprobs) / np.sum(np.exp(logprobs))
+        all_pm_true_scores.append(np.sum(probs_norm[labels == 1]))
+    return np.mean(all_pm_true_scores) if all_pm_true_scores else 0.0, len(all_pm_true_scores), total_groups
+
+@ray.remote(num_gpus=1)
+class Evaluator:
+    def __init__(
+        self,
+        model_name: str,
+        model_type: str,
+        trust_remote_code: bool,
+        mc_num: int,
+        batch_size: int,
+        diffusion_eval_mode: str # NEW
+    ):
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=trust_remote_code, use_fast=True)
+        if self.tokenizer.pad_token_id is None and model_type == 'causal':
+            self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
+
+        if model_type == 'causal':
+            # Try AutoModelForCausalLM first, fallback to AutoModel if fails
+            try:
+                model_class = AutoModelForCausalLM
+                self.model = model_class.from_pretrained(
+                    model_name, torch_dtype=torch.bfloat16, trust_remote_code=trust_remote_code
+                ).to('cuda').eval()
+                print(f"[INFO] Successfully loaded causal model using AutoModelForCausalLM for {model_name}")
+            except (ValueError, OSError, ImportError) as e:
+                print(f"[WARNING] AutoModelForCausalLM failed for {model_name}: {e}")
+                print(f"[INFO] Falling back to AutoModel...")
+                model_class = AutoModel
+                self.model = model_class.from_pretrained(
+                    model_name, torch_dtype=torch.bfloat16, trust_remote_code=trust_remote_code
+                ).to('cuda').eval()
+                print(f"[INFO] Successfully loaded model using AutoModel for {model_name}")
+        elif model_type == 'discrete_diffusion':
+            model_class = AutoModel
+            self.model = model_class.from_pretrained(
+                model_name, torch_dtype=torch.bfloat16, trust_remote_code=trust_remote_code
+            ).to('cuda').eval()
+        else:
+            raise ValueError(f"Unsupported model_type: {model_type}")
+        
+
+        if model_type == 'causal':
+            self.logprob_computer_fn = compute_logprobs_causal
+            self.computer_kwargs = {}
+        elif model_type == 'discrete_diffusion':
+            self.logprob_computer_fn = compute_logprobs_diffusion
+            self.computer_kwargs = {
+                'mc_num': mc_num,
+                'mc_batch_size': batch_size,
+                'eval_mode': diffusion_eval_mode 
+            }
+
+    def evaluate_batch(self, batch: Dict[str, Any]) -> List[Dict[str, Any]]:
+        batch_logprobs = self.logprob_computer_fn(
+            model=self.model, batch=batch, tokenizer=self.tokenizer, **self.computer_kwargs
+        )
+        return [
+            {'group_id': gid, 'logprob': lp, 'is_correct': ic, 'continuation_len': cl, 'continuation_char_len': ccl}
+            for gid, lp, ic, cl, ccl in zip(
+                batch['group_ids'], batch_logprobs, batch['is_correct'], batch['continuation_len'], batch['continuation_char_len']
+            )
+        ]
+
+def evaluate_dataset_ray(actors: List[Evaluator], tokenizer: PreTrainedTokenizer, dataset, batch_size: int, num_workers: int) -> tuple:
+    print(f"Starting Ray evaluation on {len(dataset)} samples with {len(actors)} GPUs...")
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, collate_fn=LogProbCollator(tokenizer), num_workers=num_workers)
+    result_futures = [actor.evaluate_batch.remote(batch) for actor, batch in zip(cycle(actors), dataloader)]
+    all_results = [item for future in tqdm(result_futures, desc="Collecting results") for item in ray.get(future)]
+    group_results = {}
+    for res in all_results:
+        group_results.setdefault(res['group_id'], []).append(res)
+    return all_results, group_results
+def get_model_short_name(model_path: str) -> str:
+    path = Path(model_path)
+    # Handle cases where path might end with a slash
+    if path.name == '':
+        path = path.parent
+        
+    # If it is a checkpoint folder, we combine the parent name (experiment name)
+    # with the checkpoint name to create a unique identifier.
+    # e.g., "my_run/checkpoint-100" -> "my_run_checkpoint-100"
+    if path.name.startswith('checkpoint-'):
+        return f"{path.parent.name}_{path.name}"
+    
+    # Otherwise just return the leaf name
+    return path.name
+
+def prepare_output_env(output_dir: str, model_path: str) -> Path:
+    """
+    创建模型输出目录。
+    逻辑更新：如果模型路径包含 'checkpoint-', 则创建两级目录：'父目录名/checkpoint名'。
+    这样可以将同一个实验的不同 checkpoint 收纳在一个文件夹下。
+    """
+    path = Path(model_path)
+    # 处理路径末尾可能带斜杠的情况
+    if path.name == '':
+        path = path.parent
+        
+    # 判断是否为 checkpoint 文件夹
+    if path.name.startswith('checkpoint-'):
+        experiment_name = path.parent.name
+        checkpoint_name = path.name
+        # 新结构: output_dir / experiment_name / checkpoint_name
+        model_dir = Path(output_dir) / experiment_name / checkpoint_name
+    else:
+        # 普通模型: output_dir / model_name
+        model_dir = Path(output_dir) / path.name
+
+    (model_dir / "runs").mkdir(parents=True, exist_ok=True)
+    return model_dir
+
+
+
+def save_evaluation_results(model_dir: Path, result_data: Dict):
+    """
+    以原子方式保存单次评估的完整结果，并更新全局摘要。
+    现在会将不同任务的运行结果保存在各自的子目录中。
+    """
+    metadata = result_data['metadata']
+    task_name = metadata['task_name']
+    num_fewshot = metadata['run_args']['num_fewshot']
+    model_type = metadata['model_type']
+    
+    # NEW: 为当前任务的运行结果创建一个专用的子目录
+    task_runs_dir = model_dir / "runs" / task_name
+    task_runs_dir.mkdir(parents=True, exist_ok=True)
+    
+    # 1. 创建唯一的文件名和摘要键
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H%M%SZ")
+    
+    # 用于 summary.json 的键，需要包含任务名以保证唯一性
+    summary_specifiers = [task_name, f"{num_fewshot}shot", model_type]
+    if model_type == 'discrete_diffusion':
+        summary_specifiers.append(metadata['run_args']['diffusion_eval_mode'])
+    summary_key = "_".join(summary_specifiers)
+
+    # 用于 JSON 文件名。因为文件已在任务子目录中，文件名可以省略任务名，使其更简洁。
+    file_specifiers = [f"{num_fewshot}shot", model_type]
+    if model_type == 'discrete_diffusion':
+        file_specifiers.append(metadata['run_args']['diffusion_eval_mode'])
+    run_name_for_file = "_".join(file_specifiers)
+    detailed_filename = f"{timestamp}_{run_name_for_file}.json"
+
+    # 2. 保存详细的、自包含的运行结果
+    # MODIFIED: 将详细结果保存到任务特定的子目录中
+    detailed_filepath = task_runs_dir / detailed_filename
+    try:
+        with open(detailed_filepath, 'w', encoding='utf-8') as f:
+            json.dump(result_data, f, indent=2, ensure_ascii=False)
+        print(f"✓ Detailed results for '{task_name}' saved to: {detailed_filepath}")
+    except Exception as e:
+        print(f"✗ Error saving detailed results to {detailed_filepath}: {e}")
+        return
+
+    # 3. 线程安全地更新 summary.json
+    summary_filepath = model_dir / "summary.json"
+    summary_update = {
+        "timestamp_utc": metadata['timestamp_utc'],
+        "metrics": {k: v for k, v in result_data['metrics'].items() if 'correct' not in k and k != 'total_questions'},
+        "total_questions": result_data['metrics'].get('total', result_data['metrics'].get('total_questions', 0)),
+        # `relative_to` 会自动处理新的子目录结构，生成正确的相对路径，如 "runs/csqa/..."
+        "detailed_results_file": str(detailed_filepath.relative_to(model_dir))
+    }
+
+    try:
+        # 简单的文件锁实现，适用于多进程但不适用于多节点
+        lock_path = summary_filepath.with_suffix('.lock')
+        for _ in range(10): # Try 10 times
+            if not os.path.exists(lock_path):
+                # 使用 os.open 创建原子性文件
+                try:
+                    fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                    os.close(fd)
+                    break
+                except FileExistsError:
+                    time.sleep(0.1)
+                    continue
+            time.sleep(0.1)
+        else:
+            raise TimeoutError("Could not acquire lock for summary.json")
+
+        summary_data = {}
+        if summary_filepath.exists():
+            with open(summary_filepath, 'r', encoding='utf-8') as f:
+                summary_data = json.load(f)
+        
+        # MODIFIED: 使用包含任务名的 summary_key 来更新摘要
+        summary_data[summary_key] = summary_update
+        
+        with open(summary_filepath, 'w', encoding='utf-8') as f:
+            json.dump(summary_data, f, indent=2, ensure_ascii=False)
+        
+        print(f"✓ Summary updated for '{summary_key}' in: {summary_filepath}")
+
+    except Exception as e:
+        print(f"✗ Error updating summary file {summary_filepath}: {e}")
+    finally:
+        if os.path.exists(lock_path):
+            os.remove(lock_path)
+
+def print_results_summary(result_data: Dict):
+    """在控制台清晰地打印评估结果摘要。"""
+    metadata = result_data['metadata']
+    metrics = result_data['metrics']
+    
+    print(f"\n=== {metadata['task_name'].upper()} Evaluation Results ===")
+    print(f"Model: {metadata['model_short_name']}")
+    
+    if metadata['task_name'] == 'truthfulqa_mc2':
+        score = metrics.get('mc2_prob_mass_score', 0.0)
+        total = metrics.get('total_questions', 0)
+        scored = metrics.get('scored_count', 0)
+        print(f"Metric: Normalized Probability Mass (MC2)")
+        print(f"Score: {score:.4f} (Evaluated on {scored}/{total} questions)")
+    else:
+        total = metrics.get('total', 0)
+        for metric_name, score in metrics.items():
+            if metric_name.startswith('acc') and 'correct' not in metric_name:
+                correct_count = metrics.get(f"{metric_name}_correct", 0)
+                print(f"Metric: {metric_name}: {score:.4f} ({correct_count}/{total})")
+
+def main():
+    parser = argparse.ArgumentParser(description="Evaluate language models on log-probability tasks.")
+    parser.add_argument("--model_name_or_path", type=str, required=True)
+    parser.add_argument("--model_type", type=str, required=True, choices=['causal', 'discrete_diffusion'])
+    parser.add_argument("--tasks", type=str, required=True)
+    parser.add_argument("--batch_size", type=int, default=8)
+    parser.add_argument("--limit", type=int, default=0)
+    parser.add_argument("--num_fewshot", type=int, default=0)
+    parser.add_argument("--sampler", type=str, default="random", choices=['first_n', 'random', 'balanced'])
+    parser.add_argument("--sampler_seed", type=int, default=42)
+    parser.add_argument("--output_dir", type=str, default="results")
+    parser.add_argument("--num_workers", type=int, default=4)
+    parser.add_argument("--trust_remote_code", action='store_true')
+    parser.add_argument("--mc_num", type=int, default=128, help="Total number of Monte Carlo iterations for diffusion NLL. Also acts as a threshold for switching to deterministic computation.")
+    # NEW: Command line argument to choose the evaluation mode
+    parser.add_argument("--diffusion_eval_mode", type=str, default="pll", choices=['mc', 'pll'], help="Evaluation mode for discrete diffusion models: 'mc' for Monte Carlo or 'pll' for Pseudo-Log-Likelihood.")
+    
+    args = parser.parse_args()
+    print("Arguments:", args)
+
+    # 使用新的准备函数
+    model_dir = prepare_output_env(args.output_dir, args.model_name_or_path)
+    model_short_name = get_model_short_name(args.model_name_or_path)
+    print(f"Results will be saved to: {model_dir}")
+
+    ray.init()
+    num_gpus = torch.cuda.device_count()
+    if num_gpus == 0: raise ValueError("No GPUs found.")
+    print(f"Found {num_gpus} GPUs. Creating one actor per GPU.")
+
+    actors = [
+        Evaluator.remote(
+            model_name=args.model_name_or_path,
+            model_type=args.model_type,
+            trust_remote_code=args.trust_remote_code,
+            mc_num=args.mc_num,
+            batch_size=args.batch_size,
+            diffusion_eval_mode=args.diffusion_eval_mode # NEW
+        ) for _ in range(num_gpus)
+    ]
+
+    tokenizer_for_collator = AutoTokenizer.from_pretrained(args.model_name_or_path, trust_remote_code=args.trust_remote_code, use_fast=True)
+    if tokenizer_for_collator.pad_token_id is None and args.model_type == 'causal':
+        tokenizer_for_collator.pad_token_id = tokenizer_for_collator.eos_token_id
+
+    all_task_results = []
+    tasks = [t.strip() for t in args.tasks.split(',') if t.strip()]
+    for task_name in tasks:
+        print(f"\n----- Starting evaluation for task: {task_name} ({args.num_fewshot}-shot) -----")
+        if args.model_type == 'discrete_diffusion':
+             print(f"----- Diffusion Eval Mode: {args.diffusion_eval_mode.upper()} -----")
+
+
+        config = TaskConfig(
+            tokenizer=tokenizer_for_collator, num_fewshot=args.num_fewshot,
+            sampler_name=args.sampler, sampler_seed=args.sampler_seed,
+            model_type=args.model_type  # <<< MODIFIED: 将 model_type 传递给 TaskConfig
+        )
+
+
+        task_instance = get_task(task_name, config)
+        dataset = task_instance.process()
+        
+
+        if args.limit > 0:
+            dataset = dataset.select(range(min(args.limit, len(dataset))))
+
+        # 在评估开始前打印一个数据样本，并附上 token ID
+        if dataset:
+            try:
+                print("\n--- 准备阶段：打印数据样本 ---")
+                print(f"任务: {task_name}")
+
+                example_group_id = dataset[0]['group_id']
+                
+                prompt_info = None
+                choices_info = []
+                for item in dataset:
+                    if item['group_id'] == example_group_id:
+                        if prompt_info is None:
+                            prompt_info = {
+                                'text': tokenizer_for_collator.decode(
+                                    item['input_ids'], skip_special_tokens=True
+                                ),
+                                'ids': item['input_ids']
+                            }
+                        
+                        choices_info.append({
+                            'text': tokenizer_for_collator.decode(
+                                item['continuation_ids'], skip_special_tokens=True
+                            ).strip(),
+                            'ids': item['continuation_ids']
+                        })
+                
+                if prompt_info and choices_info:
+                    print(f"提示(Prompt):\n{prompt_info['text']}")
+                    print(f"Token IDs (Prompt): {prompt_info['ids']}")
+                    
+                    print("\n选项(Choices):")
+                    for i, choice in enumerate(choices_info):
+                        print(f"  - 选项 {i+1}: '{choice['text']}'")
+                        print(f"    Token IDs (Choice): {choice['ids']}")
+                else:
+                    print("未能从数据集中提取完整的样本。")
+                
+                print("------------------------\n")
+            except Exception as e:
+                print(f"\n[Warning] 无法打印数据样本: {e}")
+
+        results, group_results = evaluate_dataset_ray(actors, tokenizer_for_collator, dataset, args.batch_size, args.num_workers)
+
+        # NEW: Added debugging block to print average option lengths.
+        all_option_lengths_token = []
+        all_option_lengths_char = []
+        if group_results:
+            # Iterate through all options for all questions to collect lengths
+            for group_data in group_results.values():
+                for item in group_data:
+                    all_option_lengths_token.append(item['continuation_len'])
+                    all_option_lengths_char.append(item['continuation_char_len'])
+
+        if all_option_lengths_token:
+            avg_len_token = sum(all_option_lengths_token) / len(all_option_lengths_token)
+            avg_len_char = sum(all_option_lengths_char) / len(all_option_lengths_char)
+            min_len_token = min(all_option_lengths_token)
+            max_len_token = max(all_option_lengths_token)
+            print(f"\n[DEBUG] Task '{task_name}' Option Length Statistics:")
+            print(f"  - Average (tokens): {avg_len_token:.2f}  (Min: {min_len_token}, Max: {max_len_token})")
+            print(f"  - Average (chars):  {avg_len_char:.2f}")
+        else:
+            print("\n[DEBUG] No results to calculate option length statistics.")
+        # END NEW BLOCK
+
+        # 在评估后打印第一个评估样本的详细信息
+        if group_results:
+            try:
+                example_group_id = next(iter(group_results))
+                example_group_results = group_results[example_group_id]
+                
+                original_prompt_text = ""
+                choices_with_results = []
+                
+                result_lookup = {
+                    (res['continuation_len'], res['continuation_char_len']): res 
+                    for res in example_group_results
+                }
+                
+                for item in dataset:
+                    if item['group_id'] == example_group_id:
+                        if not original_prompt_text:
+                            original_prompt_text = tokenizer_for_collator.decode(
+                                item['input_ids'], skip_special_tokens=True
+                            )
+                        
+                        key = (item['continuation_len'], item.get('continuation_char_len', 1))
+                        if key in result_lookup:
+                            res = result_lookup[key]
+                            choices_with_results.append({
+                                'text': tokenizer_for_collator.decode(item['continuation_ids'], skip_special_tokens=True).strip(),
+                                'logprob': res['logprob'],
+                                'is_correct': res['is_correct']
+                            })
+                            del result_lookup[key]
+
+                if original_prompt_text and choices_with_results:
+                    print("\n--- 评估样本示例 ---")
+                    print(f"任务: {task_name}, 问题ID: {example_group_id}")
+                    print(f"提示(Prompt):\n{original_prompt_text}")
+                    print("\n选项(Choices):")
+
+                    best_choice = max(choices_with_results, key=lambda x: x['logprob'])
+
+                    for choice in sorted(choices_with_results, key=lambda x: x['logprob'], reverse=True):
+                        correct_marker = " (正确答案)" if choice['is_correct'] else ""
+                        prediction_marker = " <-- 模型预测" if choice['text'] == best_choice['text'] else ""
+                        print(f"  - 选项: '{choice['text']}'")
+                        print(f"    对数概率(LogProb): {choice['logprob']:.4f}{correct_marker}{prediction_marker}")
+
+                    print(f"\n模型预测: '{best_choice['text']}'")
+                    print(f"预测结果: {'正确' if best_choice['is_correct'] else '错误'}")
+                    print("------------------------\n")
+
+            except Exception as e:
+                print(f"\n[Warning] 无法打印评估样本: {e}")
+
+        print(f"\n=== {task_name.upper()} Evaluation Results ===")
+        print(f"Model: {model_short_name}")
+
+        if task_name == 'truthfulqa_mc2':
+            score, scored_count, total = calculate_mc2_prob_mass(group_results)
+            all_metrics = {
+                'mc2_prob_mass_score': score, 
+                'scored_count': scored_count, 
+                'total_questions': total
+            }
+        else:
+            all_metrics = calculate_metrics(group_results)
+
+        # 2. 将所有信息打包到一个字典中
+        final_result_package = {
+            "metadata": {
+                "model_name_or_path": args.model_name_or_path,
+                "model_short_name": model_short_name,
+                "model_type": args.model_type,
+                "task_name": task_name,
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+                "run_args": vars(args)
+            },
+            "metrics": all_metrics,
+            "detailed_results": results
+        }
+
+        # 3. 打印和保存
+        print_results_summary(final_result_package)
+        save_evaluation_results(model_dir, final_result_package)
+
+    ray.shutdown()
+
+if __name__ == "__main__":
+    main()
+
+================================================================================
+File Path: main.sh
+================================================================================
+
+#!/bin/bash
+# main.sh
+
+# ... (Keep your existing environment setup and exports) ...
+cd /mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion
+export NUMEXPR_MAX_THREADS=1000
+source /mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/.bashrc
+proxy
+mamba activate sglang
+echo "Using HF_HOME: $HF_HOME"
+export WANDB_DISABLED=true
+set -e 
+
+# ==========================================
+# 1. BATCH CONFIGURATION
+# ==========================================
+
+# Initialize empty arrays
+MODELS=()
+MODEL_TYPES=()
+
+# --- OPTION A: BATCH MODE (Auto-find checkpoints) ---
+# Set the parent directory containing the checkpoint folders.
+# Example: ".../model_output/arm_1B_100b_2node"
+# TARGET_PARENT_DIR="/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion/model_output/niu_1B_fineweb_edu_100b_potential"
+# BATCH_MODEL_TYPE="causal" 
+
+TARGET_PARENT_DIR="/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential"
+BATCH_MODEL_TYPE="causal"
+
+
+# Logic to find and append checkpoints
+if [ -d "$TARGET_PARENT_DIR" ]; then
+    echo "--- Batch Mode Active ---"
+    echo "Scanning: $TARGET_PARENT_DIR"
+    
+    # Find directories named "checkpoint-*", max depth 1, sort by version numbers (-V)
+    # This ensures checkpoint-100 runs before checkpoint-1000
+    while IFS= read -r cp_path; do
+        MODELS+=("$cp_path")
+        MODEL_TYPES+=("$BATCH_MODEL_TYPE")
+        echo "Added: $(basename "$cp_path")"
+    done < <(find "$TARGET_PARENT_DIR" -maxdepth 1 -type d -name "checkpoint-*" | sort -V)
+else
+    echo "Target directory not found or empty, skipping batch discovery."
+fi
+
+# --- OPTION B: MANUAL MODE (Add specific models here if needed) ---
+# You can append extra models manually if you want to test specific ones alongside the batch
+# MODELS+=("/mnt/hdfs/.../Qwen2-0.5B/main")
+# MODEL_TYPES+=("causal")
+
+
+# Check if we have models to run
+if [ ${#MODELS[@]} -eq 0 ]; then
+    echo "ERROR: No models found in $TARGET_PARENT_DIR and none defined manually."
+    exit 1
+fi
+
+echo "Total models to evaluate: ${#MODELS[@]}"
+
+# ==========================================
+# 2. TASK CONFIGURATION
+# ==========================================
+declare -A TASK_SHOTS
+TASK_SHOTS=(
+    # ["mmlu"]=5
+    ["hellaswag"]=10
+    # ["arc_easy"]=25
+    # ["arc_challenge"]=0
+    # ["truthfulqa_mc2"]=0
+    # ["piqa"]=0
+    # ["sciq"]=0
+    # ["commonsense_qa"]=5
+)
+
+# ==========================================
+# 3. EXECUTION LOOP
+# ==========================================
+# ... (前面的配置保持不变) ...
+
+# ==========================================
+# 3. EXECUTION LOOP
+# ==========================================
+
+OUTPUT_DIR="/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion/eval/evaluation_results"
+BASE_BATCH_SIZE=16
+LIMIT=0 
+TRUST_REMOTE_CODE=true
+TRUST_FLAG=""
+if [ "$TRUST_REMOTE_CODE" = true ]; then
+    TRUST_FLAG="--trust_remote_code"
+fi
+
+mkdir -p "$OUTPUT_DIR"
+
+# Loop through all the models
+for i in "${!MODELS[@]}"; do
+    model_name="${MODELS[$i]}"
+    model_type="${MODEL_TYPES[$i]}"
+    
+    echo "=================================================================="
+    echo "Processing Model [$((i+1))/${#MODELS[@]}]: $model_name"
+    echo "Type: $model_type"
+    echo "=================================================================="
+
+    batch_size=$BASE_BATCH_SIZE
+
+    # --- 路径解析逻辑更新 ---
+    # 获取文件名和父目录名
+    model_basename=$(basename "$model_name")
+    parent_name=$(basename "$(dirname "$model_name")")
+
+    # 预先计算日志存放的具体目录，保持与 Python 代码一致的层级结构
+    if [[ "$model_basename" == checkpoint-* ]]; then
+        # 结构: results/Experiment/checkpoint-xxx/
+        SPECIFIC_LOG_DIR="${OUTPUT_DIR}/${parent_name}/${model_basename}"
+    else
+        # 结构: results/ModelName/
+        SPECIFIC_LOG_DIR="${OUTPUT_DIR}/${model_basename}"
+    fi
+
+    # 创建该目录以确保存放日志的位置存在
+    mkdir -p "$SPECIFIC_LOG_DIR"
+
+    # Inner loop for tasks
+    for task_name in "${!TASK_SHOTS[@]}"; do
+        num_shots="${TASK_SHOTS[$task_name]}"
+
+        # 将日志文件直接保存在该模型/checkpoint的文件夹下，文件名前面加个 log_ 区分
+        log_file="${SPECIFIC_LOG_DIR}/log_${task_name}_${num_shots}shot.txt"
+
+        echo "  > Running Task: $task_name ($num_shots shot)..."
+
+        set +e 
+        
+        # 注意：传给 Python 的 output_dir 依然是根目录 $OUTPUT_DIR
+        # Python 脚本里的 prepare_output_env 会自动处理层级拼接
+        python -m eval.main \
+            --model_name_or_path "$model_name" \
+            --model_type "$model_type" \
+            --tasks "$task_name" \
+            --num_fewshot "$num_shots" \
+            --batch_size "$batch_size" \
+            --limit "$LIMIT" \
+            --output_dir "$OUTPUT_DIR" \
+            $TRUST_FLAG > "$log_file" 2>&1
+
+        exit_code=$?
+        set -e 
+
+        if [ $exit_code -ne 0 ]; then
+            echo "    [FAILED] Check log: ${log_file}"
+        else
+            echo "    [SUCCESS] Log saved to: ${log_file}"
+        fi
+    done
+done
+
+================================================================================
+File Path: sampler.py
+================================================================================
+
+# sampler.py
+
+import random
+import datasets
+from typing import List, Dict, Any
+
+# --- Sampler Base Class (New Design) ---
+class BaseContextSampler:
+    """
+    Sampler 基类，对标 lm-eval 的 ContextSampler。
+    它持有一个随机数生成器，并在整个生命周期中复用。
+    它的核心职责是为单个测试样本生成一个完整的 few-shot 上下文字符串。
+    """
+    def __init__(self, fewshot_dataset: datasets.Dataset, seed: int = 42):
+        self.fewshot_dataset = fewshot_dataset
+        self.rng = random.Random(seed)
+
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        raise NotImplementedError("子类必须实现 _sample_indices 方法！")
+
+    # --- 新方法：为 MMLU 等复杂任务提供灵活性 ---
+    def get_samples(self, num_shots: int) -> List[Dict]:
+        """
+        根据采样策略，选择并返回 num_shots 个原始的 few-shot 样本。
+        """
+        if num_shots == 0:
+            return []
+        indices = self._sample_indices(num_shots)
+        return self.fewshot_dataset.select(indices).to_list()
+
+    # --- 旧方法：为 HellaSwag 等现有任务保持向后兼容 ---
+    def get_context(
+        self,
+        num_shots: int,
+        question_col: str,
+        options_col: str,
+        answer_col: str,
+        is_sentence_completion: bool = False
+    ) -> str:
+        """
+        为单个测试样本生成 few-shot 上下文。
+        这是核心公共方法，每次被调用都会进行一次新的采样和格式化。
+        """
+        if num_shots == 0:
+            return ""
+            
+        # 注意：这里我们调用 get_samples 来复用抽样逻辑
+        samples = self.get_samples(num_shots)
+
+        prompts = []
+        for sample in samples:
+            question = sample[question_col]
+            options = sample[options_col]
+            answer_idx_val = sample[answer_col]
+
+            # (这部分逻辑与你原来的 sampler.py 完全相同)
+            answer_idx = -1
+            if isinstance(answer_idx_val, str):
+                if answer_idx_val.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                    answer_idx = ord(answer_idx_val.upper()) - ord('A')
+                elif answer_idx_val.isdigit():
+                    answer_idx = int(answer_idx_val)
+            elif isinstance(answer_idx_val, int):
+                answer_idx = answer_idx_val
+            elif isinstance(answer_idx_val, list) and 1 in answer_idx_val:
+                answer_idx = answer_idx_val.index(1)
+            
+            if 0 <= answer_idx < len(options):
+                correct_answer = options[answer_idx]
+                if is_sentence_completion:
+                    prompt = f"{question.strip()} {correct_answer}"
+                else:
+                    prompt = f"Question: {question}\nAnswer: {correct_answer}"
+                prompts.append(prompt)
+
+        return "\n\n".join(prompts) + "\n\n" if prompts else ""
+
+
+
+class FirstNSampler(BaseContextSampler):
+    """总是选择数据集的前 N 个样本。"""
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        num_to_select = min(num_shots, len(self.fewshot_dataset))
+        return list(range(num_to_select))
+
+class RandomSampler(BaseContextSampler):
+    """从数据集中随机选择 N 个样本。"""
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        num_to_select = min(num_shots, len(self.fewshot_dataset))
+        return self.rng.sample(range(len(self.fewshot_dataset)), num_to_select)
+
+class BalancedSampler(BaseContextSampler):
+    """
+    类别均衡采样器。
+    它会尽力为每个类别选择相同数量的样本。
+    注意: 这需要知道答案列 (answer_col)。
+    """
+    def __init__(self, fewshot_dataset: datasets.Dataset, answer_col: str, seed: int = 42):
+        super().__init__(fewshot_dataset, seed)
+        self.answer_col = answer_col
+        self.indices_by_label = self._group_indices_by_label()
+
+    def _group_indices_by_label(self) -> Dict[Any, List[int]]:
+        indices_map = {}
+        for i, item in enumerate(self.fewshot_dataset):
+            label = item[self.answer_col]
+            if label not in indices_map:
+                indices_map[label] = []
+            indices_map[label].append(i)
+        return indices_map
+
+    def _sample_indices(self, num_shots: int) -> List[int]:
+        num_to_select = min(num_shots, len(self.fewshot_dataset))
+        if not self.indices_by_label or num_to_select == 0:
+            return []
+
+        final_indices = []
+        labels = list(self.indices_by_label.keys())
+        self.rng.shuffle(labels) # 随机化类别顺序
+        
+        # 为本次采样创建可消耗的索引列表副本
+        label_iters = {label: self.rng.sample(indices, len(indices)) for label, indices in self.indices_by_label.items()}
+        
+        while len(final_indices) < num_to_select:
+            found_sample = False
+            for label in labels:
+                if label_iters[label]:
+                    final_indices.append(label_iters[label].pop(0))
+                    if len(final_indices) == num_to_select:
+                        break
+                    found_sample = True
+            if not found_sample: # 如果所有类别的样本都用完了
+                break
+        
+        return final_indices
+
+
+# --- Sampler Registry ---
+SAMPLER_REGISTRY = {
+    "first_n": FirstNSampler,
+    "random": RandomSampler,
+    "balanced": BalancedSampler
+}
+
+def get_sampler(name: str, **kwargs) -> BaseContextSampler:
+    if name not in SAMPLER_REGISTRY:
+        raise ValueError(f"未知的采样器: {name}. 可用选项: {list(SAMPLER_REGISTRY.keys())}")
+    return SAMPLER_REGISTRY[name](**kwargs)
+
+================================================================================
+File Path: tasks/__init__.py
+================================================================================
+
+# tasks/__init__.py
+import os
+import importlib
+from .base import get_task, TASK_REGISTRY
+
+# 自动发现并导入当前目录下的所有 .py 文件 (除了 __init__.py 和 base.py)
+# 这样每个文件中的 @register_task 就会被执行
+package_dir = os.path.dirname(__file__)
+for filename in os.listdir(package_dir):
+    if filename.endswith(".py") and filename not in ["__init__.py", "base.py"]:
+        module_name = filename[:-3]
+        # 使用 importlib 动态导入模块
+        importlib.import_module(f".{module_name}", package=__name__)
+
+# 暴露给外部使用的接口
+__all__ = ["get_task", "TASK_REGISTRY"]
+
+================================================================================
+File Path: tasks/arc.py
+================================================================================
+
+import datasets
+from typing import Optional
+
+from .base import BaseTask, TaskConfig, register_task
+
+# 帮助函数，用于从 'choices' 字典中提取选项文本
+def _preprocess_arc(example: dict) -> dict:
+    """
+    将原始数据集的 'choices' 字段（包含 'text' 和 'label'）
+    处理成一个名为 'options' 的纯文本选项列表。
+    """
+    example["options"] = example["choices"]["text"]
+    return example
+
+
+class ArcTask(BaseTask):
+    """
+    一个抽象基类，用于处理 AI2 Reasoning Challenge (ARC) 数据集。
+    这个基类包含了 ARC-Easy 和 ARC-Challenge 任务的通用逻辑。
+    子类需要定义 ARC_CONFIG_NAME 属性。
+    """
+    # 数据集中的原始列名
+    QUESTION_COL: str = "question"
+    ANSWER_COL: str = "answerKey"
+    
+    # 我们将通过预处理创建 'options' 列
+    OPTIONS_COL: str = "options"
+    
+    # ARC 是一个问答任务，而不是句子补全任务
+    IS_SENTENCE_COMPLETION: bool = False
+    
+    # 子类必须覆盖这个属性
+    ARC_CONFIG_NAME: Optional[str] = None
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """加载用于评估的测试集。"""
+        if self.ARC_CONFIG_NAME is None:
+            raise ValueError("ARC_CONFIG_NAME 必须在 ArcTask 的子类中设置！")
+        
+        # 加载测试集
+        dataset = datasets.load_dataset(
+            "ai2_arc", 
+            self.ARC_CONFIG_NAME, 
+            split="test", 
+            cache_dir=self.config.local_dir
+        )
+        # 预处理数据以匹配 BaseTask 的期望格式
+        return dataset.map(_preprocess_arc, num_proc=1)
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        """如果需要，加载用于 few-shot 采样的训练集。"""
+        if self.config.num_fewshot == 0:
+            return None
+            
+        if self.ARC_CONFIG_NAME is None:
+            raise ValueError("ARC_CONFIG_NAME 必须在 ArcTask 的子类中设置！")
+
+        # 加载训练集
+        fewshot_dataset = datasets.load_dataset(
+            "ai2_arc", 
+            self.ARC_CONFIG_NAME, 
+            split="train",
+            cache_dir=self.config.local_dir
+        )
+        # 预处理数据
+        return fewshot_dataset.map(_preprocess_arc, num_proc=1)
+
+
+@register_task("arc_easy")
+class ArcEasyTask(ArcTask):
+    """
+    AI2 Reasoning Challenge (ARC) - Easy Set
+    """
+    TASK_NAME: str = "arc_easy"
+    ARC_CONFIG_NAME: str = "ARC-Easy"
+
+
+@register_task("arc_challenge")
+class ArcChallengeTask(ArcTask):
+    """
+    AI2 Reasoning Challenge (ARC) - Challenge Set
+    """
+    TASK_NAME: str = "arc_challenge"
+    ARC_CONFIG_NAME: str = "ARC-Challenge"
+
+================================================================================
+File Path: tasks/base.py
+================================================================================
+
+# tasks/base.py
+import datasets
+from dataclasses import dataclass
+from typing import Any, Optional, Dict, List
+from ..sampler import BaseContextSampler, get_sampler # 假设 sampler 在上一级目录
+
+# --- 自动注册机制 ---
+TASK_REGISTRY: Dict[str, Any] = {}
+def register_task(name: str):
+    """一个类装饰器，用于自动将任务类注册到 TASK_REGISTRY。"""
+    def decorator(cls):
+        if name in TASK_REGISTRY:
+            raise ValueError(f"任务 '{name}' 已被注册！")
+        TASK_REGISTRY[name] = cls
+        return cls
+    return decorator
+
+
+
+@dataclass
+class TaskConfig:
+    tokenizer: Optional[Any] = None
+    num_fewshot: int = 0
+    sampler_name: str = "first_n"
+    sampler_seed: int = 42
+    text_only: bool = False
+    local_dir: Optional[str] = None
+    model_type: str = "causal"  
+
+
+
+class BaseTask:
+    TASK_NAME: str = "base"
+    QUESTION_COL: str = "question"
+    OPTIONS_COL: str = "options"
+    ANSWER_COL: str = "answer"
+    IS_SENTENCE_COMPLETION: bool = False
+
+    def __init__(self, config: TaskConfig):
+        print(f"Initializing task: {self.TASK_NAME}")
+        self.config = config
+        self.fewshot_dataset = self._load_fewshot_dataset()
+        self.sampler = self._setup_sampler()
+
+    def _load_dataset(self) -> datasets.Dataset:
+        raise NotImplementedError
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        return None
+
+    def _setup_sampler(self) -> Optional[BaseContextSampler]:
+        """为整个任务设置一个通用的 Sampler。"""
+        if self.config.num_fewshot > 0 and self.fewshot_dataset:
+            print(f"[{self.TASK_NAME}] Setting up a single '{self.config.sampler_name}' sampler with seed {self.config.sampler_seed}.")
+            sampler_kwargs = {"fewshot_dataset": self.fewshot_dataset, "seed": self.config.sampler_seed}
+            return get_sampler(self.config.sampler_name, **sampler_kwargs)
+        return None
+
+    def process(self) -> datasets.Dataset:
+        dataset_to_finalize = self._load_dataset()
+        if not self.config.text_only and self.config.tokenizer is None:
+            raise ValueError("Tokenizer must be provided when text_only is False.")
+
+        def _format_instance(batch: Dict[str, List]) -> Dict[str, List]:
+            if self.config.text_only:
+                new_batch = {"context_text": [], "continuation_text": [], "is_correct": [], "group_id": [], "task_name": []}
+            else:
+                new_batch = {"input_ids": [], "continuation_ids": [], "is_correct": [], "group_id": [], "task_name": [], "continuation_len": [],"continuation_char_len": []}
+
+            for i in range(len(batch[self.QUESTION_COL])):
+                fewshot_prompt_str = ""
+                if self.sampler:
+                    fewshot_prompt_str = self.sampler.get_context(
+                        self.config.num_fewshot, self.QUESTION_COL, self.OPTIONS_COL, self.ANSWER_COL, self.IS_SENTENCE_COMPLETION
+                    )
+
+                group_id = batch["id"][i]
+                question_text = batch[self.QUESTION_COL][i]
+                options = batch[self.OPTIONS_COL][i]
+                labels = batch[self.ANSWER_COL][i]
+                
+                original_answer_index = -1
+                if isinstance(labels, (str, int)):
+                    try: original_answer_index = int(labels)
+                    except ValueError:
+                        if labels.upper() in "ABCDEFGHIJKLMNOPQRSTUVWXYZ": original_answer_index = ord(labels.upper()) - ord('A')
+                elif isinstance(labels, list): pass
+                is_multi_label = isinstance(labels, list)
+
+                for j, opt_text in enumerate(options):
+                    is_correct = 1 if (is_multi_label and j < len(labels) and labels[j] == 1) or (not is_multi_label and j == original_answer_index) else 0
+                    
+                    prompt_str = fewshot_prompt_str + (f"{question_text.strip()}" if self.IS_SENTENCE_COMPLETION else f"Question: {question_text}\nAnswer:")
+                    continuation_str = " " + opt_text
+
+                    if self.config.text_only:
+                        new_batch["context_text"].append(prompt_str)
+                        new_batch["continuation_text"].append(continuation_str)
+                    else:
+                        tokenizer = self.config.tokenizer
+                        input_ids = tokenizer(prompt_str, add_special_tokens=False)['input_ids']
+                        if tokenizer.bos_token_id is not None:
+                            input_ids = [tokenizer.bos_token_id] + input_ids
+                        continuation_ids = tokenizer(continuation_str, add_special_tokens=False)['input_ids']
+                        
+                        # <<< MODIFIED: 核心修改点，只有在 discrete diffusion 时才添加 EOS token >>>
+                        # if self.config.model_type == 'discrete_diffusion' and tokenizer.eos_token_id is not None:
+                        #     # continuation_ids = continuation_ids + [tokenizer.eos_token_id]
+                        #     # new_batch["continuation_len"].append(len(continuation_ids)-1)
+                        #     continuation_ids = continuation_ids
+
+                        new_batch["continuation_len"].append(len(continuation_ids))
+                            
+                        new_batch["input_ids"].append(input_ids)
+                        new_batch["continuation_ids"].append(continuation_ids)
+                        
+                        new_batch["continuation_char_len"].append(len(opt_text))
+                    
+                    new_batch["is_correct"].append(is_correct)
+                    new_batch["group_id"].append(group_id)
+                    new_batch["task_name"].append(self.TASK_NAME)
+            
+            return new_batch
+
+        if "id" not in dataset_to_finalize.column_names:
+            dataset_to_finalize = dataset_to_finalize.add_column("id", range(len(dataset_to_finalize)))
+
+        return dataset_to_finalize.map(_format_instance, num_proc=16,batched=True, remove_columns=dataset_to_finalize.column_names, desc=f"[{self.TASK_NAME}] Processing",load_from_cache_file=False)
+
+
+def get_task(task_name: str, config: TaskConfig) -> BaseTask:
+    if task_name not in TASK_REGISTRY:
+        raise ValueError(f"未知的任务: '{task_name}'. 已注册的任务: {list(TASK_REGISTRY.keys())}")
+    task_class = TASK_REGISTRY[task_name]
+    return task_class(config)
+
+================================================================================
+File Path: tasks/bbh.py
+================================================================================
+
+# tasks/bbh.py
+
+from typing import Dict, List, Optional
+import datasets
+from .base import BaseTask, register_task, TaskConfig
+from ..sampler import BaseContextSampler, get_sampler
+
+@register_task("bbh")
+class BBHTask(BaseTask):
+    TASK_NAME = "bbh"
+    # --- 主要修改点 1: 更新列名以匹配实际数据集 ---
+    QUESTION_COL = "input"
+    ANSWER_COL = "target"  # 正确答案在 'target' 列中
+    # OPTIONS_COL 已移除，因为数据集中没有提供选项列表
+    IS_SENTENCE_COMPLETION = False # BBH 是问答/推理任务，不是简单的句子补全
+    
+    # BBH 所有子任务列表
+    BBH_SUBJECTS = [
+        'boolean_expressions', 'causal_judgement', 'date_understanding', 'disambiguation_qa',
+        'dyck_languages', 'formal_fallacies', 'geometric_shapes', 'hyperbaton',
+        'logical_deduction_five_objects', 'logical_deduction_seven_objects', 
+        'logical_deduction_three_objects', 'movie_recommendation', 'multistep_arithmetic_two',
+        'navigate', 'object_counting', 'penguins_in_a_table', 'reasoning_about_colored_objects',
+        'ruin_names', 'salient_translation_error_detection', 'snarks', 'sports_understanding',
+        'temporal_sequences', 'tracking_shuffled_objects_five_objects', 
+        'tracking_shuffled_objects_seven_objects', 'tracking_shuffled_objects_three_objects',
+        'web_of_lies', 'word_sorting'
+    ]
+
+    def __init__(self, config: TaskConfig):
+        # BBHTask 有特殊的 sampler 逻辑，所以我们在这里初始化它
+        self.samplers: Dict[str, BaseContextSampler] = {}
+        super().__init__(config)
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """加载BBH数据集，合并所有子任务"""
+        try:
+            # 分别加载每个子任务，然后合并
+            all_datasets = []
+            for subject in self.BBH_SUBJECTS:
+                # BBH的测试集就是它的验证集
+                dataset = datasets.load_dataset("lukaemon/bbh", subject, split="test")
+                # 添加任务名称列，以便后续识别
+                dataset = dataset.add_column("task", [subject] * len(dataset))
+                all_datasets.append(dataset)
+            
+            if not all_datasets:
+                raise ValueError("Could not load any BBH sub-tasks")
+                
+            # 合并所有子任务
+            combined_dataset = datasets.concatenate_datasets(all_datasets)
+            print(f"Combined all BBH sub-tasks: {len(combined_dataset)} examples total")
+            return combined_dataset
+        except Exception as e:
+            print(f"Error loading BBH dataset: {e}")
+            if self.config.local_dir:
+                try:
+                    dataset = datasets.load_from_disk(self.config.local_dir)
+                    return dataset
+                except Exception as e2:
+                    raise ValueError(f"Could not load BBH dataset from local directory {self.config.local_dir}: {e2}")
+            raise ValueError(f"Could not load BBH dataset: {e}")
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        """加载BBH的few-shot示例数据集"""
+        if self.config.num_fewshot > 0:
+            # 对于BBH，通常使用 'test' split 作为 few-shot 来源，因为它没有单独的 'train' split
+            # 这是一个常见的评估实践，从评估集中抽样作为上下文示例
+            return self._load_dataset()
+        return None
+
+    def _setup_sampler(self) -> Optional[BaseContextSampler]:
+        """
+        为 BBH 的每个子任务单独创建并设置一个 Sampler。
+        """
+        if self.config.num_fewshot > 0 and self.fewshot_dataset:
+            print(f"[{self.TASK_NAME}] Setting up task-specific samplers...")
+            for subject in self.BBH_SUBJECTS:
+                subject_fewshot_data = self.fewshot_dataset.filter(lambda x: x["task"] == subject)
+                
+                if len(subject_fewshot_data) < self.config.num_fewshot:
+                     print(f"Warning: Not enough few-shot examples for BBH task '{subject}'. "
+                           f"Required: {self.config.num_fewshot}, Available: {len(subject_fewshot_data)}")
+
+                sampler_kwargs = {"fewshot_dataset": subject_fewshot_data, "seed": self.config.sampler_seed}
+                self.samplers[subject] = get_sampler(self.config.sampler_name, **sampler_kwargs)
+            
+            print(f"[{self.TASK_NAME}] Successfully created {len(self.samplers)} task-specific samplers.")
+        return None
+    
+    # --- 主要修改点 2: 重写 _format_example 以处理 'input' 和 'target' 字符串 ---
+    @staticmethod
+    def _format_example(example: Dict, include_answer: bool = True) -> str:
+        """
+        将单个 BBH 样本格式化为字符串。
+        
+        Args:
+            example: 一个样本字典，应包含 'input', 'target' 键。
+            include_answer: 是否包含答案。
+        """
+        question = example["input"]
+        prompt = f"Question: {question}\nAnswer:"
+        
+        if include_answer:
+            answer = example["target"]
+            prompt += f" {answer}" # 添加一个空格以更好地分隔
+        
+        return prompt
+
+    def process(self) -> datasets.Dataset:
+        """
+        重写 process 方法，将所有格式化逻辑放在 Task 内部。
+        """
+        dataset_to_finalize = self._load_dataset()
+        if not self.config.text_only and self.config.tokenizer is None:
+            raise ValueError("Tokenizer must be provided when text_only is False.")
+
+        # --- 主要修改点 3: 重写核心处理逻辑 _format_instance ---
+        def _format_instance(batch: Dict[str, List]) -> Dict[str, List]:
+            if self.config.text_only:
+                # 对于生成式任务，我们通常只有 context 和 continuation
+                new_batch = {"context_text": [], "continuation_text": [], "is_correct": [], "group_id": [], "task_name": []}
+            else:
+                new_batch = {"input_ids": [], "continuation_ids": [], "is_correct": [], "group_id": [], "task_name": [], "continuation_len": [], "continuation_char_len": []}
+
+            for i in range(len(batch["input"])):
+                task = batch['task'][i]
+                
+                # --- BBH 特定的 Prompt 构建逻辑 ---
+
+                # 1. 从 Sampler 获取原始 Few-shot 样本
+                fewshot_samples = []
+                if self.samplers:
+                    sampler_for_task = self.samplers.get(task)
+                    if sampler_for_task:
+                        fewshot_samples = sampler_for_task.get_samples(self.config.num_fewshot)
+
+                # 2. 使用新的 _format_example 格式化 Few-shot 样本
+                formatted_fewshot_list = [
+                    self._format_example(sample, include_answer=True) for sample in fewshot_samples
+                ]
+                fewshot_prompt_str = "\n\n".join(formatted_fewshot_list)
+                if formatted_fewshot_list:
+                    fewshot_prompt_str += "\n\n"
+
+                # 3. 格式化当前 Test 样本（不包含答案）
+                current_test_sample = {
+                    "input": batch["input"][i]
+                }
+                test_question_block = self._format_example(current_test_sample, include_answer=False)
+
+                # 4. 组合成最终的上下文 (Context)
+                prompt_str = fewshot_prompt_str + test_question_block
+                
+                # 5. continuation 就是正确的答案
+                continuation_str = f" {batch[self.ANSWER_COL][i]}" # 在答案前加一个空格，这是常见做法
+                
+                group_id = batch["id"][i]
+                # 由于我们只提供正确答案作为continuation，所以is_correct总是1
+                is_correct = 1
+
+                if self.config.text_only:
+                    new_batch["context_text"].append(prompt_str)
+                    new_batch["continuation_text"].append(continuation_str)
+                else:
+                    tokenizer = self.config.tokenizer
+                    input_ids = tokenizer(prompt_str, add_special_tokens=False)['input_ids']
+                    if tokenizer.bos_token_id is not None:
+                        input_ids = [tokenizer.bos_token_id] + input_ids
+                    
+                    continuation_ids = tokenizer(continuation_str, add_special_tokens=False)['input_ids']
+                    
+                    if self.config.model_type == 'discrete_diffusion' and tokenizer.eos_token_id is not None:
+                        continuation_ids = continuation_ids + [tokenizer.eos_token_id]
+                    
+                    new_batch["input_ids"].append(input_ids)
+                    new_batch["continuation_ids"].append(continuation_ids)
+                    new_batch["continuation_len"].append(len(continuation_ids))
+                    new_batch["continuation_char_len"].append(len(continuation_str.lstrip()))
+                
+                new_batch["is_correct"].append(is_correct)
+                new_batch["group_id"].append(group_id)
+                new_batch["task_name"].append(f"{self.TASK_NAME}:{task}")
+            
+            return new_batch
+
+        if "id" not in dataset_to_finalize.column_names:
+            # 生成唯一的ID，如果数据集中没有提供
+            ids = [f"bbh-{i}" for i in range(len(dataset_to_finalize))]
+            dataset_to_finalize = dataset_to_finalize.add_column("id", ids)
+
+        # 按 task 排序可以提高 filter 的效率
+        dataset_to_finalize = dataset_to_finalize.sort("task")
+        
+        # 移除不再需要的 'target' 列，以避免 map 函数的列冲突
+        dataset_to_finalize = dataset_to_finalize.remove_columns([self.ANSWER_COL])
+
+        return dataset_to_finalize.map(
+            _format_instance, 
+            num_proc=16, 
+            batched=True, 
+            remove_columns=dataset_to_finalize.column_names, 
+            desc=f"[{self.TASK_NAME}] Processing with task-specific few-shot"
+        )
+
+================================================================================
+File Path: tasks/commonsense_qa.py
+================================================================================
+
+# tasks/commonsense_qa.py
+
+import datasets
+from .base import BaseTask, TaskConfig, register_task
+
+@register_task("commonsense_qa")
+class CommonsenseQATask(BaseTask):
+    """
+    CommonsenseQA (https://www.tau-nlp.sites.tau.ac.il/commonsenseqa)
+    is a multiple-choice question answering dataset that requires different types of commonsense knowledge to predict the correct answers.
+    """
+    
+    # --- BaseTask 属性配置 ---
+    TASK_NAME: str = "commonsense_qa"
+    
+    # 告诉 BaseTask 数据集中的列名
+    QUESTION_COL: str = "question"
+    OPTIONS_COL: str = "options"  # 这是我们通过 map 创建的新列名
+    ANSWER_COL: str = "answerKey" # 正确答案的列名是 answerKey，值为 'A', 'B' 等
+    
+    # 这不是一个句子补全任务，而是一个问答任务
+    IS_SENTENCE_COMPLETION: bool = False
+
+    def __init__(self, config: TaskConfig):
+        super().__init__(config)
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """加载用于评估的验证集 (validation split)。"""
+        ds = datasets.load_dataset("tau/commonsense_qa", split="validation")
+        # 预处理：将嵌套的 choices['text'] 提取到一个名为 'options' 的新顶层列
+        return ds.map(lambda x: {"options": x["choices"]["text"]})
+
+    def _load_fewshot_dataset(self) -> datasets.Dataset:
+        """加载用于 few-shot 示例的训练集 (train split)。"""
+        if self.config.num_fewshot == 0:
+            return None
+        ds = datasets.load_dataset("tau/commonsense_qa", split="train")
+        # 同样进行预处理
+        return ds.map(lambda x: {"options": x["choices"]["text"]})
+
+================================================================================
+File Path: tasks/hellaswag.py
+================================================================================
+
+# tasks/mmlu.py
+from typing import Optional
+import datasets
+from .base import BaseTask, register_task
+import re
+
+
+@register_task("hellaswag")
+class HellaSwagTask(BaseTask):
+    TASK_NAME = "hellaswag"
+    QUESTION_COL = "query"
+    OPTIONS_COL = "choices"
+    ANSWER_COL = "gold_label"
+    IS_SENTENCE_COMPLETION = True
+
+    @staticmethod
+    def _preprocess_text(text: str) -> str:
+        text = text.strip().replace(" [title]", ". ")
+        return re.sub("\\[.*?\\]", "", text).replace("  ", " ")
+
+    def _transform_doc(self, doc: dict) -> dict:
+        ctx = doc["ctx_a"] + " " + doc["ctx_b"].capitalize()
+        return {
+            "query": self._preprocess_text(doc["activity_label"] + ": " + ctx),
+            "choices": [self._preprocess_text(ending) for ending in doc["endings"]],
+            "gold_label": int(doc["label"])
+        }
+
+    def _load_dataset(self) -> datasets.Dataset:
+        dataset = datasets.load_dataset('Rowan/hellaswag', split='validation', cache_dir=self.config.local_dir)
+        return dataset.map(self._transform_doc, remove_columns=dataset.column_names)
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        if self.config.num_fewshot > 0:
+            dataset = datasets.load_dataset('Rowan/hellaswag', split='train', cache_dir=self.config.local_dir)
+            return dataset.map(self._transform_doc, remove_columns=dataset.column_names)
+        return None
+
+
+================================================================================
+File Path: tasks/mmlu.py
+================================================================================
+
+# tasks/mmlu.py
+from typing import Dict, List, Optional
+import datasets
+from .base import BaseTask, register_task, TaskConfig # 注意这里的相对导入
+from ..sampler import BaseContextSampler, get_sampler
+
+@register_task("mmlu")
+class MMLUTask(BaseTask):
+    TASK_NAME = "mmlu"
+    QUESTION_COL = "question"
+    OPTIONS_COL = "choices"
+    ANSWER_COL = "answer"
+    
+    # MMLU 所有主题列表
+    MMLU_SUBJECTS = ['abstract_algebra', 'anatomy', 'astronomy', 'business_ethics', 'clinical_knowledge', 'college_biology', 'college_chemistry', 'college_computer_science', 'college_mathematics', 'college_medicine', 'college_physics', 'computer_security', 'conceptual_physics', 'econometrics', 'electrical_engineering', 'elementary_mathematics', 'formal_logic', 'global_facts', 'high_school_biology', 'high_school_chemistry', 'high_school_computer_science', 'high_school_european_history', 'high_school_geography', 'high_school_government_and_politics', 'high_school_macroeconomics', 'high_school_mathematics', 'high_school_microeconomics', 'high_school_physics', 'high_school_psychology', 'high_school_statistics', 'high_school_us_history', 'high_school_world_history', 'human_aging', 'human_sexuality', 'international_law', 'jurisprudence', 'logical_fallacies', 'machine_learning', 'management', 'marketing', 'medical_genetics', 'miscellaneous', 'moral_disputes', 'moral_scenarios', 'nutrition', 'philosophy', 'prehistory', 'professional_accounting', 'professional_law', 'professional_medicine', 'professional_psychology', 'public_relations', 'security_studies', 'sociology', 'us_foreign_policy', 'virology', 'world_religions']
+
+    def __init__(self, config: TaskConfig):
+        # MMLUTask 有特殊的 sampler 逻辑，所以我们在这里初始化它
+        self.samplers: Dict[str, BaseContextSampler] = {}
+        super().__init__(config)
+
+    def _load_dataset(self) -> datasets.Dataset:
+        return datasets.load_dataset('cais/mmlu', 'all', split='test', cache_dir=self.config.local_dir)
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        if self.config.num_fewshot > 0:
+            return datasets.load_dataset('cais/mmlu', 'all', split='dev', cache_dir=self.config.local_dir)
+        return None
+
+    def _setup_sampler(self) -> Optional[BaseContextSampler]:
+        """
+        为 MMLU 的每个 subject 单独创建并设置一个 Sampler。
+        这个方法会覆盖 BaseTask 的通用 sampler 设置。
+        """
+        if self.config.num_fewshot > 0 and self.fewshot_dataset:
+            print(f"[{self.TASK_NAME}] Setting up subject-specific samplers...")
+            for subject in self.MMLU_SUBJECTS:
+                # 筛选出当前 subject 的 few-shot 数据
+                subject_fewshot_data = self.fewshot_dataset.filter(lambda x: x["subject"] == subject)
+                
+                if len(subject_fewshot_data) < self.config.num_fewshot:
+                     print(f"Warning: Not enough few-shot examples for MMLU subject '{subject}'. "
+                           f"Required: {self.config.num_fewshot}, Available: {len(subject_fewshot_data)}")
+
+                sampler_kwargs = {"fewshot_dataset": subject_fewshot_data, "seed": self.config.sampler_seed}
+                self.samplers[subject] = get_sampler(self.config.sampler_name, **sampler_kwargs)
+            
+            print(f"[{self.TASK_NAME}] Successfully created {len(self.samplers)} subject-specific samplers.")
+        # 返回 None，因为我们不使用单一的 self.sampler
+        return None
+    
+    # 新增：一个静态/类方法，专门用于格式化单个 MMLU 样本
+    # 这个方法完美复刻了 qwen_script 中的 format_example 函数
+    @staticmethod
+    def _format_example(example: Dict, include_answer: bool = True) -> str:
+        """
+        将单个 MMLU 样本（字典格式）格式化为字符串。
+        
+        Args:
+            example: 一个样本字典，应包含 'question', 'choices', 'answer' 键。
+            include_answer: 是否在末尾包含 "Answer: [letter]"。
+        """
+        choices_letters = ["A", "B", "C", "D"]
+        
+        prompt = "Question: " + example["question"]
+        for i, choice_text in enumerate(example["choices"]):
+            prompt += f'\n{choices_letters[i]}. {choice_text}'
+
+        if include_answer:
+            answer_index = int(example["answer"])
+            correct_letter = choices_letters[answer_index]
+            prompt += "\nAnswer: " + correct_letter
+        else:
+            prompt += "\nAnswer:"
+        return prompt
+
+    # 新增：辅助函数，与 qwen_script 中的 format_subject 一致
+    @staticmethod
+    def _format_subject(subject: str) -> str:
+        # qwen_script 中没有 capitalize，但通常 MMLU prompt 会大写首字母
+        return " ".join(word for word in subject.split("_"))
+
+    def process(self) -> datasets.Dataset:
+        """
+        重写 process 方法，将所有格式化逻辑放在 Task 内部。
+        """
+        dataset_to_finalize = self._load_dataset()
+        if not self.config.text_only and self.config.tokenizer is None:
+            raise ValueError("Tokenizer must be provided when text_only is False.")
+
+        def _format_instance(batch: Dict[str, List]) -> Dict[str, List]:
+            if self.config.text_only:
+                new_batch = {"context_text": [], "continuation_text": [], "is_correct": [], "group_id": [], "task_name": []}
+            else:
+                new_batch = {"input_ids": [], "continuation_ids": [], "is_correct": [], "group_id": [], "task_name": [], "continuation_len": [], "continuation_char_len": []}
+
+            choices_letters = ["A", "B", "C", "D"]
+
+            for i in range(len(batch[self.QUESTION_COL])):
+                subject = batch['subject'][i]
+                
+                # --- MMLU 特定的 Prompt 构建逻辑 ---
+
+                # 1. 构建 Prompt 头部
+                prompt_header = f"The following are multiple choice questions (with answers) about {self._format_subject(subject)}.\n\n"
+
+                # 2. 从 Sampler 获取原始 Few-shot 样本
+                fewshot_samples = []
+                if self.samplers:
+                    sampler_for_subject = self.samplers.get(subject)
+                    if sampler_for_subject:
+                        # 调用 sampler 的新方法 get_samples
+                        fewshot_samples = sampler_for_subject.get_samples(self.config.num_fewshot)
+
+                # 3. 使用内部方法格式化 Few-shot 样本
+                formatted_fewshot_list = [
+                    self._format_example(sample, include_answer=True) for sample in fewshot_samples
+                ]
+                fewshot_prompt_str = "\n\n".join(formatted_fewshot_list)
+                if formatted_fewshot_list:
+                    fewshot_prompt_str += "\n\n"
+
+                # 4. 格式化当前 Test 样本
+                current_test_sample = {
+                    "question": batch[self.QUESTION_COL][i],
+                    "choices": batch[self.OPTIONS_COL][i],
+                    # answer 是为了满足 _format_example 的接口，但不会被使用
+                    "answer": batch[self.ANSWER_COL][i] 
+                }
+                test_question_block = self._format_example(current_test_sample, include_answer=False)
+
+                # 5. 组合成最终的上下文 (Context)
+                prompt_str = prompt_header + fewshot_prompt_str + test_question_block
+                
+                # --- 后续逻辑与之前类似 ---
+                group_id = batch["id"][i]
+                original_answer_index = int(batch[self.ANSWER_COL][i])
+                options = batch[self.OPTIONS_COL][i]
+
+                for j, opt_text in enumerate(options):
+                    is_correct = 1 if j == original_answer_index else 0
+                    
+                    # continuation 应该是选项字母，以对齐 qwen_script 的单 token logit 评估方法
+                    continuation_str = " " + choices_letters[j]
+
+                    if self.config.text_only:
+                        new_batch["context_text"].append(prompt_str)
+                        new_batch["continuation_text"].append(continuation_str)
+                    else:
+                        tokenizer = self.config.tokenizer
+                        input_ids = tokenizer(prompt_str, add_special_tokens=False)['input_ids']
+                        if tokenizer.bos_token_id is not None:
+                            input_ids = [tokenizer.bos_token_id] + input_ids
+                        
+                        continuation_ids = tokenizer(continuation_str, add_special_tokens=False)['input_ids']
+                        
+                        new_batch["input_ids"].append(input_ids)
+                        new_batch["continuation_ids"].append(continuation_ids)
+                        new_batch["continuation_len"].append(len(continuation_ids))
+                        new_batch["continuation_char_len"].append(len(continuation_str.lstrip()))
+                    
+                    new_batch["is_correct"].append(is_correct)
+                    new_batch["group_id"].append(group_id)
+                    new_batch["task_name"].append(f"{self.TASK_NAME}:{subject}")
+            
+            return new_batch
+
+        if "id" not in dataset_to_finalize.column_names:
+            dataset_to_finalize = dataset_to_finalize.add_column("id", range(len(dataset_to_finalize)))
+
+        # 按 subject 排序可以提高 filter 的效率
+        dataset_to_finalize = dataset_to_finalize.sort("subject")
+        return dataset_to_finalize.map(_format_instance, num_proc=16, batched=True, remove_columns=dataset_to_finalize.column_names, desc=f"[{self.TASK_NAME}] Processing with subject-specific few-shot")
+
+
+================================================================================
+File Path: tasks/piqa.py
+================================================================================
+
+# tasks/piqa.py
+
+import datasets
+from typing import Optional
+
+from .base import BaseTask, register_task
+
+@register_task("piqa")
+class PIQATask(BaseTask):
+    """
+    PIQA (Physical Interaction: Question Answering) 任务的实现。
+    数据集地址: https://huggingface.co/datasets/baber/piqa
+    """
+    TASK_NAME: str = "piqa"
+    
+    # 根据 lm-eval 配置映射列名
+    QUESTION_COL: str = "goal"
+    OPTIONS_COL: str = "options"  # 我们将通过预处理创建这个列
+    ANSWER_COL: str = "label"
+    
+    # 提示格式是 "Question: ...\nAnswer:"，不是句子补全
+    IS_SENTENCE_COMPLETION: bool = False
+
+    def _preprocess_piqa(self, dataset: datasets.Dataset) -> datasets.Dataset:
+        """
+        对 PIQA 数据集进行预处理。
+        主要任务是将 'sol1' 和 'sol2' 两列合并成一个新的 'options' 列。
+        """
+        def create_options_column(example):
+            # 将 sol1 和 sol2 组合成一个选项列表
+            example[self.OPTIONS_COL] = [example["sol1"], example["sol2"]]
+            return example
+
+        # 使用 map 函数高效地添加新列
+        dataset = dataset.map(create_options_column, num_proc=16)
+        return dataset
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """
+        加载用于评估的 PIQA validation split。
+        """
+        # 从 Hugging Face Hub 加载 validation split
+        dataset = datasets.load_dataset(
+            "baber/piqa", 
+            split="validation", 
+            cache_dir=self.config.local_dir
+        )
+        # 应用预处理
+        return self._preprocess_piqa(dataset)
+
+    def _load_fewshot_dataset(self) -> Optional[datasets.Dataset]:
+        """
+        加载用于 few-shot 示例的 PIQA train split。
+        """
+        if self.config.num_fewshot == 0:
+            return None
+        
+        # 从 Hugging Face Hub 加载 train split
+        dataset = datasets.load_dataset(
+            "baber/piqa", 
+            split="train", 
+            cache_dir=self.config.local_dir
+        )
+        # 应用预处理
+        return self._preprocess_piqa(dataset)
+
+================================================================================
+File Path: tasks/sciq.py
+================================================================================
+
+# tasks/sciq.py
+
+import datasets
+from typing import Dict, List
+import random
+
+from .base import BaseTask, register_task, TaskConfig
+
+@register_task("sciq")
+class SCIQTask(BaseTask):
+    """
+    对 SciQ 数据集的任务实现。
+    SciQ: https://huggingface.co/datasets/sciq
+    """
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """加载用于评估的测试集。"""
+        return datasets.load_dataset("sciq", split="test")
+
+    def _load_fewshot_dataset(self) -> datasets.Dataset:
+        """加载用于 few-shot 学习的训练集。"""
+        return datasets.load_dataset("sciq", split="train")
+
+    def _format_fewshot_prompt(self, samples: List[Dict]) -> str:
+        """为 SciQ 定制 few-shot 样本的格式化。"""
+        prompts = []
+        for sample in samples:
+            prompt = (
+                f"{sample['support'].lstrip()}\n"
+                f"Question: {sample['question']}\n"
+                f"Answer: {sample['correct_answer']}"
+            )
+            prompts.append(prompt)
+        return "\n\n".join(prompts) + "\n\n" if prompts else ""
+
+    def process(self) -> datasets.Dataset:
+        """
+        重写 process 方法以处理 SciQ 的特殊数据结构。
+        - Prompt 由 'support' 和 'question' 组成。
+        - Choices 由 'distractor1', 'distractor2', 'distractor3', 和 'correct_answer' 组成。
+        """
+        dataset_to_finalize = self._load_dataset()
+        if not self.config.text_only and self.config.tokenizer is None:
+            raise ValueError("Tokenizer must be provided when text_only is False.")
+
+        # --- FIX: 修改此函数以接收全局索引 ---
+        def _format_instance(batch: Dict[str, List], indices: List[int]) -> Dict[str, List]:
+            if self.config.text_only:
+                new_batch = {"context_text": [], "continuation_text": [], "is_correct": [], "group_id": [], "task_name": []}
+            else:
+                new_batch = {"input_ids": [], "continuation_ids": [], "is_correct": [], "group_id": [], "task_name": [], "continuation_len": [], "continuation_char_len": []}
+
+            rng = self.sampler.rng if self.sampler else random.Random()
+
+            # --- FIX: 使用 `enumerate(indices)` 来同时获取批内索引 i 和全局 group_id ---
+            for i, group_id in enumerate(indices):
+                # 1. 准备 Few-shot 上下文
+                fewshot_prompt_str = ""
+                if self.sampler and self.config.num_fewshot > 0:
+                    fewshot_samples = self.sampler.get_samples(self.config.num_fewshot)
+                    fewshot_prompt_str = self._format_fewshot_prompt(fewshot_samples)
+
+                # 2. 准备当前问题的 Prompt 和 Choices (使用批内索引 i 来访问 batch 数据)
+                support = batch['support'][i]
+                question = batch['question'][i]
+                correct_answer = batch['correct_answer'][i]
+                distractors = [batch['distractor1'][i], batch['distractor2'][i], batch['distractor3'][i]]
+
+                options = distractors + [correct_answer]
+                rng.shuffle(options)
+                
+                prompt_str = f"{support.lstrip()}\nQuestion: {question}\nAnswer:"
+                full_prompt_str = fewshot_prompt_str + prompt_str
+
+                # 3. 遍历所有选项并生成样本
+                for opt_text in options:
+                    is_correct = 1 if opt_text == correct_answer else 0
+                    continuation_str = " " + opt_text
+
+                    if self.config.text_only:
+                        new_batch["context_text"].append(full_prompt_str)
+                        new_batch["continuation_text"].append(continuation_str)
+                    else:
+                        tokenizer = self.config.tokenizer
+                        input_ids = tokenizer(full_prompt_str, add_special_tokens=False)['input_ids']
+                        if tokenizer.bos_token_id is not None:
+                            input_ids = [tokenizer.bos_token_id] + input_ids
+                        continuation_ids = tokenizer(continuation_str, add_special_tokens=False)['input_ids']
+                        
+                        if self.config.model_type == 'discrete_diffusion' and tokenizer.eos_token_id is not None:
+                            continuation_ids = continuation_ids + [tokenizer.eos_token_id]
+                        
+                        new_batch["input_ids"].append(input_ids)
+                        new_batch["continuation_ids"].append(continuation_ids)
+                        new_batch["continuation_len"].append(len(continuation_ids))
+                        new_batch["continuation_char_len"].append(len(opt_text))
+                    
+                    new_batch["is_correct"].append(is_correct)
+                    # --- FIX: 此处使用全局唯一的 group_id ---
+                    new_batch["group_id"].append(group_id)
+                    new_batch["task_name"].append("sciq")
+            
+            return new_batch
+
+        return dataset_to_finalize.map(
+            _format_instance, 
+            batched=True, 
+            # --- FIX: 添加 `with_indices=True` 以获取全局索引 ---
+            with_indices=True,
+            num_proc=16,
+            remove_columns=dataset_to_finalize.column_names, 
+            desc="[sciq] Processing",
+            load_from_cache_file=False
+        )
+
+================================================================================
+File Path: tasks/truthfulqa.py
+================================================================================
+
+# tasks/truthfulqa.py
+
+import datasets
+from .base import BaseTask, TaskConfig, register_task
+
+@register_task("truthfulqa_mc1")
+class TruthfulQAMC1Task(BaseTask):
+    """
+    TruthfulQA Multiple Choice (MC1) 任务。
+    此任务评估模型在选择正确答案上的准确率。
+    问题可能有多于一个的正确答案。
+    """
+    TASK_NAME: str = "truthfulqa_mc1"
+    QUESTION_COL: str = "question"
+    OPTIONS_COL: str = "choices"  # 在 map 函数中创建
+    ANSWER_COL: str = "labels"    # 在 map 函数中创建
+    IS_SENTENCE_COMPLETION: bool = False # 格式为 "Question: ... Answer: "
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """
+        加载 TruthfulQA 数据集，并将其格式化以适应 BaseTask 的处理流程。
+        我们只关心 'multiple_choice' 配置中的 'mc1_targets' 部分。
+        """
+        # 加载验证集
+        dataset = datasets.load_dataset("truthful_qa", "multiple_choice", split="validation")
+        
+        # 将嵌套的 mc1_targets 字典扁平化，创建 'choices' 和 'labels' 列
+        def _flatten_mc1(example):
+            example[self.OPTIONS_COL] = example["mc1_targets"]["choices"]
+            example[self.ANSWER_COL] = example["mc1_targets"]["labels"]
+            return example
+            
+        return dataset.map(_flatten_mc1, num_proc=4, desc=f"[{self.TASK_NAME}] Flattening MC1 targets")
+
+
+@register_task("truthfulqa_mc2")
+class TruthfulQAMC2Task(BaseTask):
+    """
+    TruthfulQA Multiple Choice (MC2) 任务。
+    此任务评估模型分配给所有正确答案的归一化概率质量。
+    你的 main.py 已经有专门的 `calculate_mc2_prob_mass` 函数来处理这个指标。
+    """
+    TASK_NAME: str = "truthfulqa_mc2"
+    QUESTION_COL: str = "question"
+    OPTIONS_COL: str = "choices"  # 在 map 函数中创建
+    ANSWER_COL: str = "labels"    # 在 map 函数中创建
+    IS_SENTENCE_COMPLETION: bool = False # 格式为 "Question: ... Answer: "
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """
+        加载 TruthfulQA 数据集，并将其格式化以适应 BaseTask 的处理流程。
+        我们只关心 'multiple_choice' 配置中的 'mc2_targets' 部分。
+        """
+        # 加载验证集
+        dataset = datasets.load_dataset("truthful_qa", "multiple_choice", split="validation")
+        
+        # 将嵌套的 mc2_targets 字典扁平化，创建 'choices' 和 'labels' 列
+        def _flatten_mc2(example):
+            example[self.OPTIONS_COL] = example["mc2_targets"]["choices"]
+            example[self.ANSWER_COL] = example["mc2_targets"]["labels"]
+            return example
+            
+        return dataset.map(_flatten_mc2, num_proc=4, desc=f"[{self.TASK_NAME}] Flattening MC2 targets")
+
+================================================================================
+File Path: tasks/winogrande.py
+================================================================================
+
+# tasks/winogrande.py
+
+import datasets
+from .base import BaseTask, register_task
+from typing import Dict, List
+
+@register_task("winogrande")
+class WinograndeTask(BaseTask):
+    """
+    Winogrande 是一个大规模的常识推理数据集，专注于解决代词指代问题。
+    任务形式是句子补全，模型需要选择两个选项中哪一个能更好地填补句子中的空白。
+    
+    lm_eval 配置参考:
+    - dataset_path: winogrande
+    - dataset_name: winogrande_xl
+    - validation_split: validation
+    - training_split: train (for few-shot)
+    - output_type: multiple_choice
+    """
+    TASK_NAME = "winogrande"
+    
+    # Winogrande 是一个典型的句子补全任务。
+    # "question" 是句子的前半部分，"options" 是可能的结尾。
+    IS_SENTENCE_COMPLETION = True
+
+    def _load_dataset(self) -> datasets.Dataset:
+        """
+        加载用于评估的验证集 (validation split)。
+        """
+        return self._load_and_process("validation")
+
+    def _load_fewshot_dataset(self) -> datasets.Dataset:
+        """
+        加载用于 few-shot 示例的训练集 (train split)。
+        """
+        return self._load_and_process("train")
+
+    def _preprocess(self, doc: Dict) -> Dict:
+        """
+        对单个数据点进行预处理，将其转换为框架所需的格式。
+
+        原始数据格式:
+        {
+            "sentence": "The city councilmen refused the demonstrators a permit because _ feared violence.",
+            "option1": "they",
+            "option2": "The city councilmen",
+            "answer": "1"
+        }
+
+        转换后格式:
+        {
+            "question": "The city councilmen refused the demonstrators a permit because",
+            "options": ["they feared violence.", "The city councilmen feared violence."],
+            "answer": 0
+        }
+        """
+        
+        sentence = doc["sentence"]
+        try:
+            split_point = sentence.index("_")
+            # `question` 是句子中 '_' 之前的部分
+            question_text = sentence[:split_point].strip()
+            # `rest_of_sentence` 是句子中 '_' 之后的部分，这部分是两个选项共有的后缀
+            rest_of_sentence = sentence[split_point + 1:].strip()
+        except ValueError:
+            # 如果句子中没有 "_"，虽然不符合数据集规范，但做一个兼容处理
+            question_text = sentence.strip()
+            rest_of_sentence = ""
+            print(f"Warning: '_' not found in sentence: {sentence}")
+
+        option1 = doc["option1"]
+        option2 = doc["option2"]
+
+        # 构造完整的句子结尾作为选项。
+        # 如果 `rest_of_sentence` 为空，则选项就是 `option1/2` 本身。
+        # 如果 `rest_of_sentence` 不为空，则需要拼接。
+        continuation1 = f"{option1} {rest_of_sentence}".strip()
+        continuation2 = f"{option2} {rest_of_sentence}".strip()
+        
+        options = [continuation1, continuation2]
+
+        # 将答案 "1" 或 "2" 转换为 0-indexed 的整数
+        answer_index = int(doc["answer"]) - 1
+
+        return {
+            self.QUESTION_COL: question_text,
+            self.OPTIONS_COL: options,
+            self.ANSWER_COL: answer_index
+        }
+
+    def _load_and_process(self, split: str) -> datasets.Dataset:
+        """
+        一个辅助函数，用于加载指定 split 的数据集并应用预处理。
+        """
+        dataset = datasets.load_dataset(
+            path="winogrande",
+            name="winogrande_xl",
+            split=split
+        )
+        
+        dataset = dataset.map(
+            self._preprocess,
+            num_proc=16,
+            remove_columns=dataset.column_names,
+            desc=f"[{self.TASK_NAME}] Preprocessing {split} split",
+            load_from_cache_file=False 
+        )
+        return dataset
+
+================================================================================
+File Path: to_excel.py
+================================================================================
+
+import argparse
+import json
+from pathlib import Path
+import pandas as pd
+from typing import List, Dict, Any
+
+def parse_run_key(key: str) -> Dict[str, Any]:
+    """
+    从 summary.json 的键中解析出任务名、few-shot数等信息。
+    例如: "hellaswag_0shot_causal" -> {'task': 'hellaswag', 'fewshot': 0, 'type': 'causal'}
+    """
+    parts = key.split('_')
+    parsed = {}
+    try:
+        parsed['task'] = parts[0]
+        # 寻找包含 "shot" 的部分
+        shot_part = next((p for p in parts if "shot" in p), "0shot")
+        parsed['fewshot'] = int(shot_part.replace("shot", ""))
+        return parsed
+    except (IndexError, ValueError) as e:
+        print(f"[Warning] Could not parse run key: '{key}'. Skipping. Error: {e}")
+        return None
+
+def gather_data(results_dir: Path) -> List[Dict[str, Any]]:
+    """
+    遍历 results 目录，收集所有 summary.json 文件中的数据。
+    """
+    all_runs_data = []
+    summary_files = list(results_dir.rglob('summary.json'))
+
+    if not summary_files:
+        print(f"No 'summary.json' files found in '{results_dir}'.")
+        return []
+
+    print(f"Found {len(summary_files)} summary files. Processing...")
+
+    for summary_file in summary_files:
+        # model_name 是 summary.json 所在的目录名
+        model_name = summary_file.parent.name
+        print(f"  - Processing model: {model_name}")
+
+        try:
+            with open(summary_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+
+            for run_key, run_details in data.items():
+                parsed_key = parse_run_key(run_key)
+                if not parsed_key:
+                    continue
+                
+                # 创建一个扁平化的记录
+                flat_record = {
+                    'model_name': model_name,
+                    'task_name': parsed_key['task'],
+                    'num_fewshot': parsed_key['fewshot'],
+                }
+                
+                # 添加所有指标
+                flat_record.update(run_details.get('metrics', {}))
+                
+                all_runs_data.append(flat_record)
+
+        except json.JSONDecodeError:
+            print(f"[Error] Failed to decode JSON from {summary_file}. Skipping.")
+        except Exception as e:
+            print(f"[Error] An unexpected error occurred while processing {summary_file}: {e}")
+            
+    return all_runs_data
+
+def create_pivot_table(data: List[Dict[str, Any]]) -> pd.DataFrame:
+    """
+    将扁平化的数据转换成一个适合阅读的透视表。
+    """
+    if not data:
+        return pd.DataFrame()
+
+    df = pd.DataFrame(data)
+    
+    # 创建一个用于多级列索引的显示名称
+    df['task_display'] = df.apply(
+        lambda row: f"{row['task_name']} ({row['num_fewshot']}-shot)", axis=1
+    )
+    
+    # 确定所有出现过的指标列
+    metric_columns = [
+        col for col in df.columns 
+        if col not in ['model_name', 'task_name', 'num_fewshot', 'task_display']
+    ]
+
+    if not metric_columns:
+        print("[Warning] No metric columns found to create a pivot table.")
+        return pd.DataFrame()
+
+    # 创建数据透视表
+    # index 是行, columns 是列, values 是填充单元格的值
+    pivot_df = df.pivot_table(
+        index='model_name',
+        columns='task_display',
+        values=metric_columns
+    )
+    
+    # 交换列的层级，使得任务在第一层，指标在第二层，更易读
+    # (metric, task_display) -> (task_display, metric)
+    pivot_df = pivot_df.swaplevel(0, 1, axis=1)
+    
+    # 按列名排序，让相同任务的指标聚在一起
+    pivot_df.sort_index(axis=1, level=0, inplace=True)
+    
+    return pivot_df
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Summarize model evaluation results from the 'results' directory into an Excel file."
+    )
+    parser.add_argument(
+        "--results_dir",
+        type=str,
+        default="results",
+        help="The base directory where evaluation results are stored."
+    )
+    parser.add_argument(
+        "--output_file",
+        type=str,
+        default="evaluation_summary.xlsx",
+        help="Path to the output Excel file."
+    )
+    args = parser.parse_args()
+
+    results_path = Path(args.results_dir)
+    output_path = Path(args.output_file)
+
+    if not results_path.is_dir():
+        print(f"Error: The specified results directory '{results_path}' does not exist.")
+        return
+
+    # 1. 收集数据
+    flat_data = gather_data(results_path)
+
+    if not flat_data:
+        print("No data collected. Exiting.")
+        return
+
+    # 2. 创建透视表
+    summary_table = create_pivot_table(flat_data)
+
+    if summary_table.empty:
+        print("Failed to create a summary table. Exiting.")
+        return
+
+    # 3. 保存到 Excel
+    try:
+        summary_table.to_excel(output_path)
+        print(f"\n✓ Successfully generated summary table at: {output_path.absolute()}")
+    except Exception as e:
+        print(f"\n✗ Error saving Excel file: {e}")
+
+
+if __name__ == "__main__":
+    main()
+
+================================================================================
+File Path: write_out.py
+================================================================================
+
+# write_out_text.py
+
+import argparse
+import json
+from pathlib import Path
+from tqdm import tqdm
+
+# 从新的 task.py 导入工厂函数和配置类
+from task import get_task, TaskConfig
+
+def get_model_short_name(model_path: str) -> str:
+    """复用 main.py 中的函数，用于创建目录"""
+    path = Path(model_path)
+    model_name = path.parent.name if path.name.startswith('checkpoint-') else path.name
+    return model_name.split('/')[-1]
+
+def create_output_structure(output_dir: str, model_path: str) -> Path:
+    """创建输出目录结构"""
+    model_short_name = get_model_short_name(model_path)
+    model_dir = Path(output_dir) / f"write_out_text_{model_short_name}"
+    model_dir.mkdir(parents=True, exist_ok=True)
+    return model_dir
+
+def main():
+    parser = argparse.ArgumentParser(description="Process and write out evaluation data as plain text to a JSONL file.")
+    
+    parser.add_argument("--model_name_or_path", type=str, required=True, help="Path or name used for naming the output directory.")
+    parser.add_argument("--tasks", type=str, required=True, help="Comma-separated list of tasks to process.")
+    parser.add_argument("--limit", type=int, default=0, help="Limit samples for testing. 0 for no limit.")
+    parser.add_argument("--num_fewshot", type=int, default=0, help="Number of few-shot examples to use.")
+    parser.add_argument("--sampler", type=str, default="random", choices=['first_n', 'random', 'balanced'], help="Few-shot sampler to use.")
+    parser.add_argument("--sampler_seed", type=int, default=42, help="Seed for the few-shot sampler.")
+    parser.add_argument("--output_dir", type=str, default="results", help="Directory to save the output JSONL file.")
+    
+    args = parser.parse_args()
+    print("Arguments:", args)
+    
+    output_dir = create_output_structure(args.output_dir, args.model_name_or_path)
+    print(f"Output data will be saved to: {output_dir}")
+
+    tasks = [t.strip() for t in args.tasks.split(',') if t.strip()]
+    for task_name in tasks:
+        print(f"\n----- Processing data for task: {task_name} ({args.num_fewshot}-shot) -----")
+        
+        # 1. 配置任务
+        config = TaskConfig(
+            num_fewshot=args.num_fewshot,
+            sampler_name=args.sampler,
+            sampler_seed=args.sampler_seed,
+            text_only=True  # <-- 启用纯文本模式
+        )
+
+        try:
+            # ******************** 这是修改的核心 ********************
+            # 使用新的工厂函数获取任务实例，然后调用 .process() 方法
+            task_instance = get_task(task_name, config)
+            dataset = task_instance.process()
+            # ******************************************************
+        except ValueError as e:
+            print(f"Error: {e}. Skipping task '{task_name}'.")
+            continue
+            
+        if args.limit > 0:
+            dataset = dataset.select(range(min(args.limit, len(dataset))))
+
+        # 写入文件的逻辑保持不变
+        output_filename = f"{task_name}_{args.num_fewshot}shot_text.jsonl"
+        output_file_path = output_dir / output_filename
+
+        count = 0
+        with open(output_file_path, 'w', encoding='utf-8') as f:
+            for item in tqdm(dataset, desc=f"Writing {task_name} text data"):
+                context = item.get("context_text", "")
+                continuation = item.get("continuation_text", "")
+                full_prompt = context + continuation
+                output_record = {"prompt": full_prompt}
+                f.write(json.dumps(output_record, ensure_ascii=False) + '\n')
+                count += 1
+        
+        print(f"✓ Successfully wrote {count} records for task '{task_name}' to: {output_file_path}")
+
+    print("\nAll tasks processed and text data written out.")
+
+if __name__ == "__main__":
+    main()
+
+================================================================================
+File Path: write_out.sh
+================================================================================
+
+cd /mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/diffusion/logprob_eval
+
+# python write_out.py \
+#   --model_name_or_path /mnt/hdfs/zw04mlnn01/checkpoint/llm_platform/model/Qwen/Qwen2-0.5B/main \
+#   --tasks arc_challenge \
+#   --num_fewshot 0 \
+#   --limit 0 \
+#   --output_dir results
+
+
+python lm_eval_write_out.py \
+    --tasks winogrande \
+    --num_fewshot 1 \
+    --output_base_path ./prompts
+

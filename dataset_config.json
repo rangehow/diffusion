@@ -1,0 +1,29 @@
+{
+  "local_paths": {
+    "ultra_fineweb": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/openbmb/Ultra-FineWeb/main",
+    "fineweb_edu_10b": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/EleutherAI/fineweb-edu-dedup-10b/main",
+    "wikipedia": "/path/to/local/wikipedia",
+    "finefineweb": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/m-a-p/FineFineWeb-sample/main",
+    "filtered_finefineweb":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/INS/ruanjunhao04/datasets/filtered_finefineweb",
+    "finefineweb_validation":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/m-a-p/FineFineWeb-validation/main",
+    "mmlu":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/cais/mmlu/main",
+    "python":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/Avelina/python-edu-cleaned/main",
+    "gsm8k":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-hldy-nlp/BERT_TRAINING_SERVICE/platform/dataset/openai/gsm8k/main",
+    "winogrande":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/allenai/winogrande/main",
+    "lm1b":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/dvruette/lm1b/main",
+    "sh_fineweb_edu_10b":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/EleutherAI/fineweb-edu-dedup-10b/main",
+    "fineweb_edu_1b":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/dataset/codelion/fineweb-edu-1B/main",
+    "sh_fineweb_edu_1b":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/codelion/fineweb-edu-1B/main",
+    "sh_filtered_finefineweb":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/datasets/filtered_finefineweb",
+    "sh_openwebtext":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Skylion007/openwebtext/main",
+    "sh_lm1b_test":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/dvruette/lm1b/main",
+    "sh_lambada":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/EleutherAI/lambada_openai/main",
+    "sh_ptb":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/ptb-text-only/ptb_text_only/refs/convert/parquet",
+    "sh_ag_news":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/fancyzhx/ag_news/main",
+    "sh_pubmed":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/armanc/scientific_papers/refs/convert/parquet",
+    "sh_arxiv":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/armanc/scientific_papers/refs/convert/parquet",
+    "sh_wikitext":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Salesforce/wikitext/main",
+    "mmlu_redux":"/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/edinburgh-dawg/mmlu-redux-2.0/main",
+    "mmlu_redux_corrected": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/edinburgh-dawg/mmlu-redux-2.0/main"
+  }
+}

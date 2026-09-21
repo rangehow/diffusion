@@ -1,0 +1,27 @@
+[
+  {
+    "id": "a993db1b",
+    "timestamp_utc": "2026-03-30T17:46:31.981928+00:00",
+    "metrics": {
+      "acc": 0.2387785136129507,
+      "acc_norm_char": 0.2387785136129507,
+      "acc_norm_token": 0.2387785136129507,
+      "total": 5436
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "prefixlm"
+      },
+      "fewshot": {
+        "num": 5,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "mmlu_redux_corrected"
+    }
+  }
+]

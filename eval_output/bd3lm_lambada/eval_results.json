@@ -1,0 +1,10 @@
+{
+    "eval_loss": 3.667971134185791,
+    "eval_model_preparation_time": 0.0041,
+    "eval_runtime": 130.6369,
+    "eval_samples_per_second": 39.445,
+    "eval_steps_per_second": 0.62,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335",
+    "dataset_name": "sh_lambada"
+}

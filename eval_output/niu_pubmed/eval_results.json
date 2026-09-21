@@ -1,0 +1,10 @@
+{
+    "eval_loss": 2.580263137817383,
+    "eval_model_preparation_time": 0.0045,
+    "eval_runtime": 156.8014,
+    "eval_samples_per_second": 42.461,
+    "eval_steps_per_second": 0.67,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/niu_main_exp/checkpoint-77335",
+    "dataset_name": "sh_pubmed"
+}

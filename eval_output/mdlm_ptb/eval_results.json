@@ -1,0 +1,10 @@
+{
+    "eval_loss": 5.237460136413574,
+    "eval_model_preparation_time": 0.0043,
+    "eval_runtime": 49.3131,
+    "eval_samples_per_second": 76.268,
+    "eval_steps_per_second": 1.196,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335",
+    "dataset_name": "sh_ptb"
+}

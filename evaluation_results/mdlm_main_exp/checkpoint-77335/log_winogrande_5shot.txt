@@ -1,0 +1,137 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "winogrande"             --num_fewshot "5"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: winogrande
+Few-shot: 5
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: winogrande (5-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: winogrande
+[winogrande] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/winogrande/main
+[winogrande] Loading from local path...
+[winogrande] Preprocessing train (num_proc=16): 100%|██████████| 40398/40398 [00:00<?, ? examples/s][winogrande] Preprocessing train (num_proc=16): 40965 examples [00:00, 1680.90 examples/s]          [winogrande] Preprocessing train (num_proc=16): 49186 examples [00:00, 24976.63 examples/s][winogrande] Preprocessing train (num_proc=16): 65827 examples [00:00, 65299.81 examples/s][winogrande] Preprocessing train (num_proc=16): 79286 examples [00:00, 79873.11 examples/s][winogrande] Preprocessing train (num_proc=16): 80796 examples [00:00, 48175.90 examples/s]
+[winogrande] Setting up 'random' sampler with seed 42
+[winogrande] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/winogrande/main
+[winogrande] Loading from local path...
+[winogrande] Preprocessing validation (num_proc=16): 100%|██████████| 1267/1267 [00:00<?, ? examples/s][winogrande] Preprocessing validation (num_proc=16): 1347 examples [00:00, 299.50 examples/s]          [winogrande] Preprocessing validation (num_proc=16): 1823 examples [00:00, 1645.70 examples/s][winogrande] Preprocessing validation (num_proc=16): 2297 examples [00:00, 2584.23 examples/s][winogrande] Preprocessing validation (num_proc=16): 2534 examples [00:00, 1856.11 examples/s]
+[winogrande] Processing (num_proc=16): 100%|██████████| 1267/1267 [00:00<?, ? examples/s][winogrande] Processing (num_proc=16): 1346 examples [00:00, 146.01 examples/s]          [winogrande] Processing (num_proc=16): 2060 examples [00:00, 1566.18 examples/s][winogrande] Processing (num_proc=16): 2455 examples [00:00, 2082.71 examples/s][winogrande] Processing (num_proc=16): 2534 examples [00:00, 1404.81 examples/s]
+
+--- Sample Preview (winogrande) ---
+Prompt:
+Natalie was scared of the dark, but Jennifer was not so Natalie had a teddy bear to sleep with.
+
+James run out of cash when he went on the vacation with its cost. The cost is high.
+
+I returned the dish with the shallot but kept the one with the onion because the onion was cooked correctly.
+
+Cleaning a piano is easy to Nick but not Leslie because Nick makes it simple using a feather duster.
+
+Tanya was a better judge of a boy's character than Betty and this showed because Tanya had a nice boyfrien...
+Token IDs (first 20): [50285, 47, 3165, 466, 369, 16060, 273, 253, 3644, 13, 533, 26355, 369, 417, 594, 50033, 574, 247, 28263, 6421]
+
+Choices (2 options):
+  1. 'Sarah always got the easier cases....' -> [15458, 1900, 1694, 253, 6927, 2219, 15, 50279]
+  2. 'Maria always got the easier cases....' -> [17100, 1900, 1694, 253, 6927, 2219, 15, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 2534 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 317 samples
+[INFO] GPU 1: 317 samples
+[INFO] GPU 2: 317 samples
+[INFO] GPU 3: 317 samples
+[INFO] GPU 4: 317 samples
+[INFO] GPU 5: 317 samples
+[INFO] GPU 6: 316 samples
+[INFO] GPU 7: 316 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 6] Starting on cuda:6, processing 316 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 4] Starting on cuda:4, processing 317 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 5] Starting on cuda:5, processing 317 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 7] Starting on cuda:7, processing 316 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 3] Starting on cuda:3, processing 317 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 0] Starting on cuda:0, processing 317 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 2] Starting on cuda:2, processing 317 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 1] Starting on cuda:1, processing 317 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 6] Completed 316 samples
+[Worker 5] Completed 317 samples
+[Worker 1] Completed 317 samples
+[Worker 3] Completed 317 samples
+[Worker 4] Completed 317 samples
+[Worker 0] Completed 317 samples
+[Worker 7] Completed 316 samples
+[Worker 2] Completed 317 samples
+[INFO] Waiting for 8 workers to complete...
+[INFO] Successfully collected 2534 results from all workers
+
+[STATS] winogrande option lengths:
+  Tokens - avg: 7.84, min: 3, max: 22
+  Chars  - avg: 30.72
+✓ Detailed results saved: evaluation_results/mdlm_main_exp/checkpoint-77335/winogrande/ebea99bb.results.json
+
+============================================================
+Results for: WINOGRANDE
+Model: mdlm_main_exp_checkpoint-77335
+============================================================
+acc: 0.5320 (674/1267)
+acc_norm_char: 0.5217 (661/1267)
+acc_norm_token: 0.5264 (667/1267)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

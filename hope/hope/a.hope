@@ -1,0 +1,67 @@
+[base]
+type = ml-easy-job
+
+[resource]
+usergroup = hadoop-aipnlp
+queue = root.shxs_training_cluster.hadoop-aipnlp.test
+
+[roles]
+workers = 2
+worker.memory = 901120
+worker.vcore = 96
+worker.gcoresh800-141g = 8
+worker.ports = 1
+worker.script = python3 src/job_run.py --pp=2 --encrypted_user_id=sxIv/nNm5c8Y7mP2Orr5oA== --job_service_ip=10.44.232.34 --work_dir=/mnt/dolphinfs/ssd_pool/docker/user/hadoop-aipnlp/BERT_TRAINING_SERVICE/platform/work_space/llm/apiServing/10c5b0d4635mtfp00721Z-1527622 --alive_time=168 --task_id=811619 --model_path=/mnt/hdfs/zw04mlnn01/checkpoint/RPG/wenhaoxing/sft-ckpt/1102v1/109efa07908mtkm003adZ-1482044/iter_0001368/format_hf --task_version=3 --friday_app_id=MTc5NTczMzY3NzUyMDEzODMwOQ== --script_key=eps_sglang --tp=8 --job_service_swimlane=default --node_id=1527622 --git_branch=feature/for_sh_h800_auto_ib_index --serve_mode=3000 --is_mup=True --max_model_len=131072 --request_mode=base --watermark=0.85 --extra_params=env=eager_mode:false,dense-parallel-strategy:combine,attn-tp-size:8,dp-size:2,IA_NAME:fluentllm,SGLANG_ENABLE_TORCH_COMPILE:0,chunked-prefill-size:2048,low-latency-max-num-tokens-per-gpu:512,SGLANG_HEALTH_CHECK_TIMEOUT:180,SKIP_WARMUP:1,disable-radix:false --dtype=auto --engine_params=schedule-conservativeness:5,attention-backend:flashmla,enable-flashinfer-mla,max-prefill-tokens:8192,trust-remote-code,max-running-requests:24,metrics-reporters:llm-platform,cuda-graph-max-bs:12 --job_id=10c5b0d4635mtfp00721Z-1527622 --user_group=hadoop-aipnlp --submit_env=prod --queue=root.shxs_training_cluster.hadoop-aipnlp.test --workers=2 --run_env=mt --account=linguoyuan --model_type=nlp_api_serving --worker_gpu_memory=h800-141g --submit_platform=llm --user_script="bash llm_platform_api_serving.sh"
+
+[user_args]
+hope.submit.acceleration.enable = true
+afo.use.hadoop.client = true
+
+[am]
+am.memory = 2048
+am.vcore = 1
+
+[tensorboard]
+with.tensor.board = False
+board.vcore = 4
+board.memory = 8192
+board.log_dir = None
+
+[docker]
+afo.docker.image.name = registry-offlinebiz.sankuai.com/custom_prod/com.sankuai.data.hadoop.gpu/efficient-llm/serving_fluentllm_tritonserver_master_20251201_add33118:v1.0.0
+
+[data]
+afo.data.prefetch = false
+
+[failover]
+afo.app.support.engine.failover = true
+
+[security]
+
+[others]
+afo.app.env.YARN_CONTAINER_RUNTIME_DOCKER_SHM_SIZE_BYTES = 343597383680
+afo.app.env.YARN_CONTAINER_RUNTIME_DOCKER_ULIMITS = memlock=-1
+afo.role.worker.task.attempt.max.retry = 1
+afo.role.worker.not.nccl_not_ready = true
+afo.app.blacklist.fail_times = 5
+afo.afo-base.image.version = gpt
+afo.role.worker.nopassword = true
+afo.dolphinfs.otherusers = hadoop-aipnlp,hadoop-friday-beam,hadoop-hldy-nlp,hadoop-mlp-ckpt
+afo.role.worker.env.INIT_SCRIPT_SSHD_ENABLED = true
+afo.role.worker.env.INIT_SCRIPT_SSHD_PASSWORD = abc123
+afo.role.worker.env.INIT_SCRIPT_SSHD_PROT = 22
+afo.use.host_network = true
+afo.app.env.NCCL_SOCKET_IFNAME = eth
+afo.network.mode = RDMA
+afo.use.hadoop.version = v2
+afo.use.hdfs.fuse = true
+afo.use.hdfs.fuse.subpath = user:/mnt/hdfs/user,zw04mlnn01:/mnt/hdfs/zw04mlnn01
+afo.use.hdfs.fuse.readonly = false
+client.git.repo.dirty = false
+client.git.branch = master
+client.git.commit = 66f75348bd0ede5ccd04460f2b161e9751cdae28
+client.git.remote = ssh://git@git.sankuai.com/nlp/pretrain-job-starter.git
+client.git.devtools.url = https://dev.sankuai.com/code/repo-detail/nlp/pretrain-job-starter/file/list?branch=66f75348bd0ede5ccd04460f2b161e9751cdae28
+client.env.HOSTNAME = set-hlsc-nlp-llm12.mt
+hope.base_workdir = 
+

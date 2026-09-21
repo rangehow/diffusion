@@ -1,0 +1,37 @@
+{
+  "architectures": [
+    "BD3LM"
+  ],
+  "model_type": "bd3lm",
+  "transformers_version": "4.47.0",
+
+  "_comment_dims": "Model dimensions aligned with LLaDA 1B (1536 hidden, 33 layers)",
+  "vocab_size": 50368,
+  "hidden_dim": 1536,
+  "cond_dim": 129,
+  "n_blocks": 33,
+  "n_heads": 24,
+  "model_length": 8192,
+  "block_size": 16,
+
+  "_comment_architecture": "BD3LM specific architectural choices",
+  "cross_attn": true,
+  "adaln": true,
+  "attn_backend": "flex",
+  "causal": false,
+  "dropout": 0.0,
+  
+  "_comment_diffusion": "Diffusion process settings",
+  "time_conditioning": false,
+  "var_min": true,
+  "sampling_eps_min": 0.001,
+  "sampling_eps_max": 0.999,
+  
+  "_comment_tokenizer": "Ensure this matches your tokenizer",
+  "mask_token_id": 50257,
+
+  "_comment_misc": "Standard HF fields",
+  "torch_dtype": "bfloat16",
+  "initializer_range": 0.02,
+  "tie_word_embeddings": true
+}

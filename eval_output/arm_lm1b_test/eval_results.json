@@ -1,0 +1,10 @@
+{
+    "eval_loss": 3.66705322265625,
+    "eval_model_preparation_time": 0.0032,
+    "eval_runtime": 986.5333,
+    "eval_samples_per_second": 310.874,
+    "eval_steps_per_second": 4.857,
+    "weights_type": "original",
+    "checkpoint_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_main_exp",
+    "dataset_name": "sh_lm1b_test"
+}
