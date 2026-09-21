@@ -1,0 +1,14 @@
+{
+  "method_name": "quality_cosine_b64_s4",
+  "config": {
+    "block_size": 64,
+    "steps": 8,
+    "gumbel_temperature": 0.7,
+    "final_temperature": 0.2
+  },
+  "num_samples": 10042,
+  "generation_time": 85.32535791024566,
+  "tokens_per_second": 15064.407949534721,
+  "timestamp": "2026-01-28T19:50:31.922086",
+  "num_gpus": 8
+}

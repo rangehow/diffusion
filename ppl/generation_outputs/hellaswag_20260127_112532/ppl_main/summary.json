@@ -1,0 +1,56 @@
+{
+  "eval_model": "main",
+  "timestamp": "2026-01-27T21:07:33.962021",
+  "num_samples": 10042,
+  "num_gpus_used": 8,
+  "methods": {
+    "high_temp": {
+      "full_ppl": 64.21021587163465,
+      "gen_ppl": 126.07281062166616,
+      "generation_time": 21958.103168488014,
+      "tokens_per_second": 58.537661023682496
+    },
+    "llama": {
+      "full_ppl": 7.844584774244499,
+      "gen_ppl": 11.497831725682396,
+      "generation_time": 25926.67535095848,
+      "tokens_per_second": 49.57735546885232
+    },
+    "low_temp": {
+      "full_ppl": 4.069995545149087,
+      "gen_ppl": 3.727876261265433,
+      "generation_time": 16733.54482480092,
+      "tokens_per_second": 76.8143279536882
+    },
+    "original": {
+      "full_ppl": 8.35088446645522,
+      "gen_ppl": 9.480913025607295,
+      "generation_time": 21498.33232134953,
+      "tokens_per_second": 59.78956789701873
+    },
+    "quality_confidence": {
+      "full_ppl": 13.62223907909268,
+      "gen_ppl": 37.32184313369733,
+      "generation_time": 17142.125575758517,
+      "tokens_per_second": 74.98346656716309
+    },
+    "quality_constant": {
+      "full_ppl": 8.228983707219998,
+      "gen_ppl": 9.14896768434806,
+      "generation_time": 21219.97182011418,
+      "tokens_per_second": 60.57387874481558
+    },
+    "quality_cosine": {
+      "full_ppl": 5.099963763277266,
+      "gen_ppl": 5.0472682111649325,
+      "generation_time": 19351.913318583276,
+      "tokens_per_second": 66.4211325691335
+    },
+    "quality_linear": {
+      "full_ppl": 4.963724914881082,
+      "gen_ppl": 4.875676237333108,
+      "generation_time": 19164.359773915727,
+      "tokens_per_second": 67.0711683126249
+    }
+  }
+}

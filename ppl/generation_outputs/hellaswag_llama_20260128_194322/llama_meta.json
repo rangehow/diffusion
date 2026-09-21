@@ -1,0 +1,12 @@
+{
+  "method_name": "llama",
+  "config": {
+    "method": "autoregressive",
+    "temperature": 0.7
+  },
+  "num_samples": 10042,
+  "generation_time": 340.8284272826277,
+  "tokens_per_second": 3771.3286131914056,
+  "timestamp": "2026-01-28T19:51:24.241774",
+  "num_gpus": 8
+}

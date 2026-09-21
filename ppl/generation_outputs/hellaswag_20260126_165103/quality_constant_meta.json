@@ -1,0 +1,17 @@
+{
+  "method_name": "quality_constant",
+  "config": {
+    "method": "quality",
+    "block_size": 16,
+    "steps": 16,
+    "gumbel_temperature": 0.7,
+    "temperature_schedule": "constant",
+    "final_temperature": 0.7,
+    "use_confidence_masking": false
+  },
+  "num_samples": 10042,
+  "generation_time": 751.31913521979,
+  "tokens_per_second": 1710.825586285617,
+  "timestamp": "2026-01-26T17:11:34.966143",
+  "num_gpus": 8
+}

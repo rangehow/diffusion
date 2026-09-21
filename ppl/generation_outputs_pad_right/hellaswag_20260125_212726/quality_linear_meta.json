@@ -1,0 +1,16 @@
+{
+  "method_name": "quality_linear",
+  "config": {
+    "method": "quality",
+    "block_size": 16,
+    "steps": 16,
+    "gumbel_temperature": 0.7,
+    "temperature_schedule": "linear",
+    "final_temperature": 0.2,
+    "use_confidence_masking": false
+  },
+  "num_samples": 10042,
+  "generation_time": 1404.362189726904,
+  "tokens_per_second": 457.6369292062604,
+  "timestamp": "2026-01-25T22:38:08.599181"
+}

@@ -1,0 +1,17 @@
+{
+  "method_name": "quality_cosine",
+  "config": {
+    "method": "quality",
+    "block_size": 16,
+    "steps": 16,
+    "gumbel_temperature": 0.7,
+    "temperature_schedule": "cosine",
+    "final_temperature": 0.2,
+    "use_confidence_masking": false
+  },
+  "num_samples": 10042,
+  "generation_time": 2834.419521438889,
+  "tokens_per_second": 453.4882681542782,
+  "timestamp": "2026-01-26T17:22:58.972882",
+  "num_gpus": 8
+}

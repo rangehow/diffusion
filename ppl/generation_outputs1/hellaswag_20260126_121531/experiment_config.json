@@ -1,0 +1,69 @@
+{
+  "diffusion_model_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/niu_main_exp/checkpoint-77335",
+  "llama_model_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_main_exp",
+  "hellaswag_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main",
+  "max_new_tokens": 128,
+  "num_samples": 10042,
+  "gen_batch_size": 8,
+  "use_gumbel": true,
+  "gumbel_temperature": 0.7,
+  "temperature": 0.7,
+  "configs": {
+    "original": {
+      "method": "original",
+      "block_size": 16,
+      "steps": 16,
+      "gumbel_temperature": 0.7
+    },
+    "quality_cosine": {
+      "method": "quality",
+      "block_size": 16,
+      "steps": 16,
+      "gumbel_temperature": 0.7,
+      "temperature_schedule": "cosine",
+      "final_temperature": 0.2,
+      "use_confidence_masking": false
+    },
+    "quality_linear": {
+      "method": "quality",
+      "block_size": 16,
+      "steps": 16,
+      "gumbel_temperature": 0.7,
+      "temperature_schedule": "linear",
+      "final_temperature": 0.2,
+      "use_confidence_masking": false
+    },
+    "quality_constant": {
+      "method": "quality",
+      "block_size": 16,
+      "steps": 16,
+      "gumbel_temperature": 0.7,
+      "temperature_schedule": "constant",
+      "final_temperature": 0.7,
+      "use_confidence_masking": false
+    },
+    "quality_confidence": {
+      "method": "quality",
+      "block_size": 16,
+      "steps": 16,
+      "gumbel_temperature": 0.7,
+      "temperature_schedule": "cosine",
+      "final_temperature": 0.2,
+      "use_confidence_masking": true,
+      "confidence_threshold": 0.9
+    },
+    "low_temp": {
+      "method": "original",
+      "block_size": 16,
+      "steps": 16,
+      "gumbel_temperature": 0.3
+    },
+    "high_temp": {
+      "method": "original",
+      "block_size": 16,
+      "steps": 16,
+      "gumbel_temperature": 1.0
+    }
+  },
+  "timestamp": "2026-01-26T12:15:31.812884"
+}

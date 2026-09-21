@@ -1,0 +1,6022 @@
+{
+  "task": "cd4",
+  "mode": "reasoning_card",
+  "model_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/reasoning_cd4_reasoning_card_110m/checkpoint-293400",
+  "accuracy": 0.632,
+  "n_correct": 632,
+  "n_total": 1000,
+  "wall_time_seconds": 38.83416271209717,
+  "gen_time_seconds": 38.602503061294556,
+  "tokens_generated": 18382,
+  "throughput_tok_per_sec": 476.1867377048671,
+  "cell_accuracy": null,
+  "config": {
+    "max_new_tokens": 32,
+    "num_steps": 16,
+    "block_size": 32,
+    "temperature": 0.0,
+    "batch_size": 256
+  },
+  "results": [
+    {
+      "prompt": "14,25,18,21,72",
+      "target": "25-21=4,18*4=72",
+      "prediction": "18-21=4,18*4=72",
+      "correct": false
+    },
+    {
+      "prompt": "25,15,6,5,16",
+      "target": "25-15=10,6+10=16",
+      "prediction": "25-15=10,6+10=16",
+      "correct": true
+    },
+    {
+      "prompt": "14,20,18,3,78",
+      "target": "20*3=60,18+60=78",
+      "prediction": "20*3=60,18+60=78",
+      "correct": true
+    },
+    {
+      "prompt": "7,23,12,11,54",
+      "target": "7*11=77,77-23=54",
+      "prediction": "7*11=77,77-23=54",
+      "correct": true
+    },
+    {
+      "prompt": "23,24,15,24,23",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "17,9,7,6,11",
+      "target": "17-6=11",
+      "prediction": "17-6=11",
+      "correct": true
+    },
+    {
+      "prompt": "23,19,7,7,22",
+      "target": "7/7=1,23-1=22",
+      "prediction": "7/7=1,23-1=22",
+      "correct": true
+    },
+    {
+      "prompt": "6,3,10,16,15",
+      "target": "6+3=9,10-9=1,16-1=15",
+      "prediction": "6+3=9,10-9=1,16-1=15",
+      "correct": true
+    },
+    {
+      "prompt": "8,19,15,7,41",
+      "target": "8*7=56,56-15=41",
+      "prediction": "19+15=34,7+34=41",
+      "correct": true
+    },
+    {
+      "prompt": "4,12,9,4,40",
+      "target": "4+9=13,4*13=52,52-12=40",
+      "prediction": "4*9=36,4+36=40",
+      "correct": true
+    },
+    {
+      "prompt": "9,23,17,4,77",
+      "target": "17*4=68,9+68=77",
+      "prediction": "17*4=68,9+68=77",
+      "correct": true
+    },
+    {
+      "prompt": "11,17,13,7,55",
+      "target": "11-7=4,17*4=68,68-13=55",
+      "prediction": "17-13=4,7*4=42,18-13=55",
+      "correct": false
+    },
+    {
+      "prompt": "6,1,5,10,31",
+      "target": "6*5=30,1+30=31",
+      "prediction": "6*5=30,1+30=31",
+      "correct": true
+    },
+    {
+      "prompt": "4,25,8,16,14",
+      "target": "8/4=2,16-2=14",
+      "prediction": "8/4=2,16-2=14",
+      "correct": true
+    },
+    {
+      "prompt": "11,16,10,24,25",
+      "target": "11-10=1,24+1=25",
+      "prediction": "11-10=1,24+1=25",
+      "correct": true
+    },
+    {
+      "prompt": "19,11,1,8,15",
+      "target": "19-11=8,8-1=7,8+7=15",
+      "prediction": "19-11=8,8-1=7,8+7=15",
+      "correct": true
+    },
+    {
+      "prompt": "14,18,23,8,54",
+      "target": "23-14=9,8*9=72,72-18=54",
+      "prediction": "23-14=5,8*5=40,14+40=54",
+      "correct": false
+    },
+    {
+      "prompt": "22,3,16,13,48",
+      "target": "22-3=19,16+13=29,19+29=48",
+      "prediction": "22+13=35,3*16=48",
+      "correct": true
+    },
+    {
+      "prompt": "15,10,20,4,14",
+      "target": "15+20=35,10+4=14",
+      "prediction": "15+20=35,10+4=14",
+      "correct": true
+    },
+    {
+      "prompt": "25,20,7,11,78",
+      "target": "25-11=14,7*14=98,98-20=78",
+      "prediction": "25-20=5,7*11=77,1+77=78",
+      "correct": true
+    },
+    {
+      "prompt": "14,6,15,11,50",
+      "target": "15-11=4,14*4=56,56-6=50",
+      "prediction": "11*6=66,66-14=50",
+      "correct": false
+    },
+    {
+      "prompt": "6,11,12,22,94",
+      "target": "6*12=72,22+72=94",
+      "prediction": "6*12=72,22+72=94",
+      "correct": true
+    },
+    {
+      "prompt": "18,17,11,2,52",
+      "target": "17*2=34,18+34=52",
+      "prediction": "18+17=35,35-11=26,2*26=52",
+      "correct": false
+    },
+    {
+      "prompt": "1,2,4,5,28",
+      "target": "1*2=2,5+2=7,4*7=28",
+      "prediction": "1*2=2,5+2=7,4*7=28",
+      "correct": true
+    },
+    {
+      "prompt": "1,4,10,11,23",
+      "target": "4-1=3,11*3=33,33-10=23",
+      "prediction": "4-1=3,11*3=33,33-10=23",
+      "correct": true
+    },
+    {
+      "prompt": "5,20,4,4,100",
+      "target": "5+20=25,4*25=100",
+      "prediction": "5+20=25,4*25=100",
+      "correct": true
+    },
+    {
+      "prompt": "11,12,3,21,65",
+      "target": "11*12=132,132/3=44,21+44=65",
+      "prediction": "11*21=132,132/3=77,7=65",
+      "correct": false
+    },
+    {
+      "prompt": "1,11,18,12,12",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "7,14,25,17,17",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "18,17,17,11,23",
+      "target": "17+17=34,34-11=23",
+      "prediction": "18+17=35,17-11=6,35-6=23",
+      "correct": false
+    },
+    {
+      "prompt": "15,10,7,13,81",
+      "target": "7*13=91,91-10=81",
+      "prediction": "1*17=91,91-10=81",
+      "correct": false
+    },
+    {
+      "prompt": "20,3,13,25,20",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "17,1,17,14,30",
+      "target": "17-1=16,14+16=30",
+      "prediction": "17-1=16,14+16=30",
+      "correct": true
+    },
+    {
+      "prompt": "7,9,14,19,38",
+      "target": "7+9=16,16-14=2,19*2=38",
+      "prediction": "7+9=16,16-14=2,1,*32/14=38",
+      "correct": false
+    },
+    {
+      "prompt": "13,22,4,2,28",
+      "target": "13+4=17,22/2=11,17+11=28",
+      "prediction": "13+4=17,22/2=11,17-11=28",
+      "correct": false
+    },
+    {
+      "prompt": "21,6,22,24,53",
+      "target": "21*22=462,462/6=77,77-24=53",
+      "prediction": "21+6=27,24+27=53",
+      "correct": false
+    },
+    {
+      "prompt": "23,4,2,7,72",
+      "target": "23+2=25,25-7=18,4*18=72",
+      "prediction": "23+7=39,7+29=36,2*36=72",
+      "correct": false
+    },
+    {
+      "prompt": "3,1,11,18,18",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "14,14,19,15,17",
+      "target": "19-14=5,15/5=3,14+3=17",
+      "prediction": "14+19=33,33/14=2,15+2=17",
+      "correct": false
+    },
+    {
+      "prompt": "17,13,17,9,53",
+      "target": "17-13=4,9*4=36,17+36=53",
+      "prediction": "17-13=4,9*4=36,17+36=53",
+      "correct": true
+    },
+    {
+      "prompt": "16,20,6,24,39",
+      "target": "20+6=26,24*26=624,624/16=39",
+      "prediction": "20*6==442,440/124,624/16=39",
+      "correct": false
+    },
+    {
+      "prompt": "3,5,14,9,45",
+      "target": "3+14=17,5*9=45",
+      "prediction": "3+14=17,5*9=45",
+      "correct": true
+    },
+    {
+      "prompt": "15,2,1,15,33",
+      "target": "15+2=17,1+15=16,17+16=33",
+      "prediction": "15+2=17,1+15=16,17+16=33",
+      "correct": true
+    },
+    {
+      "prompt": "6,10,18,2,36",
+      "target": "6+10=16,18+2=20,16+20=36",
+      "prediction": "6+10=16,18+2=20,16+20=36",
+      "correct": true
+    },
+    {
+      "prompt": "10,21,17,21,63",
+      "target": "21*21=441,17-10=7,441/7=63",
+      "prediction": "10*21=210,17-17=4,210/4=63",
+      "correct": false
+    },
+    {
+      "prompt": "12,5,7,17,16",
+      "target": "12-5=7,7/7=1,17-1=16",
+      "prediction": "12-7=7,7/7=1,17-1=16",
+      "correct": false
+    },
+    {
+      "prompt": "20,2,1,7,38",
+      "target": "20-1=19,2*19=38",
+      "prediction": "20-1=19,2*19=38",
+      "correct": true
+    },
+    {
+      "prompt": "23,10,15,14,75",
+      "target": "23-14=9,10*9=90,90-15=75",
+      "prediction": "23-14=9,10*9=90,90-15=75",
+      "correct": true
+    },
+    {
+      "prompt": "4,14,24,3,24",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "10,11,6,4,52",
+      "target": "10+4=14,11*6=66,66-14=52",
+      "prediction": "10+6=16,1*4=44,46-4=52",
+      "correct": false
+    },
+    {
+      "prompt": "17,18,10,23,24",
+      "target": "18-17=1,23+1=24",
+      "prediction": "17+23=40,10+40=47,47-13=24",
+      "correct": false
+    },
+    {
+      "prompt": "19,10,2,23,64",
+      "target": "19-10=9,23+9=32,2*32=64",
+      "prediction": "19+23=42,1**2=2,,42+22=64",
+      "correct": false
+    },
+    {
+      "prompt": "17,5,2,14,80",
+      "target": "2+14=16,5*16=80",
+      "prediction": "2+14=16,5*16=80",
+      "correct": true
+    },
+    {
+      "prompt": "7,3,19,11,13",
+      "target": "7*3=21,19-11=8,21-8=13",
+      "prediction": "7+1=21,12-11=8,21+8=13",
+      "correct": false
+    },
+    {
+      "prompt": "19,12,6,4,54",
+      "target": "12*4=48,6+48=54",
+      "prediction": "19-12=7,6+4=9,6*9=54",
+      "correct": false
+    },
+    {
+      "prompt": "11,17,17,3,67",
+      "target": "11+17=28,3*28=84,84-17=67",
+      "prediction": "11+17=28,3*28=84,84-17=67",
+      "correct": true
+    },
+    {
+      "prompt": "5,11,3,23,42",
+      "target": "5+11=16,3+23=26,16+26=42",
+      "prediction": "5+11=16,3*16=42",
+      "correct": false
+    },
+    {
+      "prompt": "18,5,25,3,29",
+      "target": "18*3=54,54-25=29",
+      "prediction": "18*3=54,54-25=29",
+      "correct": true
+    },
+    {
+      "prompt": "17,10,18,21,54",
+      "target": "17-10=7,18*21=378,378/7=54",
+      "prediction": "17-10=7,18*21=378,378/7=54",
+      "correct": true
+    },
+    {
+      "prompt": "14,20,18,7,48",
+      "target": "18-14=4,7*4=28,20+28=48",
+      "prediction": "20-14=4,7*4=28,20+28=48",
+      "correct": false
+    },
+    {
+      "prompt": "21,1,7,6,78",
+      "target": "21-1=20,20-7=13,6*13=78",
+      "prediction": "21-7=14,14-1=13,6*13=78",
+      "correct": true
+    },
+    {
+      "prompt": "9,19,19,14,43",
+      "target": "19-9=10,19+14=33,10+33=43",
+      "prediction": "19-9=10,19+14=33,10+33=43",
+      "correct": true
+    },
+    {
+      "prompt": "18,23,19,21,40",
+      "target": "18+23=41,19+21=40",
+      "prediction": "18+23=41,19+21=40",
+      "correct": true
+    },
+    {
+      "prompt": "3,1,9,15,60",
+      "target": "3+1=4,15*4=60",
+      "prediction": "3+1=4,15*4=60",
+      "correct": true
+    },
+    {
+      "prompt": "13,22,20,5,16",
+      "target": "13+20=33,22-5=17,33-17=16",
+      "prediction": "13+5=18,22-20=2,13--11=16",
+      "correct": false
+    },
+    {
+      "prompt": "5,13,24,11,10",
+      "target": "13-11=2,5*2=10",
+      "prediction": "5+13=18,24-13=2,20/2=10",
+      "correct": false
+    },
+    {
+      "prompt": "18,11,21,11,39",
+      "target": "18+11=29,21-11=10,29+10=39",
+      "prediction": "18*21=398,118-11=329,329/11=39",
+      "correct": false
+    },
+    {
+      "prompt": "20,22,2,1,63",
+      "target": "20*2=40,22+1=23,40+23=63",
+      "prediction": "20+1=21,22*2=44,29+44=63",
+      "correct": false
+    },
+    {
+      "prompt": "8,13,10,25,99",
+      "target": "8+25=33,13-10=3,33*3=99",
+      "prediction": "8*13=13,13-10=3,3*33=99",
+      "correct": false
+    },
+    {
+      "prompt": "10,13,5,5,39",
+      "target": "10+5=15,13*15=195,195/5=39",
+      "prediction": "10+5=15,13*15=195,195/5=39",
+      "correct": true
+    },
+    {
+      "prompt": "12,19,11,4,16",
+      "target": "12+19=31,11+4=15,31-15=16",
+      "prediction": "12+4=16",
+      "correct": true
+    },
+    {
+      "prompt": "3,3,17,20,43",
+      "target": "3+3=6,17+20=37,6+37=43",
+      "prediction": "3+3=6,17+20=37,6+37=43",
+      "correct": true
+    },
+    {
+      "prompt": "14,2,5,10,38",
+      "target": "14-2=12,5*10=50,50-12=38",
+      "prediction": "14*2=28,10+28=38",
+      "correct": true
+    },
+    {
+      "prompt": "12,9,13,3,36",
+      "target": "12-9=3,13*3=39,39-3=36",
+      "prediction": "12*9=108,108/3=36",
+      "correct": true
+    },
+    {
+      "prompt": "20,11,3,20,60",
+      "target": "20+11=31,3*20=60",
+      "prediction": "20+11=31,3*20=60",
+      "correct": true
+    },
+    {
+      "prompt": "21,13,9,4,100",
+      "target": "21+13=34,34-9=25,4*25=100",
+      "prediction": "21-13=8,,34-9=25,4*2100",
+      "correct": false
+    },
+    {
+      "prompt": "6,2,21,20,25",
+      "target": "6-2=4,21+4=25",
+      "prediction": "6-2=4,21+4=25",
+      "correct": true
+    },
+    {
+      "prompt": "24,13,15,19,13",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "21,7,17,16,74",
+      "target": "21+17=38,7*16=112,112-38=74",
+      "prediction": "21-16=5,17*5=85,85-7=74",
+      "correct": false
+    },
+    {
+      "prompt": "12,13,18,6,25",
+      "target": "12+13=25",
+      "prediction": "12+13=25",
+      "correct": true
+    },
+    {
+      "prompt": "10,10,4,1,61",
+      "target": "10-4=6,10*6=60,1+60=61",
+      "prediction": "10-4=6,10*6=60,1+60=61",
+      "correct": true
+    },
+    {
+      "prompt": "17,9,20,8,89",
+      "target": "9*8=72,17+72=89",
+      "prediction": "20-8=12,9*122,17+72=89",
+      "correct": false
+    },
+    {
+      "prompt": "6,3,21,4,87",
+      "target": "6-3=3,21*4=84,3+84=87",
+      "prediction": "6+21=27,3*27=81,6+81=87",
+      "correct": true
+    },
+    {
+      "prompt": "19,1,17,5,87",
+      "target": "5-1=4,17*4=68,19+68=87",
+      "prediction": "19-1=18,5*17=80,,105-18=87",
+      "correct": false
+    },
+    {
+      "prompt": "16,4,25,8,33",
+      "target": "16+4=20,25+8=33",
+      "prediction": "16+4=20,25+8=33",
+      "correct": true
+    },
+    {
+      "prompt": "13,7,14,11,46",
+      "target": "14-11=3,13*3=39,7+39=46",
+      "prediction": "14-11=3,13*3=39,7+39=46",
+      "correct": true
+    },
+    {
+      "prompt": "9,19,14,11,36",
+      "target": "14-9=5,11*5=55,55-19=36",
+      "prediction": "19-11=5,9*5=45,45-19=36",
+      "correct": false
+    },
+    {
+      "prompt": "9,21,14,2,23",
+      "target": "9+21=30,14/2=7,30-7=23",
+      "prediction": "9+14=23",
+      "correct": true
+    },
+    {
+      "prompt": "19,15,11,12,44",
+      "target": "19-15=4,11*4=44",
+      "prediction": "19-15=4,11*4=44",
+      "correct": true
+    },
+    {
+      "prompt": "17,3,1,11,41",
+      "target": "17*3=51,1+51=52,52-11=41",
+      "prediction": "17*3=51,1+51=52,51-10=41",
+      "correct": true
+    },
+    {
+      "prompt": "19,10,21,13,30",
+      "target": "19-10=9,21+9=30",
+      "prediction": "19-10=9,21+9=30",
+      "correct": true
+    },
+    {
+      "prompt": "1,12,7,4,51",
+      "target": "12-1=11,4*11=44,7+44=51",
+      "prediction": "1+12=13,4*13=52,7+42=51",
+      "correct": false
+    },
+    {
+      "prompt": "4,5,4,13,25",
+      "target": "4+4=8,13-8=5,5*5=25",
+      "prediction": "4+5=20,13-==9,*5+25",
+      "correct": false
+    },
+    {
+      "prompt": "16,6,10,10,36",
+      "target": "16+10=26,10+26=36",
+      "prediction": "16+10=26,10+26=36",
+      "correct": true
+    },
+    {
+      "prompt": "9,22,20,5,12",
+      "target": "9+20=29,22-5=17,29-17=12",
+      "prediction": "9+5=14,22-20=2,14-2=1212",
+      "correct": false
+    },
+    {
+      "prompt": "24,6,6,16,12",
+      "target": "24-6=18,18-6=12",
+      "prediction": "24-6=18,18-16=22",
+      "correct": false
+    },
+    {
+      "prompt": "24,25,12,25,61",
+      "target": "24+25=49,12+49=61",
+      "prediction": "24+25=49,12+49=61",
+      "correct": true
+    },
+    {
+      "prompt": "6,16,9,13,90",
+      "target": "16-6=10,9*10=90",
+      "prediction": "16-6=10,9*10=90",
+      "correct": true
+    },
+    {
+      "prompt": "24,8,6,5,86",
+      "target": "24-8=16,5*16=80,6+80=86",
+      "prediction": "24-8=16,5*16=80,6+80=86",
+      "correct": true
+    },
+    {
+      "prompt": "18,7,16,2,56",
+      "target": "7*16=112,112/2=56",
+      "prediction": "18/2=9,16/2=8,7*8=56",
+      "correct": true
+    },
+    {
+      "prompt": "12,1,19,3,66",
+      "target": "19-1=18,3*18=54,12+54=66",
+      "prediction": "19+1=18,3*18=54,12+54=66",
+      "correct": false
+    },
+    {
+      "prompt": "20,1,11,16,47",
+      "target": "20*1=20,11+16=27,20+27=47",
+      "prediction": "20*1=20,11+16=27,20+27=47",
+      "correct": true
+    },
+    {
+      "prompt": "14,5,21,15,10",
+      "target": "14+21=35,15-5=10",
+      "prediction": "14-5=9,21-9=10",
+      "correct": false
+    },
+    {
+      "prompt": "4,3,10,22,52",
+      "target": "4+10=14,3*22=66,66-14=52",
+      "prediction": "4*10=40,22+30=52",
+      "correct": true
+    },
+    {
+      "prompt": "7,18,13,1,86",
+      "target": "7+1=8,13*8=104,104-18=86",
+      "prediction": "7-1=6,13*6=104,104-18=86",
+      "correct": false
+    },
+    {
+      "prompt": "11,9,4,13,23",
+      "target": "9*4=36,36-13=23",
+      "prediction": "9*4=36,36-13=23",
+      "correct": true
+    },
+    {
+      "prompt": "8,1,17,14,81",
+      "target": "8-1=7,14*7=98,98-17=81",
+      "prediction": "8*1=8,14*7=98,98-17=81",
+      "correct": true
+    },
+    {
+      "prompt": "4,5,5,22,12",
+      "target": "5+5=10,22-10=12",
+      "prediction": "5+5=10,22-10=12",
+      "correct": true
+    },
+    {
+      "prompt": "5,8,12,15,91",
+      "target": "8*12=96,96-5=91",
+      "prediction": "12-5=7,15-7=13,7*13=91",
+      "correct": false
+    },
+    {
+      "prompt": "11,8,6,5,11",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "21,14,17,8,16",
+      "target": "21-14=7,17-8=9,7+9=16",
+      "prediction": "21-17=4,8/4=2,14+2=16",
+      "correct": true
+    },
+    {
+      "prompt": "15,21,10,23,50",
+      "target": "15+10=25,23-21=2,25*2=50",
+      "prediction": "15+10=25,23-21=2,25*2=50",
+      "correct": true
+    },
+    {
+      "prompt": "20,12,8,2,16",
+      "target": "20+12=32,8*2=16",
+      "prediction": "20+12=32,8*2=16",
+      "correct": true
+    },
+    {
+      "prompt": "5,6,18,22,36",
+      "target": "5+6=11,18*22=396,396/11=36",
+      "prediction": "5*6=30,22-18=4,30546/10=36",
+      "correct": false
+    },
+    {
+      "prompt": "14,25,20,19,13",
+      "target": "14+19=33,33-20=13",
+      "prediction": "14+19=33,33-20=13",
+      "correct": true
+    },
+    {
+      "prompt": "24,10,21,8,59",
+      "target": "10*8=80,80-21=59",
+      "prediction": "10*8=80,80-21=59",
+      "correct": true
+    },
+    {
+      "prompt": "11,1,14,8,39",
+      "target": "11-8=3,14-1=13,3*13=39",
+      "prediction": "11-8=3,14-1=13,3*13=39",
+      "correct": true
+    },
+    {
+      "prompt": "19,10,9,16,18",
+      "target": "19-10=9,9+9=18",
+      "prediction": "19-10=9,9+9=18",
+      "correct": true
+    },
+    {
+      "prompt": "23,25,24,2,37",
+      "target": "24/2=12,25+12=37",
+      "prediction": "24/2=12,25+12=37",
+      "correct": true
+    },
+    {
+      "prompt": "9,14,25,22,48",
+      "target": "9+14=23,25+23=48",
+      "prediction": "9+14=34,25+33=48",
+      "correct": false
+    },
+    {
+      "prompt": "8,25,7,18,38",
+      "target": "8*7=56,56-18=38",
+      "prediction": "8*7=56,56-18=38",
+      "correct": true
+    },
+    {
+      "prompt": "23,6,21,3,24",
+      "target": "23+6=29,21+3=24",
+      "prediction": "23+6=29,21+3=24",
+      "correct": true
+    },
+    {
+      "prompt": "2,22,23,2,64",
+      "target": "23-2=21,2*21=42,22+42=64",
+      "prediction": "22-2=21,2*21=42,22+42=64",
+      "correct": false
+    },
+    {
+      "prompt": "6,22,17,21,15",
+      "target": "22+17=39,21-6=15",
+      "prediction": "22+17=39,21-6=15",
+      "correct": true
+    },
+    {
+      "prompt": "14,12,15,22,80",
+      "target": "15-12=3,22*3=66,14+66=80",
+      "prediction": "15-12=3,22*3=66,14+66=80",
+      "correct": true
+    },
+    {
+      "prompt": "17,8,17,20,28",
+      "target": "17+8=25,20-17=3,25+3=28",
+      "prediction": "17+8=25,20-17=3,25+3=28",
+      "correct": true
+    },
+    {
+      "prompt": "19,13,8,14,19",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "22,8,5,13,23",
+      "target": "8+5=13,13/13=1,22+1=23",
+      "prediction": "22+8=30,30/5=6,13+6=23",
+      "correct": false
+    },
+    {
+      "prompt": "4,5,17,15,37",
+      "target": "4*5=20,17+20=37",
+      "prediction": "4*15=6,17+20=37",
+      "correct": false
+    },
+    {
+      "prompt": "18,5,24,3,38",
+      "target": "18*5=90,24+90=114,114/3=38",
+      "prediction": "5*24=120,120/3=20,18+20=38",
+      "correct": false
+    },
+    {
+      "prompt": "8,1,13,15,37",
+      "target": "8+1=9,13+15=28,9+28=37",
+      "prediction": "8+1=9,13+15=28,9+28=37",
+      "correct": true
+    },
+    {
+      "prompt": "2,9,9,24,18",
+      "target": "2*9=18",
+      "prediction": "2*9=18",
+      "correct": true
+    },
+    {
+      "prompt": "6,15,8,25,48",
+      "target": "6*8=48",
+      "prediction": "6*8=48",
+      "correct": true
+    },
+    {
+      "prompt": "5,2,9,10,49",
+      "target": "10-2=8,5*8=40,9+40=49",
+      "prediction": "5*9=45,10/2=5,45+5=49",
+      "correct": false
+    },
+    {
+      "prompt": "4,15,3,12,24",
+      "target": "4*15=60,3*12=36,60-36=24",
+      "prediction": "4+15=19,12/3=4,19+4=24",
+      "correct": false
+    },
+    {
+      "prompt": "12,15,2,20,25",
+      "target": "12+15=27,27-2=25",
+      "prediction": "12+15=27,27-2=25",
+      "correct": true
+    },
+    {
+      "prompt": "2,9,2,13,62",
+      "target": "2*9=18,13+18=31,2*31=62",
+      "prediction": "2*13=26,9+26=31,2*31=62",
+      "correct": false
+    },
+    {
+      "prompt": "1,18,16,3,10",
+      "target": "1*18=18,18/3=6,16-6=10",
+      "prediction": "1*3=4,16/4=8,18-6=10",
+      "correct": false
+    },
+    {
+      "prompt": "18,22,23,1,96",
+      "target": "22-18=4,23+1=24,4*24=96",
+      "prediction": "22-1824,23-18=4,24*4=96",
+      "correct": false
+    },
+    {
+      "prompt": "4,1,19,8,59",
+      "target": "4+1=5,8*5=40,19+40=59",
+      "prediction": "4+1=5,8*5=40,19+40=59",
+      "correct": true
+    },
+    {
+      "prompt": "9,3,4,11,53",
+      "target": "4*11=44,9+44=53",
+      "prediction": "9+3=12,4*12=48,114453",
+      "correct": false
+    },
+    {
+      "prompt": "23,9,6,9,20",
+      "target": "23-9=14,6+14=20",
+      "prediction": "23+6=22,6*9=54,54-34=20",
+      "correct": false
+    },
+    {
+      "prompt": "10,10,10,11,20",
+      "target": "10+10=20",
+      "prediction": "10+10=20",
+      "correct": true
+    },
+    {
+      "prompt": "1,16,8,5,64",
+      "target": "1+8=9,9-5=4,16*4=64",
+      "prediction": "1+5=6,8*6=48,16+48=64",
+      "correct": true
+    },
+    {
+      "prompt": "9,24,6,22,16",
+      "target": "9+24=33,22-6=16",
+      "prediction": "9+24=33,22-6=16",
+      "correct": true
+    },
+    {
+      "prompt": "15,16,5,11,81",
+      "target": "15/5=3,16+11=27,3*27=81",
+      "prediction": "15*5=75,16+75=81",
+      "correct": false
+    },
+    {
+      "prompt": "11,7,3,25,13",
+      "target": "11-7=4,3*4=12,25-12=13",
+      "prediction": "11+7=14,25+18=39,39/3=13",
+      "correct": false
+    },
+    {
+      "prompt": "4,4,20,5,81",
+      "target": "4*20=80,5-4=1,80+1=81",
+      "prediction": "4/40=,2,5-4=1,80+1=81",
+      "correct": false
+    },
+    {
+      "prompt": "17,21,7,1,28",
+      "target": "17+1=18,21+7=28",
+      "prediction": "17+1=18,21+7=28",
+      "correct": true
+    },
+    {
+      "prompt": "25,10,10,22,100",
+      "target": "25+22=47,10*10=100",
+      "prediction": "25+22=47,10*10=100",
+      "correct": true
+    },
+    {
+      "prompt": "23,7,15,8,64",
+      "target": "23-15=8,7*8=56,8+56=64",
+      "prediction": "15-7=8,8*8=66",
+      "correct": false
+    },
+    {
+      "prompt": "5,1,2,12,49",
+      "target": "12-2=10,5*10=50,50-1=49",
+      "prediction": "5--2=10,5*10=50,50-1=49",
+      "correct": false
+    },
+    {
+      "prompt": "24,13,16,3,24",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "25,17,20,4,79",
+      "target": "20-17=3,25*3=75,4+75=79",
+      "prediction": "25-20=5,17*5=85,4+75=79",
+      "correct": true
+    },
+    {
+      "prompt": "15,6,7,23,83",
+      "target": "15*6=90,90-7=83",
+      "prediction": "15*6=90,90-7=83",
+      "correct": true
+    },
+    {
+      "prompt": "10,6,3,16,83",
+      "target": "10+3=13,6*16=96,96-13=83",
+      "prediction": "10-6=4,,6*4==6,,96-13=83",
+      "correct": false
+    },
+    {
+      "prompt": "20,7,25,5,55",
+      "target": "7*25=175,175/5=35,20+35=55",
+      "prediction": "20-7=13,25/5=5,11*5=55",
+      "correct": true
+    },
+    {
+      "prompt": "13,9,6,7,69",
+      "target": "13*6=78,78-9=69",
+      "prediction": "13*6=78,78-9=69",
+      "correct": true
+    },
+    {
+      "prompt": "16,11,20,17,57",
+      "target": "20-16=4,17*4=68,68-11=57",
+      "prediction": "20-16=4,17*4=68,68-11=57",
+      "correct": true
+    },
+    {
+      "prompt": "8,20,17,12,32",
+      "target": "8*20=160,17-12=5,160/5=32",
+      "prediction": "8+17=25,20+12=32",
+      "correct": true
+    },
+    {
+      "prompt": "8,3,17,11,58",
+      "target": "8+17=25,3*11=33,25+33=58",
+      "prediction": "8+17=25,3*11=33,25+33=58",
+      "correct": true
+    },
+    {
+      "prompt": "23,20,1,13,40",
+      "target": "23-20=3,13*3=39,1+39=40",
+      "prediction": "23-20=3,13*3=39,1+39=40",
+      "correct": true
+    },
+    {
+      "prompt": "11,20,24,8,31",
+      "target": "11+20=31",
+      "prediction": "11+20=31",
+      "correct": true
+    },
+    {
+      "prompt": "6,5,24,18,26",
+      "target": "5+24=29,18/6=3,29-3=26",
+      "prediction": "6+24=30,18/6=3,29-3=26",
+      "correct": true
+    },
+    {
+      "prompt": "13,4,25,17,44",
+      "target": "13*4=52,25-17=8,52-8=44",
+      "prediction": "13+4=17,25+17=44",
+      "correct": false
+    },
+    {
+      "prompt": "9,12,16,4,23",
+      "target": "9*12=108,108-16=92,92/4=23",
+      "prediction": "9+12=21,16/4=4,21+4=23",
+      "correct": false
+    },
+    {
+      "prompt": "13,12,3,7,44",
+      "target": "13*3=39,12-7=5,39+5=44",
+      "prediction": "13*3=39,12-7=5,39+5=44",
+      "correct": true
+    },
+    {
+      "prompt": "24,18,21,19,19",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "22,14,12,12,10",
+      "target": "22-12=10",
+      "prediction": "22-14=8,12-8=10",
+      "correct": false
+    },
+    {
+      "prompt": "11,23,21,21,76",
+      "target": "11+23=34,21+21=42,34+42=76",
+      "prediction": "11+23=34,21+21=42,34+42=76",
+      "correct": true
+    },
+    {
+      "prompt": "5,14,18,1,74",
+      "target": "5-1=4,14*4=56,18+56=74",
+      "prediction": "5-1=4,14*4=56,18+56=74",
+      "correct": true
+    },
+    {
+      "prompt": "24,9,8,22,40",
+      "target": "24*9=216,8*22=176,216-176=40",
+      "prediction": "24*9=216,2162=2,8*5=40",
+      "correct": false
+    },
+    {
+      "prompt": "24,18,20,8,30",
+      "target": "24+18=42,20-8=12,42-12=30",
+      "prediction": "18+20=38,38-8=30",
+      "correct": true
+    },
+    {
+      "prompt": "16,6,3,18,88",
+      "target": "6+18=24,3*24=72,16+72=88",
+      "prediction": "6+18=24,3*24=72,16+72=88",
+      "correct": true
+    },
+    {
+      "prompt": "12,19,21,18,76",
+      "target": "12*19=228,21-18=3,228/3=76",
+      "prediction": "12*19=228,21-18=3,228/3=76",
+      "correct": true
+    },
+    {
+      "prompt": "10,19,8,5,28",
+      "target": "10-8=2,19-5=14,2*14=28",
+      "prediction": "10+5=2,19-5=14,2*14=28",
+      "correct": false
+    },
+    {
+      "prompt": "14,15,3,12,63",
+      "target": "14+12=26,3*26=78,78-15=63",
+      "prediction": "14+12=26,3*26=78,78-15=63",
+      "correct": true
+    },
+    {
+      "prompt": "15,2,14,12,48",
+      "target": "15-12=3,2+14=16,3*16=48",
+      "prediction": "15+12=7,12*14=48,60-14=48",
+      "correct": false
+    },
+    {
+      "prompt": "7,1,15,5,21",
+      "target": "7-1=6,15+6=21",
+      "prediction": "7-1=6,15+6=21",
+      "correct": true
+    },
+    {
+      "prompt": "19,20,22,10,18",
+      "target": "19-10=9,22-20=2,9*2=18",
+      "prediction": "19*20=380,380/10=38,38-20=18",
+      "correct": true
+    },
+    {
+      "prompt": "11,20,19,6,28",
+      "target": "20-11=9,19+9=28",
+      "prediction": "19-11=8,19+8=28",
+      "correct": false
+    },
+    {
+      "prompt": "21,23,7,8,38",
+      "target": "23+7=30,8+30=38",
+      "prediction": "23+7=30,8+30=38",
+      "correct": true
+    },
+    {
+      "prompt": "21,6,17,2,41",
+      "target": "21+17=38,6/2=3,38+3=41",
+      "prediction": "21+17=38,6/2=3,38+3=41",
+      "correct": true
+    },
+    {
+      "prompt": "14,12,5,8,98",
+      "target": "14+8=22,5*22=110,110-12=98",
+      "prediction": "12-5=7,14*7=98",
+      "correct": true
+    },
+    {
+      "prompt": "6,16,24,9,10",
+      "target": "6+9=15,16*15=240,240/24=10",
+      "prediction": "6+9=15,24-14=10",
+      "correct": true
+    },
+    {
+      "prompt": "1,13,25,21,25",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "9,23,14,12,27",
+      "target": "23-14=9,12-9=3,9*3=27",
+      "prediction": "23-14=11,12-11=3,9*3=27",
+      "correct": false
+    },
+    {
+      "prompt": "17,13,17,19,59",
+      "target": "17-13=4,19*4=76,76-17=59",
+      "prediction": "17-13=4,19*4=76,76-17=59",
+      "correct": true
+    },
+    {
+      "prompt": "13,18,10,5,80",
+      "target": "13-5=8,10*8=80",
+      "prediction": "13-5=8,10*8=80",
+      "correct": true
+    },
+    {
+      "prompt": "2,19,23,18,61",
+      "target": "2*19=38,23+38=61",
+      "prediction": "2*18=38,23+38=61",
+      "correct": false
+    },
+    {
+      "prompt": "24,15,9,23,29",
+      "target": "15-9=6,23+6=29",
+      "prediction": "15-9=6,23+6=29",
+      "correct": true
+    },
+    {
+      "prompt": "9,17,15,19,59",
+      "target": "19-15=4,17*4=68,68-9=59",
+      "prediction": "19-15=4,17*4=68,68-9=59",
+      "correct": true
+    },
+    {
+      "prompt": "13,8,6,1,21",
+      "target": "13+8=21",
+      "prediction": "13+8=21",
+      "correct": true
+    },
+    {
+      "prompt": "12,14,19,15,20",
+      "target": "19-14=5,15+5=20",
+      "prediction": "14-14=5,15+5=20",
+      "correct": false
+    },
+    {
+      "prompt": "25,18,1,9,24",
+      "target": "25+1=26,18/9=2,26-2=24",
+      "prediction": "25-1=24",
+      "correct": true
+    },
+    {
+      "prompt": "18,6,1,20,27",
+      "target": "6+1=7,20+7=27",
+      "prediction": "18-6=12,20-1=29",
+      "correct": false
+    },
+    {
+      "prompt": "20,17,16,23,18",
+      "target": "17+23=40,40/20=2,16+2=18",
+      "prediction": "17-23=3,20-1=18",
+      "correct": false
+    },
+    {
+      "prompt": "8,11,2,5,73",
+      "target": "11+2=13,5*13=65,8+65=73",
+      "prediction": "11+2=13,5*13=65,8+65=73",
+      "correct": true
+    },
+    {
+      "prompt": "8,2,21,9,30",
+      "target": "8+2=10,21+9=30",
+      "prediction": "8+2=10,21+9=30",
+      "correct": true
+    },
+    {
+      "prompt": "21,6,4,2,48",
+      "target": "21*4=84,84/2=42,6+42=48",
+      "prediction": "21*2=42,6+42=48",
+      "correct": true
+    },
+    {
+      "prompt": "3,16,18,9,12",
+      "target": "3+18=21,21-9=12",
+      "prediction": "3+18=21,16-9=9,21-9=12",
+      "correct": false
+    },
+    {
+      "prompt": "7,5,18,4,35",
+      "target": "7*5=35",
+      "prediction": "7*5=35",
+      "correct": true
+    },
+    {
+      "prompt": "21,3,18,24,33",
+      "target": "21+18=39,3*24=72,72-39=33",
+      "prediction": "21+18=39,3*24=72,9--=33",
+      "correct": false
+    },
+    {
+      "prompt": "21,19,2,7,98",
+      "target": "19-2=17,7*17=119,119-21=98",
+      "prediction": "19-2=17,7*17=119,119-21=98",
+      "correct": true
+    },
+    {
+      "prompt": "17,5,10,24,56",
+      "target": "17+5=22,10+24=34,22+34=56",
+      "prediction": "17+5=22,10+24=34,22+34=56",
+      "correct": true
+    },
+    {
+      "prompt": "8,1,25,9,20",
+      "target": "8*25=200,1+9=10,200/10=20",
+      "prediction": "8+1=9,9,9=1,25--25=20",
+      "correct": false
+    },
+    {
+      "prompt": "16,17,15,17,33",
+      "target": "16+17=33",
+      "prediction": "16+17=33",
+      "correct": true
+    },
+    {
+      "prompt": "8,6,4,24,84",
+      "target": "8+6=14,24/4=6,14*6=84",
+      "prediction": "8+6=14,24/4=6,14*6=84",
+      "correct": true
+    },
+    {
+      "prompt": "13,2,8,2,46",
+      "target": "13+2=15,8+15=23,2*23=46",
+      "prediction": "13+8=21,2+21=23,2*23=46",
+      "correct": true
+    },
+    {
+      "prompt": "14,3,4,5,29",
+      "target": "3*5=15,14+15=29",
+      "prediction": "14-5=91,**4=1,,11+12=29",
+      "correct": false
+    },
+    {
+      "prompt": "18,4,25,7,21",
+      "target": "18+4=22,25-22=3,7*3=21",
+      "prediction": "18+4=22,25-22=3,7*3=21",
+      "correct": true
+    },
+    {
+      "prompt": "19,7,14,4,38",
+      "target": "19*7=133,4*133=532,532/14=38",
+      "prediction": "19*14=266,266/7=38",
+      "correct": true
+    },
+    {
+      "prompt": "15,24,19,23,38",
+      "target": "15+23=38",
+      "prediction": "15+23=38",
+      "correct": true
+    },
+    {
+      "prompt": "24,12,16,25,50",
+      "target": "24/12=2,25*2=50",
+      "prediction": "24/12=2,25*2=50",
+      "correct": true
+    },
+    {
+      "prompt": "13,11,20,2,25",
+      "target": "20-13=7,2*7=14,11+14=25",
+      "prediction": "13+20=33,2+33=35,35-11=25",
+      "correct": false
+    },
+    {
+      "prompt": "6,8,9,20,57",
+      "target": "6*8=48,9+48=57",
+      "prediction": "6*8=48,9+48=57",
+      "correct": true
+    },
+    {
+      "prompt": "6,7,9,1,95",
+      "target": "7+9=16,6*16=96,96-1=95",
+      "prediction": "7+9=16,6*16=96,96-1=95",
+      "correct": true
+    },
+    {
+      "prompt": "1,20,21,3,18",
+      "target": "1+20=21,21-3=18",
+      "prediction": "1+20=21,21-3=18",
+      "correct": true
+    },
+    {
+      "prompt": "5,15,6,16,75",
+      "target": "5*15=75",
+      "prediction": "5*15=75",
+      "correct": true
+    },
+    {
+      "prompt": "23,8,24,14,61",
+      "target": "23+24=47,14+47=61",
+      "prediction": "23+24=47,14+47=61",
+      "correct": true
+    },
+    {
+      "prompt": "18,3,17,23,77",
+      "target": "18*3=54,23+54=77",
+      "prediction": "18*3=54,23+54=77",
+      "correct": true
+    },
+    {
+      "prompt": "3,4,14,2,21",
+      "target": "3+4=7,14*2=28,28-7=21",
+      "prediction": "3+4=7,14+7=21",
+      "correct": true
+    },
+    {
+      "prompt": "20,22,23,15,50",
+      "target": "20+22=42,23-15=8,42+8=50",
+      "prediction": "20+22=42,23-15=8,42+8=50",
+      "correct": true
+    },
+    {
+      "prompt": "4,23,13,15,12",
+      "target": "4+23=27,27-15=12",
+      "prediction": "4+23=27,27-15=12",
+      "correct": true
+    },
+    {
+      "prompt": "1,23,4,13,10",
+      "target": "1*23=23,23-13=10",
+      "prediction": "1*23=23,23-13=10",
+      "correct": true
+    },
+    {
+      "prompt": "19,14,2,25,13",
+      "target": "19*2=38,38-25=13",
+      "prediction": "19-14=5,2*5=10,25-12=13",
+      "correct": true
+    },
+    {
+      "prompt": "2,10,25,8,75",
+      "target": "2+8=10,10*10=100,100-25=75",
+      "prediction": "10-2=5,8-5=3,25*30725=75",
+      "correct": false
+    },
+    {
+      "prompt": "22,6,18,8,96",
+      "target": "18-6=12,8*12=96",
+      "prediction": "22-8=16,8*16=96",
+      "correct": false
+    },
+    {
+      "prompt": "9,14,16,13,72",
+      "target": "13-9=4,14*4=56,16+56=72",
+      "prediction": "13-9=4,14*4=56,16+56=72",
+      "correct": true
+    },
+    {
+      "prompt": "5,3,2,17,29",
+      "target": "5*17=85,2+85=87,87/3=29",
+      "prediction": "5*3=15,17-1==5,15+14=29",
+      "correct": false
+    },
+    {
+      "prompt": "16,11,2,23,91",
+      "target": "11+2=13,23-16=7,13*7=91",
+      "prediction": "16+23=39,2*39=78,13+78=91",
+      "correct": true
+    },
+    {
+      "prompt": "5,5,4,8,45",
+      "target": "5+4=9,5*9=45",
+      "prediction": "5*8=40,5+40=45",
+      "correct": true
+    },
+    {
+      "prompt": "3,24,6,16,72",
+      "target": "3+24=27,16*27=432,432/6=72",
+      "prediction": "3*24=72",
+      "correct": true
+    },
+    {
+      "prompt": "17,16,7,13,14",
+      "target": "17-16=1,13+1=14",
+      "prediction": "17-16=1,13+1=14",
+      "correct": true
+    },
+    {
+      "prompt": "16,25,2,19,41",
+      "target": "16+25=41",
+      "prediction": "16+25=41",
+      "correct": true
+    },
+    {
+      "prompt": "24,4,1,14,43",
+      "target": "24+4=28,1+14=15,28+15=43",
+      "prediction": "24+4=28,1+14=15,28+15=43",
+      "correct": true
+    },
+    {
+      "prompt": "19,13,25,15,53",
+      "target": "13+25=38,15+38=53",
+      "prediction": "13+25=38,15+28=53",
+      "correct": false
+    },
+    {
+      "prompt": "4,25,15,2,61",
+      "target": "25*2=50,15-4=11,50+11=61",
+      "prediction": "1+14=19,25*2=50,11+30=61",
+      "correct": false
+    },
+    {
+      "prompt": "25,15,18,20,55",
+      "target": "18-15=3,25*3=75,75-20=55",
+      "prediction": "18-15=3,25*3=75,75-20=55",
+      "correct": true
+    },
+    {
+      "prompt": "10,23,12,11,36",
+      "target": "10+23=33,12*33=396,396/11=36",
+      "prediction": "23-10=13,12+11=23,,3+2/11=36",
+      "correct": false
+    },
+    {
+      "prompt": "13,17,4,2,83",
+      "target": "13+2=15,17*4=68,15+68=83",
+      "prediction": "13+2=15,17*4=68,15+68=83",
+      "correct": true
+    },
+    {
+      "prompt": "16,5,5,11,55",
+      "target": "16+5=21,5*11=55",
+      "prediction": "16+5=21,5*11=55",
+      "correct": true
+    },
+    {
+      "prompt": "25,15,6,5,70",
+      "target": "25+15=40,6*5=30,40+30=70",
+      "prediction": "25-6=19,5*19=95,90-10=70",
+      "correct": false
+    },
+    {
+      "prompt": "18,16,1,8,25",
+      "target": "18+16=34,1+8=9,34-9=25",
+      "prediction": "18+16=34,1+8=9,34-9=25",
+      "correct": true
+    },
+    {
+      "prompt": "3,17,7,1,50",
+      "target": "3*17=51,51-1=50",
+      "prediction": "3-1=2,17+1=1552*25=50",
+      "correct": false
+    },
+    {
+      "prompt": "3,5,25,15,31",
+      "target": "3+25=28,15/5=3,28+3=31",
+      "prediction": "3+25=28,15/5=3,28+3=31",
+      "correct": true
+    },
+    {
+      "prompt": "7,14,2,18,18",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "5,8,6,9,94",
+      "target": "5*8=40,6*9=54,40+54=94",
+      "prediction": "5+9=14,6*14=84,6+88=94",
+      "correct": true
+    },
+    {
+      "prompt": "14,7,7,2,27",
+      "target": "14*2=28,7/7=1,28-1=27",
+      "prediction": "14-7=7,7*7=29,2912=27",
+      "correct": false
+    },
+    {
+      "prompt": "15,3,9,14,19",
+      "target": "15*3=45,45/9=5,14+5=19",
+      "prediction": "15/3=5,14+5=19",
+      "correct": true
+    },
+    {
+      "prompt": "13,16,1,2,15",
+      "target": "13+16=29,1+29=30,30/2=15",
+      "prediction": "13+16=29,1+29=30,30/2=15",
+      "correct": true
+    },
+    {
+      "prompt": "6,19,4,9,82",
+      "target": "19*4=76,6+76=82",
+      "prediction": "19*4=76,6+76=82",
+      "correct": true
+    },
+    {
+      "prompt": "22,11,1,18,55",
+      "target": "22+1=23,23-18=5,11*5=55",
+      "prediction": "22+1=23,23-18=5,11*5=55",
+      "correct": true
+    },
+    {
+      "prompt": "4,19,23,20,69",
+      "target": "4+19=23,23-20=3,23*3=69",
+      "prediction": "4+19=23,23-20=3,23*3=69",
+      "correct": true
+    },
+    {
+      "prompt": "1,16,24,6,15",
+      "target": "1+24=25,16-6=10,25-10=15",
+      "prediction": "1+16=17,24+6=30,30-15=15",
+      "correct": true
+    },
+    {
+      "prompt": "23,4,7,17,13",
+      "target": "23+7=30,17-4=13",
+      "prediction": "23+7=30,17-4=13",
+      "correct": true
+    },
+    {
+      "prompt": "14,25,7,13,27",
+      "target": "14/7=2,25+2=27",
+      "prediction": "14+15=350,350/7=50,50-13=27",
+      "correct": false
+    },
+    {
+      "prompt": "23,19,17,18,10",
+      "target": "23-18=5,19-17=2,5*2=10",
+      "prediction": "23-19=4,18/1==219+2=10",
+      "correct": false
+    },
+    {
+      "prompt": "8,18,5,16,34",
+      "target": "8+5=13,18+16=34",
+      "prediction": "8+5=13,18+16=34",
+      "correct": true
+    },
+    {
+      "prompt": "24,10,19,2,52",
+      "target": "24-10=14,19*2=38,14+38=52",
+      "prediction": "24-10=14,19*2=38,14+38=52",
+      "correct": true
+    },
+    {
+      "prompt": "5,23,25,4,67",
+      "target": "23*4=92,92-25=67",
+      "prediction": "23*4=92,92-25=67",
+      "correct": true
+    },
+    {
+      "prompt": "25,22,14,5,75",
+      "target": "22-14=8,8-5=3,25*3=75",
+      "prediction": "25-22=3,14+3=15,5*15=75",
+      "correct": false
+    },
+    {
+      "prompt": "5,22,24,10,24",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "21,7,13,10,30",
+      "target": "21/7=3,10*3=30",
+      "prediction": "21/7=3,13+10=23,33-3=30",
+      "correct": true
+    },
+    {
+      "prompt": "2,12,14,21,36",
+      "target": "2*12=24,21*24=504,504/14=36",
+      "prediction": "2*21=42,14+42=304253=36",
+      "correct": false
+    },
+    {
+      "prompt": "4,22,18,11,48",
+      "target": "4*11=44,22-18=4,44+4=48",
+      "prediction": "22-11=2,11+2=12,4*12=48",
+      "correct": false
+    },
+    {
+      "prompt": "6,4,8,5,92",
+      "target": "6+5=11,8*11=88,4+88=92",
+      "prediction": "6+5=11,8*11=88,4+88=92",
+      "correct": true
+    },
+    {
+      "prompt": "9,2,20,20,18",
+      "target": "9*2=18",
+      "prediction": "9+2=11,20/20=1,11+1=18",
+      "correct": false
+    },
+    {
+      "prompt": "21,5,24,20,23",
+      "target": "21-20=1,24-1=23",
+      "prediction": "21-20=1,24-1=23",
+      "correct": true
+    },
+    {
+      "prompt": "17,4,13,12,46",
+      "target": "17+4=21,13+12=25,21+25=46",
+      "prediction": "17+4=21,13+12=25,21+25=46",
+      "correct": true
+    },
+    {
+      "prompt": "18,8,3,14,62",
+      "target": "18*8=144,144/3=48,14+48=62",
+      "prediction": "18*8=144,154/62",
+      "correct": false
+    },
+    {
+      "prompt": "7,22,8,12,76",
+      "target": "7*12=84,84-8=76",
+      "prediction": "7*8=56,22+56=76",
+      "correct": false
+    },
+    {
+      "prompt": "7,5,3,19,27",
+      "target": "5+3=8,19+8=27",
+      "prediction": "7+5=12,19-12=9,3*9=27",
+      "correct": false
+    },
+    {
+      "prompt": "22,10,1,4,89",
+      "target": "22*4=88,1+88=89",
+      "prediction": "22*4=88,1+88=89",
+      "correct": true
+    },
+    {
+      "prompt": "4,4,13,22,79",
+      "target": "4*22=88,4+88=92,92-13=79",
+      "prediction": "4*22=88,4+88=92,92-13=79",
+      "correct": true
+    },
+    {
+      "prompt": "4,21,20,11,94",
+      "target": "21*20=420,420/4=105,105-11=94",
+      "prediction": "20/4=5,11*5=105,105-11=94",
+      "correct": false
+    },
+    {
+      "prompt": "5,19,13,13,21",
+      "target": "13-5=8,13+8=21",
+      "prediction": "13-5==,,5*6=30,30-19=21",
+      "correct": false
+    },
+    {
+      "prompt": "15,2,8,13,11",
+      "target": "15+8=23,13-2=11",
+      "prediction": "15+8=23,13-2=11",
+      "correct": true
+    },
+    {
+      "prompt": "20,15,9,11,80",
+      "target": "15-11=4,20*4=80",
+      "prediction": "15-11=4,20*4=80",
+      "correct": true
+    },
+    {
+      "prompt": "5,2,8,9,11",
+      "target": "5-2=3,8+3=11",
+      "prediction": "5+2=7,977=2,9+2=11",
+      "correct": false
+    },
+    {
+      "prompt": "25,24,6,7,17",
+      "target": "25+6=31,24-7=17",
+      "prediction": "25+6=31,24-7=17",
+      "correct": true
+    },
+    {
+      "prompt": "11,8,5,15,93",
+      "target": "11*8=88,5+88=93",
+      "prediction": "11*8=88,5+88=93",
+      "correct": true
+    },
+    {
+      "prompt": "15,9,4,22,25",
+      "target": "9-4=5,15/5=3,22+3=25",
+      "prediction": "9-4=5,15/5=3,22+3=25",
+      "correct": true
+    },
+    {
+      "prompt": "4,13,23,3,68",
+      "target": "4+23=27,3*27=81,81-13=68",
+      "prediction": "4+23=27,3*27=51,81+51=68",
+      "correct": false
+    },
+    {
+      "prompt": "6,13,11,21,22",
+      "target": "6+13=19,21-19=2,11*2=22",
+      "prediction": "6+21=27,13+11=22",
+      "correct": false
+    },
+    {
+      "prompt": "22,2,9,6,24",
+      "target": "22+2=24",
+      "prediction": "22+2=24",
+      "correct": true
+    },
+    {
+      "prompt": "8,7,11,5,75",
+      "target": "8+7=15,5*15=75",
+      "prediction": "8+7=15,5*15=75",
+      "correct": true
+    },
+    {
+      "prompt": "21,7,8,18,78",
+      "target": "21/7=3,8+18=26,3*26=78",
+      "prediction": "21-7=14,8*14=96,96-18=78",
+      "correct": false
+    },
+    {
+      "prompt": "8,12,3,3,48",
+      "target": "12-3=9,9-3=6,8*6=48",
+      "prediction": "8*12=96,3*3=2,96/3=48",
+      "correct": false
+    },
+    {
+      "prompt": "15,9,22,5,41",
+      "target": "15+9=24,22-5=17,24+17=41",
+      "prediction": "15+9=24,22-5=17,24+17=41",
+      "correct": true
+    },
+    {
+      "prompt": "4,12,17,5,68",
+      "target": "4*17=68",
+      "prediction": "4*17=68",
+      "correct": true
+    },
+    {
+      "prompt": "24,3,4,19,75",
+      "target": "24/4=6,19+6=25,3*25=75",
+      "prediction": "24-4=6,19+6=25,3*25=75",
+      "correct": false
+    },
+    {
+      "prompt": "17,24,5,24,85",
+      "target": "17+24=41,41-24=17,5*17=85",
+      "prediction": "17+24=41,41-24=17,5*17=85",
+      "correct": true
+    },
+    {
+      "prompt": "1,19,11,13,23",
+      "target": "11-1=10,13+10=23",
+      "prediction": "19-1=10,13+10=23",
+      "correct": false
+    },
+    {
+      "prompt": "6,14,24,2,60",
+      "target": "6*14=84,84-24=60",
+      "prediction": "6+14=20,2*20=60",
+      "correct": false
+    },
+    {
+      "prompt": "2,8,17,25,36",
+      "target": "2+17=19,25-8=17,19+17=36",
+      "prediction": "8/2=4,17+25=42,42-4=36",
+      "correct": false
+    },
+    {
+      "prompt": "19,23,25,21,50",
+      "target": "19+23=42,25*42=1050,1050/21=50",
+      "prediction": "23-19=2,25*2=50",
+      "correct": false
+    },
+    {
+      "prompt": "23,12,22,3,24",
+      "target": "23-22=1,3-1=2,12*2=24",
+      "prediction": "23+3=26,26-22=2,12*2=24",
+      "correct": false
+    },
+    {
+      "prompt": "4,17,8,6,70",
+      "target": "4*17=68,8-6=2,68+2=70",
+      "prediction": "4*17=68,8-6=2,68+2=70",
+      "correct": true
+    },
+    {
+      "prompt": "2,15,15,8,20",
+      "target": "2+8=10,15+15=30,30-10=20",
+      "prediction": "2+8=10,15+15=30,30-120",
+      "correct": false
+    },
+    {
+      "prompt": "11,4,25,10,66",
+      "target": "25-11=14,4*14=56,10+56=66",
+      "prediction": "4*11==41,4*14=56,16+56=66",
+      "correct": false
+    },
+    {
+      "prompt": "11,17,5,10,85",
+      "target": "11+10=21,17*5=85",
+      "prediction": "11+10=21,17*5=85",
+      "correct": true
+    },
+    {
+      "prompt": "25,24,9,7,22",
+      "target": "25-7=18,18/9=2,24-2=22",
+      "prediction": "25-7=18,18/9=2,24-2=22",
+      "correct": true
+    },
+    {
+      "prompt": "3,17,12,14,63",
+      "target": "3*17=51,12+51=63",
+      "prediction": "3*17=51,12+51=63",
+      "correct": true
+    },
+    {
+      "prompt": "21,21,2,1,10",
+      "target": "21+1=22,22/2=11,21-11=10",
+      "prediction": "21-1=22,22/2=10",
+      "correct": false
+    },
+    {
+      "prompt": "12,15,20,10,48",
+      "target": "12+20=32,15*32=480,480/10=48",
+      "prediction": "12*10=140,15-10=5,140/5=48",
+      "correct": false
+    },
+    {
+      "prompt": "9,16,7,21,60",
+      "target": "16-7=9,9*9=81,81-21=60",
+      "prediction": "16-7=9,9*7=81,81-21=60",
+      "correct": false
+    },
+    {
+      "prompt": "14,8,4,10,20",
+      "target": "14-8=6,4+10=14,6+14=20",
+      "prediction": "14+8=22,4+12=20",
+      "correct": false
+    },
+    {
+      "prompt": "20,7,19,1,27",
+      "target": "20+7=27",
+      "prediction": "20+7=27",
+      "correct": true
+    },
+    {
+      "prompt": "13,8,1,7,40",
+      "target": "13-8=5,1+7=8,5*8=40",
+      "prediction": "13-8=1,7*2=7,5,8*5=40",
+      "correct": false
+    },
+    {
+      "prompt": "16,5,23,2,80",
+      "target": "16*5=80",
+      "prediction": "16*5=80",
+      "correct": true
+    },
+    {
+      "prompt": "10,8,17,19,13",
+      "target": "19-17=2,10/2=5,8+5=13",
+      "prediction": "10-8=2,17*2=34,34-19=13",
+      "correct": false
+    },
+    {
+      "prompt": "25,10,9,11,11",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "14,5,2,7,19",
+      "target": "14+5=19",
+      "prediction": "14+5=19",
+      "correct": true
+    },
+    {
+      "prompt": "20,7,20,9,56",
+      "target": "20+7=27,20+9=29,27+29=56",
+      "prediction": "20+7=27,20+9=29,27+2",
+      "correct": false
+    },
+    {
+      "prompt": "5,2,9,23,29",
+      "target": "5-2=3,9+23=32,32-3=29",
+      "prediction": "5-2=3,9+23=32,32-3=29",
+      "correct": true
+    },
+    {
+      "prompt": "2,8,25,7,64",
+      "target": "25+7=32,2*32=64",
+      "prediction": "25+7=32,2*32=64",
+      "correct": true
+    },
+    {
+      "prompt": "20,19,9,23,45",
+      "target": "20*9=180,23-19=4,180/4=45",
+      "prediction": "23-20=3,9*13=135,180/4=45",
+      "correct": false
+    },
+    {
+      "prompt": "8,6,11,24,10",
+      "target": "8+6=14,24-14=10",
+      "prediction": "8+6=14,24-14=10",
+      "correct": true
+    },
+    {
+      "prompt": "6,13,10,1,22",
+      "target": "13+10=23,23-1=22",
+      "prediction": "13+10=23,23-1=22",
+      "correct": true
+    },
+    {
+      "prompt": "17,4,7,24,55",
+      "target": "7-4=3,24*3=72,72-17=55",
+      "prediction": "7-*4=38,*3=7=,72,17=-6",
+      "correct": false
+    },
+    {
+      "prompt": "4,7,18,6,71",
+      "target": "4*18=72,7-6=1,72-1=71",
+      "prediction": "4*18=72,7-6=1,72-1=71",
+      "correct": true
+    },
+    {
+      "prompt": "2,19,16,14,60",
+      "target": "16+14=30,2*30=60",
+      "prediction": "2+16=20,19-14=3,20*3=60",
+      "correct": false
+    },
+    {
+      "prompt": "1,24,21,2,91",
+      "target": "24+21=45,2*45=90,1+90=91",
+      "prediction": "24+21=45,2*45=90,1+90=91",
+      "correct": true
+    },
+    {
+      "prompt": "15,5,6,6,41",
+      "target": "6*6=36,5+36=41",
+      "prediction": "6*6=36,5+36=41",
+      "correct": true
+    },
+    {
+      "prompt": "14,14,16,23,16",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "3,12,23,19,36",
+      "target": "3*12=36",
+      "prediction": "3+12=15,23-19=3,12*3=36",
+      "correct": false
+    },
+    {
+      "prompt": "5,20,9,19,54",
+      "target": "5+20=25,25-19=6,9*6=54",
+      "prediction": "5+9=45,19--1=96,9*6=54",
+      "correct": false
+    },
+    {
+      "prompt": "25,7,6,4,81",
+      "target": "7-4=3,25*3=75,6+75=81",
+      "prediction": "75-==195**=75,6+75=81",
+      "correct": false
+    },
+    {
+      "prompt": "19,18,8,25,100",
+      "target": "19+25=44,18*8=144,144-44=100",
+      "prediction": "19+8=27,,8-18=440,180-20=100",
+      "correct": false
+    },
+    {
+      "prompt": "8,6,3,20,21",
+      "target": "8-6=2,3+20=23,23-2=21",
+      "prediction": "8-6=2,3+20=23,23-2=21",
+      "correct": true
+    },
+    {
+      "prompt": "4,19,24,21,39",
+      "target": "19-4=15,24+15=39",
+      "prediction": "19-4=15,24+15=39",
+      "correct": true
+    },
+    {
+      "prompt": "20,10,25,12,12",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "9,4,16,25,29",
+      "target": "9+4=13,16+13=29",
+      "prediction": "9+16=2516+13=29",
+      "correct": false
+    },
+    {
+      "prompt": "21,3,17,16,80",
+      "target": "21*3=63,17+63=80",
+      "prediction": "21-3=18,18-17=5,16*5=80",
+      "correct": false
+    },
+    {
+      "prompt": "23,19,13,15,52",
+      "target": "23-19=4,13*4=52",
+      "prediction": "19-15=4,13*4=52",
+      "correct": true
+    },
+    {
+      "prompt": "15,12,13,14,14",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "1,2,8,14,97",
+      "target": "14-2=12,8*12=96,1+96=97",
+      "prediction": "14-2=12,8*12=96,1+96=97",
+      "correct": true
+    },
+    {
+      "prompt": "18,7,20,10,72",
+      "target": "7*10=70,20-18=2,70+2=72",
+      "prediction": "18*7=126,20+10=30,126-30=72",
+      "correct": false
+    },
+    {
+      "prompt": "4,24,6,5,33",
+      "target": "4+24=28,5+28=33",
+      "prediction": "4+24=28,5+28=33",
+      "correct": true
+    },
+    {
+      "prompt": "13,20,14,25,24",
+      "target": "13+25=38,38-14=24",
+      "prediction": "13+20=33,33112=",
+      "correct": false
+    },
+    {
+      "prompt": "10,22,21,3,73",
+      "target": "10*3=30,22+21=43,30+43=73",
+      "prediction": "21*3=63,10+63=73,63+13=73",
+      "correct": false
+    },
+    {
+      "prompt": "19,19,14,18,76",
+      "target": "19*14=266,19*18=342,342-266=76",
+      "prediction": "19*14=266,19*18=342,342-266=76",
+      "correct": true
+    },
+    {
+      "prompt": "22,6,22,19,91",
+      "target": "22*6=132,22+19=41,132-41=91",
+      "prediction": "22+6=132,22+19=41,132-41=91",
+      "correct": false
+    },
+    {
+      "prompt": "7,3,2,21,36",
+      "target": "7+2=9,21-9=12,3*12=36",
+      "prediction": "7-2=5,21-5=12,2*18=36",
+      "correct": false
+    },
+    {
+      "prompt": "8,13,13,21,51",
+      "target": "21-13=8,8*8=64,64-13=51",
+      "prediction": "8*13=104,13+21=34-13=51",
+      "correct": false
+    },
+    {
+      "prompt": "25,3,23,6,19",
+      "target": "25-6=19",
+      "prediction": "25+6=39,23-3=19",
+      "correct": false
+    },
+    {
+      "prompt": "23,11,2,16,26",
+      "target": "23+11=34,16/2=8,34-8=26",
+      "prediction": "23-11=12,16+12=26",
+      "correct": false
+    },
+    {
+      "prompt": "25,12,6,2,60",
+      "target": "12-2=10,6*10=60",
+      "prediction": "12-2=10,6*10=60",
+      "correct": true
+    },
+    {
+      "prompt": "20,5,13,13,87",
+      "target": "20*5=100,100-13=87",
+      "prediction": "20*5=100,100-13=87",
+      "correct": true
+    },
+    {
+      "prompt": "8,25,3,19,19",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "3,8,23,7,13",
+      "target": "3*23=69,8*7=56,69-56=13",
+      "prediction": "3+8=11,23-10=13",
+      "correct": true
+    },
+    {
+      "prompt": "14,13,3,9,51",
+      "target": "14*3=42,9+42=51",
+      "prediction": "14*3=42,9+42=51",
+      "correct": true
+    },
+    {
+      "prompt": "14,16,16,7,34",
+      "target": "14/7=2,16+16=32,2+32=34",
+      "prediction": "14/7=2,16+16=32,2+32=34",
+      "correct": true
+    },
+    {
+      "prompt": "18,3,4,7,93",
+      "target": "18*4=72,3*7=21,72+21=93",
+      "prediction": "18+7=25,4*25=10,,131=93",
+      "correct": false
+    },
+    {
+      "prompt": "16,9,10,2,15",
+      "target": "16+9=25,25-10=15",
+      "prediction": "16+9=25,10-1==1525-10=15",
+      "correct": false
+    },
+    {
+      "prompt": "1,23,15,11,28",
+      "target": "1+23=24,15-11=4,24+4=28",
+      "prediction": "1+23=24,15-11=4,24+4=28",
+      "correct": true
+    },
+    {
+      "prompt": "17,4,2,7,63",
+      "target": "17*4=68,2+68=70,70-7=63",
+      "prediction": "17+4=68,2+7==,68*9=63",
+      "correct": false
+    },
+    {
+      "prompt": "8,12,10,14,31",
+      "target": "12*14=168,168/8=21,10+21=31",
+      "prediction": "8+12=11,14*12=3121,12+21=31",
+      "correct": false
+    },
+    {
+      "prompt": "5,24,12,18,19",
+      "target": "24-5=19",
+      "prediction": "24-5=19",
+      "correct": true
+    },
+    {
+      "prompt": "25,23,19,1,29",
+      "target": "25+23=48,19*1=19,48-19=29",
+      "prediction": "25+23=48,19*1=19,48-19=29",
+      "correct": true
+    },
+    {
+      "prompt": "12,9,16,14,51",
+      "target": "12+9=21,16+14=30,21+30=51",
+      "prediction": "12+9=21,16+14=30,21+30=51",
+      "correct": true
+    },
+    {
+      "prompt": "17,14,16,7,30",
+      "target": "17+7=24,14+16=30",
+      "prediction": "17+7=24,14+16=30",
+      "correct": true
+    },
+    {
+      "prompt": "11,22,24,2,57",
+      "target": "11+22=33,24+33=57",
+      "prediction": "11+22=33,24+33=57",
+      "correct": true
+    },
+    {
+      "prompt": "6,5,1,19,16",
+      "target": "6+1=7,5*7=35,35-19=16",
+      "prediction": "6-1=5,5*5=35,35-19=16",
+      "correct": false
+    },
+    {
+      "prompt": "6,9,20,14,36",
+      "target": "20-14=6,6*6=36",
+      "prediction": "6*20=120,9*14=126,146-124=36",
+      "correct": false
+    },
+    {
+      "prompt": "23,25,18,21,52",
+      "target": "21-18=3,25*3=75,75-23=52",
+      "prediction": "21-18=3,25*3=75,75-23=52",
+      "correct": true
+    },
+    {
+      "prompt": "20,18,10,23,71",
+      "target": "20+18=38,10+23=33,38+33=71",
+      "prediction": "20+18=38,10+23=33,38+33=71",
+      "correct": true
+    },
+    {
+      "prompt": "11,8,9,1,52",
+      "target": "8-1=7,9*7=63,63-11=52",
+      "prediction": "8-1=7,9*7=63,63-11=52",
+      "correct": true
+    },
+    {
+      "prompt": "20,18,4,12,12",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "14,11,15,12,37",
+      "target": "14+11=25,12+25=37",
+      "prediction": "14+11=25,12+25=37",
+      "correct": true
+    },
+    {
+      "prompt": "23,5,6,11,55",
+      "target": "23+6=29,5*11=55",
+      "prediction": "23+6=29,5*11=55",
+      "correct": true
+    },
+    {
+      "prompt": "8,12,23,4,58",
+      "target": "8*23=184,184/4=46,12+46=58",
+      "prediction": "8/4=2,23*2=46,12+46=58",
+      "correct": true
+    },
+    {
+      "prompt": "25,6,3,14,19",
+      "target": "25-6=19",
+      "prediction": "25-6=19",
+      "correct": true
+    },
+    {
+      "prompt": "24,25,2,3,78",
+      "target": "24+2=26,3*26=78",
+      "prediction": "24+2=26,3*26=78",
+      "correct": true
+    },
+    {
+      "prompt": "6,8,1,3,55",
+      "target": "6-1=5,8+3=11,5*11=55",
+      "prediction": "6*8=48,1*3=3,48+3=55",
+      "correct": false
+    },
+    {
+      "prompt": "7,5,19,8,54",
+      "target": "7-5=2,19+8=27,2*27=54",
+      "prediction": "5*8=35,19+35=54",
+      "correct": false
+    },
+    {
+      "prompt": "5,21,19,2,45",
+      "target": "5+21=26,19+26=45",
+      "prediction": "5+21=26,19+26=45",
+      "correct": true
+    },
+    {
+      "prompt": "13,6,10,20,72",
+      "target": "10-6=4,13*4=52,20+52=72",
+      "prediction": "13-6=7,13*4=52,20+52=72",
+      "correct": true
+    },
+    {
+      "prompt": "6,15,24,4,15",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "18,16,25,14,29",
+      "target": "18+25=43,43-14=29",
+      "prediction": "18+25=43,43-14=29",
+      "correct": true
+    },
+    {
+      "prompt": "15,24,2,15,26",
+      "target": "15+24=39,2+39=41,41-15=26",
+      "prediction": "15+24=39,2+39=41,41-15=26",
+      "correct": true
+    },
+    {
+      "prompt": "5,13,25,21,60",
+      "target": "25-13=12,5*12=60",
+      "prediction": "55-1=115,5*15=60",
+      "correct": false
+    },
+    {
+      "prompt": "21,24,5,11,99",
+      "target": "21+24=45,11*45=495,495/5=99",
+      "prediction": "21*24=45,14*45=495,495/5=99",
+      "correct": false
+    },
+    {
+      "prompt": "4,20,24,12,54",
+      "target": "20*12=240,240-24=216,216/4=54",
+      "prediction": "20-4=1,24+12=36,1*36=54",
+      "correct": false
+    },
+    {
+      "prompt": "4,17,22,23,85",
+      "target": "4+23=27,27-22=5,17*5=85",
+      "prediction": "4+23=27,27-22=5,17*5=85",
+      "correct": true
+    },
+    {
+      "prompt": "7,18,3,14,48",
+      "target": "14/7=2,18-2=16,3*16=48",
+      "prediction": "14/7=2,18-2=16,3*16=48",
+      "correct": true
+    },
+    {
+      "prompt": "14,18,10,17,49",
+      "target": "14+18=32,17+32=49",
+      "prediction": "14+18=32,17+32=49",
+      "correct": true
+    },
+    {
+      "prompt": "6,1,4,25,35",
+      "target": "6*1=6,4+25=29,6+29=35",
+      "prediction": "6*1=6,4+25=29,6+29=35",
+      "correct": true
+    },
+    {
+      "prompt": "11,4,20,11,60",
+      "target": "11/11=1,4-1=3,20*3=60",
+      "prediction": "11/11=1,4-1=3,20*3=60",
+      "correct": true
+    },
+    {
+      "prompt": "7,2,17,6,67",
+      "target": "7*2=14,6*14=84,84-17=67",
+      "prediction": "7*6=42,*5=40,17+40=67",
+      "correct": false
+    },
+    {
+      "prompt": "14,20,15,5,85",
+      "target": "14*5=70,15+70=85",
+      "prediction": "14*5=70,15+70=85",
+      "correct": true
+    },
+    {
+      "prompt": "7,20,18,18,54",
+      "target": "20*18=360,18+360=378,378/7=54",
+      "prediction": "20-18=3,18-1==3,18*3=54",
+      "correct": false
+    },
+    {
+      "prompt": "23,22,15,6,44",
+      "target": "23+15=38,6+38=44",
+      "prediction": "23+15=38,6+38=44",
+      "correct": true
+    },
+    {
+      "prompt": "1,3,5,4,24",
+      "target": "1+3=4,5*4=20,4+20=24",
+      "prediction": "1+3=4,5*4=20,4+20=24",
+      "correct": true
+    },
+    {
+      "prompt": "4,15,6,3,86",
+      "target": "15*6=90,90-4=86",
+      "prediction": "15*6=90,90-4=86",
+      "correct": true
+    },
+    {
+      "prompt": "10,7,24,1,18",
+      "target": "10+7=17,1+17=18",
+      "prediction": "10+7=17,1+17=18",
+      "correct": true
+    },
+    {
+      "prompt": "14,16,17,10,16",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "16,6,12,4,60",
+      "target": "16-4=12,6*12=72,72-12=60",
+      "prediction": "16-6=10,12/4=6,10*+48=60",
+      "correct": false
+    },
+    {
+      "prompt": "25,3,2,7,84",
+      "target": "25*3=75,2+7=9,75+9=84",
+      "prediction": "25*3=75,2+7=9,75+9=84",
+      "correct": true
+    },
+    {
+      "prompt": "5,2,21,18,88",
+      "target": "5+21=26,18+26=44,2*44=88",
+      "prediction": "5+21=26,18+26=44,2*44=88",
+      "correct": true
+    },
+    {
+      "prompt": "2,5,18,14,13",
+      "target": "2+14=16,18-5=13",
+      "prediction": "2*14=28,18-5=13",
+      "correct": true
+    },
+    {
+      "prompt": "6,2,17,5,40",
+      "target": "6+2=8,5*8=40",
+      "prediction": "6+5=8,5*8=40",
+      "correct": false
+    },
+    {
+      "prompt": "16,13,23,19,57",
+      "target": "16-13=3,19*3=57",
+      "prediction": "16+23=39,19+39=67",
+      "correct": false
+    },
+    {
+      "prompt": "9,9,8,16,72",
+      "target": "9*8=72",
+      "prediction": "9*8=72",
+      "correct": true
+    },
+    {
+      "prompt": "14,21,13,25,31",
+      "target": "14*21=294,13*25=325,325-294=31",
+      "prediction": "21-13=8,14*8=56,56-25=31",
+      "correct": false
+    },
+    {
+      "prompt": "1,15,2,3,22",
+      "target": "1+15=16,2*3=6,16+6=22",
+      "prediction": "1+15=16,16-3=11,2*11=22",
+      "correct": false
+    },
+    {
+      "prompt": "23,15,7,5,100",
+      "target": "23*5=115,115-15=100",
+      "prediction": "23*5=115,115-15=100",
+      "correct": true
+    },
+    {
+      "prompt": "10,4,1,24,40",
+      "target": "10*4=40",
+      "prediction": "10*4=40",
+      "correct": true
+    },
+    {
+      "prompt": "6,23,9,7,44",
+      "target": "9-6=3,7*3=21,23+21=44",
+      "prediction": "6*7=54,23-9=14,54-14=44",
+      "correct": false
+    },
+    {
+      "prompt": "12,22,23,25,37",
+      "target": "12+25=37",
+      "prediction": "12+25=37",
+      "correct": true
+    },
+    {
+      "prompt": "19,23,17,3,12",
+      "target": "19+17=36,36/3=12",
+      "prediction": "19+17=36,36/3=12",
+      "correct": true
+    },
+    {
+      "prompt": "3,20,22,4,14",
+      "target": "3*22=66,20*4=80,80-66=14",
+      "prediction": "3*4=12,22-22=2,12+2=14",
+      "correct": false
+    },
+    {
+      "prompt": "8,20,11,13,89",
+      "target": "13-8=5,20*5=100,100-11=89",
+      "prediction": "8*-3=5,20*5=100,100-11=89",
+      "correct": false
+    },
+    {
+      "prompt": "20,18,13,12,44",
+      "target": "20*13=260,18*12=216,260-216=44",
+      "prediction": "20-18=2,13*2=26,18+26=44",
+      "correct": true
+    },
+    {
+      "prompt": "8,4,11,23,80",
+      "target": "8+23=31,31-11=20,4*20=80",
+      "prediction": "8+23=31,31-11=20,4*20=80",
+      "correct": true
+    },
+    {
+      "prompt": "22,11,15,24,72",
+      "target": "22+11=33,15+24=39,33+39=72",
+      "prediction": "22+11=33,15+24=39,33+39=72",
+      "correct": true
+    },
+    {
+      "prompt": "14,11,12,24,10",
+      "target": "11+12=23,24-14=10",
+      "prediction": "14+11=25,24-14=10",
+      "correct": true
+    },
+    {
+      "prompt": "24,23,13,4,81",
+      "target": "24-13=11,23*4=92,92-11=81",
+      "prediction": "24-13=11,23*4=92,92-11=81",
+      "correct": true
+    },
+    {
+      "prompt": "10,9,4,17,28",
+      "target": "17-10=7,4*7=28",
+      "prediction": "17-10=7,4*7=28",
+      "correct": true
+    },
+    {
+      "prompt": "24,22,11,23,23",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "13,9,15,22,41",
+      "target": "13-9=4,15+22=37,4+37=41",
+      "prediction": "13-9=4,15+22=37,4+37=41",
+      "correct": true
+    },
+    {
+      "prompt": "8,5,22,20,40",
+      "target": "8*5=40",
+      "prediction": "8+5=40,22-20=2,40*2=40",
+      "correct": false
+    },
+    {
+      "prompt": "13,14,5,17,35",
+      "target": "13+5=18,17+18=35",
+      "prediction": "13+5=18,17+18=35",
+      "correct": true
+    },
+    {
+      "prompt": "21,8,22,3,40",
+      "target": "21+22=43,43-3=40",
+      "prediction": "21+22=43,43-3=40",
+      "correct": true
+    },
+    {
+      "prompt": "16,7,2,20,96",
+      "target": "7*2=14,20-14=6,16*6=96",
+      "prediction": "16*7=112,2+20=422*3=96",
+      "correct": false
+    },
+    {
+      "prompt": "25,5,5,9,100",
+      "target": "25-5=20,5*20=100",
+      "prediction": "25/5=5,9-5=2,25*",
+      "correct": false
+    },
+    {
+      "prompt": "12,21,16,19,79",
+      "target": "21-16=5,12*5=60,19+60=79",
+      "prediction": "21-16=5,12*5=60,19+60=79",
+      "correct": true
+    },
+    {
+      "prompt": "17,22,14,9,62",
+      "target": "17+22=39,14+9=23,39+23=62",
+      "prediction": "17+22=39,14+9=23,39+23=62",
+      "correct": true
+    },
+    {
+      "prompt": "22,6,7,15,21",
+      "target": "22+6=28,28-7=21",
+      "prediction": "22+6=28,28-7=21",
+      "correct": true
+    },
+    {
+      "prompt": "25,14,22,16,28",
+      "target": "16-14=2,25*2=50,50-22=28",
+      "prediction": "14-22=3,16*2=28",
+      "correct": false
+    },
+    {
+      "prompt": "12,9,19,17,57",
+      "target": "12+9=21,19+17=36,21+36=57",
+      "prediction": "12-9=3,19*3=57",
+      "correct": true
+    },
+    {
+      "prompt": "9,4,13,11,41",
+      "target": "4*13=52,52-11=41",
+      "prediction": "4*13=52,52-11=41",
+      "correct": true
+    },
+    {
+      "prompt": "11,4,13,3,35",
+      "target": "11*13=143,143-3=140,140/4=35",
+      "prediction": "11*4=44,44/3=22,43+22=35",
+      "correct": false
+    },
+    {
+      "prompt": "5,2,15,19,86",
+      "target": "5+2=7,15*7=105,105-19=86",
+      "prediction": "2*15=37,5*17=105,105-19=86",
+      "correct": false
+    },
+    {
+      "prompt": "25,21,11,7,49",
+      "target": "25-21=4,11-4=7,7*7=49",
+      "prediction": "25-21=4,11-4=7,7*7=49",
+      "correct": true
+    },
+    {
+      "prompt": "19,16,12,22,84",
+      "target": "16+12=28,22-19=3,28*3=84",
+      "prediction": "19-12=7,12*7=84",
+      "correct": true
+    },
+    {
+      "prompt": "11,23,20,10,53",
+      "target": "11*23=253,20*10=200,253-200=53",
+      "prediction": "23+20=450,430/10240,253-2=0=53",
+      "correct": false
+    },
+    {
+      "prompt": "21,23,11,18,56",
+      "target": "21-18=3,11*3=33,23+33=56",
+      "prediction": "21-18=3,11*3=33,23+33=56",
+      "correct": true
+    },
+    {
+      "prompt": "18,3,15,4,70",
+      "target": "18-4=14,15/3=5,14*5=70",
+      "prediction": "18-4=14,15/3=5,14*5=70",
+      "correct": true
+    },
+    {
+      "prompt": "25,8,6,14,28",
+      "target": "8+6=14,14+14=28",
+      "prediction": "8-6=2,14*2=28",
+      "correct": true
+    },
+    {
+      "prompt": "18,5,4,7,65",
+      "target": "18*4=72,72-7=65",
+      "prediction": "18-5=13,4*13=52,7+52=65",
+      "correct": false
+    },
+    {
+      "prompt": "4,14,22,24,26",
+      "target": "4+22=26",
+      "prediction": "4+22=26,28/14=2,24+2=26",
+      "correct": true
+    },
+    {
+      "prompt": "19,3,19,15,31",
+      "target": "19-3=16,15+16=31",
+      "prediction": "19-3=16,15+16=31",
+      "correct": true
+    },
+    {
+      "prompt": "21,9,18,2,69",
+      "target": "21+18=39,2*39=78,78-9=69",
+      "prediction": "21+18=39,2*39=78,78-9=69",
+      "correct": true
+    },
+    {
+      "prompt": "5,9,14,16,49",
+      "target": "16-9=7,5*7=35,14+35=49",
+      "prediction": "5*9=45,14-14=4,45+4=49",
+      "correct": false
+    },
+    {
+      "prompt": "2,7,17,1,85",
+      "target": "2*1=2,7-2=5,17*5=85",
+      "prediction": "2*1=2,7-2=5,17*5=85",
+      "correct": true
+    },
+    {
+      "prompt": "12,21,20,15,36",
+      "target": "12+20=32,21+15=36",
+      "prediction": "12*20=240,240/15=15,21+15=36",
+      "correct": false
+    },
+    {
+      "prompt": "18,10,3,23,10",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "6,19,20,2,21",
+      "target": "6+20=26,19+2=21",
+      "prediction": "6+20=26,19+2=21",
+      "correct": true
+    },
+    {
+      "prompt": "6,18,4,7,65",
+      "target": "18*4=72,72-7=65",
+      "prediction": "18*4=72,72-7=65",
+      "correct": true
+    },
+    {
+      "prompt": "14,21,15,21,36",
+      "target": "14+21=35,15+21=36",
+      "prediction": "14+21=35,15+21=36",
+      "correct": true
+    },
+    {
+      "prompt": "12,2,20,23,39",
+      "target": "12+20=32,32/2=16,23+16=39",
+      "prediction": "12+20=32,32/2=16,23+16=39",
+      "correct": true
+    },
+    {
+      "prompt": "23,11,5,7,10",
+      "target": "23-11=12,5+12=17,17-7=10",
+      "prediction": "23+11=34,5+34=70,17-7=10",
+      "correct": false
+    },
+    {
+      "prompt": "16,2,1,16,34",
+      "target": "16+2=18,1*16=16,18+16=34",
+      "prediction": "16+2=18,1*16=16,18+16=34",
+      "correct": true
+    },
+    {
+      "prompt": "21,11,12,4,17",
+      "target": "21-4=17",
+      "prediction": "21+4=17",
+      "correct": false
+    },
+    {
+      "prompt": "15,25,22,4,15",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "1,12,8,8,24",
+      "target": "1+8=9,12-9=3,8*3=24",
+      "prediction": "1*12=12,12-8=4,8*3=24",
+      "correct": true
+    },
+    {
+      "prompt": "8,21,16,23,47",
+      "target": "8+16=24,23+24=47",
+      "prediction": "8+16=24,23+24=47",
+      "correct": true
+    },
+    {
+      "prompt": "6,3,23,24,78",
+      "target": "3*24=72,6+72=78",
+      "prediction": "6*23=138,3*24=72,138-82=78",
+      "correct": false
+    },
+    {
+      "prompt": "10,5,14,9,45",
+      "target": "10-5=5,9*5=45",
+      "prediction": "10-5=5,9*5=45",
+      "correct": true
+    },
+    {
+      "prompt": "19,8,11,17,29",
+      "target": "17-11=6,8*6=48,48-19=29",
+      "prediction": "19+8=27,17-11=2,",
+      "correct": false
+    },
+    {
+      "prompt": "23,24,4,17,20",
+      "target": "23+4=27,24-17=7,27-7=20",
+      "prediction": "23+24=47,4717=21,47-21=20",
+      "correct": false
+    },
+    {
+      "prompt": "8,7,8,23,87",
+      "target": "8*7=56,8+23=31,56+31=87",
+      "prediction": "23-8=15,7*15=10,110-13=87",
+      "correct": false
+    },
+    {
+      "prompt": "25,18,9,14,32",
+      "target": "25+9=34,18+14=32",
+      "prediction": "25+14=43,9+43=32",
+      "correct": false
+    },
+    {
+      "prompt": "8,20,19,8,55",
+      "target": "8+20=28,19+8=27,28+27=55",
+      "prediction": "8+20=28,19+8=27,28+27=55",
+      "correct": true
+    },
+    {
+      "prompt": "3,21,17,4,98",
+      "target": "3+4=7,17*7=119,119-21=98",
+      "prediction": "21+17=3,,*23=81,17+81=98",
+      "correct": false
+    },
+    {
+      "prompt": "8,11,4,7,99",
+      "target": "8*11=88,4+7=11,88+11=99",
+      "prediction": "8+4=2,7+2=9,11*9=99",
+      "correct": false
+    },
+    {
+      "prompt": "2,7,9,23,71",
+      "target": "9+23=32,2*32=64,7+64=71",
+      "prediction": "9+23=32,2*32=64,7+64=71",
+      "correct": true
+    },
+    {
+      "prompt": "2,11,22,12,43",
+      "target": "2*22=44,11+44=55,55-12=43",
+      "prediction": "11-2=9,,2112==34,+31=43",
+      "correct": false
+    },
+    {
+      "prompt": "25,16,11,24,20",
+      "target": "25-16=9,11+9=20",
+      "prediction": "25-16=9,11+9=20",
+      "correct": true
+    },
+    {
+      "prompt": "17,5,6,8,38",
+      "target": "5*6=30,8+30=38",
+      "prediction": "17*6=10,,*8=40,80-40=38",
+      "correct": false
+    },
+    {
+      "prompt": "16,20,24,6,38",
+      "target": "20+24=44,44-6=38",
+      "prediction": "20+24=46,44-6=38",
+      "correct": false
+    },
+    {
+      "prompt": "1,8,2,3,34",
+      "target": "1+3=4,8*4=32,2+32=34",
+      "prediction": "1+3=4,8*4=32,2+32=34",
+      "correct": true
+    },
+    {
+      "prompt": "19,3,22,21,41",
+      "target": "19+22=41",
+      "prediction": "19+22=41",
+      "correct": true
+    },
+    {
+      "prompt": "17,9,1,13,67",
+      "target": "13-9=4,17*4=68,68-1=67",
+      "prediction": "17-13=4,9*6=66,18-1=67",
+      "correct": false
+    },
+    {
+      "prompt": "17,17,5,20,24",
+      "target": "17/17=1,5+20=25,25-1=24",
+      "prediction": "17/17=1,5+20=25,25-1=24",
+      "correct": true
+    },
+    {
+      "prompt": "1,22,23,13,33",
+      "target": "1+22=23,23-13=10,23+10=33",
+      "prediction": "1+22=23,23-13=10,23+10=33",
+      "correct": true
+    },
+    {
+      "prompt": "2,17,21,12,11",
+      "target": "2+21=23,23-12=11",
+      "prediction": "2+17=13,23-12=11",
+      "correct": false
+    },
+    {
+      "prompt": "19,24,23,6,13",
+      "target": "19-6=13",
+      "prediction": "19-6=13",
+      "correct": true
+    },
+    {
+      "prompt": "3,1,3,25,53",
+      "target": "3-1=2,25*2=50,3+50=53",
+      "prediction": "3-1=2,25*2=50,3+50=53",
+      "correct": true
+    },
+    {
+      "prompt": "12,5,9,12,63",
+      "target": "12-5=7,9*7=63",
+      "prediction": "12-5=7,9*7=63",
+      "correct": true
+    },
+    {
+      "prompt": "11,6,23,10,43",
+      "target": "11*6=66,66-23=43",
+      "prediction": "11*6=66,66-23=43",
+      "correct": true
+    },
+    {
+      "prompt": "23,19,24,21,29",
+      "target": "23-21=2,24*2=48,48-19=29",
+      "prediction": "23-21=2,24*2=48,486129",
+      "correct": false
+    },
+    {
+      "prompt": "16,8,9,1,26",
+      "target": "16+9=25,1+25=26",
+      "prediction": "16+8=25,1+25=26",
+      "correct": false
+    },
+    {
+      "prompt": "2,25,1,24,14",
+      "target": "25+1=26,24/2=12,26-12=14",
+      "prediction": "15+1=26,26/2=12,26-12=14",
+      "correct": false
+    },
+    {
+      "prompt": "4,8,14,22,79",
+      "target": "14*22=308,8+308=316,316/4=79",
+      "prediction": "14*22=308,308/4=77,87-8=79",
+      "correct": true
+    },
+    {
+      "prompt": "2,4,22,4,43",
+      "target": "2*22=44,4/4=1,44-1=43",
+      "prediction": "4*22=,8,4+88=86,86/2=43",
+      "correct": false
+    },
+    {
+      "prompt": "13,6,2,23,65",
+      "target": "13+6=19,2*23=46,19+46=65",
+      "prediction": "132=12,23*12=4,123+42=65",
+      "correct": false
+    },
+    {
+      "prompt": "11,4,23,19,11",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "16,8,22,8,42",
+      "target": "16-8=8,8*8=64,64-22=42",
+      "prediction": "8*8=64,64-22=42",
+      "correct": true
+    },
+    {
+      "prompt": "3,6,17,24,73",
+      "target": "6+24=30,3*30=90,90-17=73",
+      "prediction": "3*17=51,24-6=18,51+12=73",
+      "correct": false
+    },
+    {
+      "prompt": "6,12,11,1,59",
+      "target": "11-6=5,12*5=60,60-1=59",
+      "prediction": "6*11=72,12+1=13,72-13=59",
+      "correct": false
+    },
+    {
+      "prompt": "3,21,9,10,53",
+      "target": "3*21=63,63-10=53",
+      "prediction": "3*21=63,63-10=53",
+      "correct": true
+    },
+    {
+      "prompt": "5,17,25,20,15",
+      "target": "17-5=12,25*12=300,300/20=15",
+      "prediction": "57+5=30,25*20=300,300/20=15",
+      "correct": false
+    },
+    {
+      "prompt": "22,13,15,7,54",
+      "target": "22+15=37,13*7=91,91-37=54",
+      "prediction": "22+13=37,15*7=105,10574",
+      "correct": false
+    },
+    {
+      "prompt": "18,10,5,24,55",
+      "target": "24-18=6,10*6=60,60-5=55",
+      "prediction": "24-18=6,10*6=60,60-5=55",
+      "correct": true
+    },
+    {
+      "prompt": "11,6,20,12,80",
+      "target": "11-6=5,12*5=60,20+60=80",
+      "prediction": "11-6=5,12*5=60,20+60=80",
+      "correct": true
+    },
+    {
+      "prompt": "23,4,23,15,75",
+      "target": "23/23=1,4+1=5,15*5=75",
+      "prediction": "23/23=1,4+1=5,15*5=75",
+      "correct": true
+    },
+    {
+      "prompt": "11,14,8,1,43",
+      "target": "11-8=3,14*3=42,1+42=43",
+      "prediction": "11-8=3,14*3=42,1+-1=43",
+      "correct": false
+    },
+    {
+      "prompt": "5,15,17,18,70",
+      "target": "5*17=85,85-15=70",
+      "prediction": "5*17=85,85-15=70",
+      "correct": true
+    },
+    {
+      "prompt": "3,9,4,25,38",
+      "target": "3+4=7,9*7=63,63-25=38",
+      "prediction": "9+4=13,25+13=38",
+      "correct": true
+    },
+    {
+      "prompt": "3,18,13,23,74",
+      "target": "3*23=69,18-13=5,69+5=74",
+      "prediction": "13+3=39,18+23=41,33+41=74",
+      "correct": false
+    },
+    {
+      "prompt": "1,25,20,8,41",
+      "target": "25-20=5,8*5=40,1+40=41",
+      "prediction": "25-20=5,8*5=40,1+40=41",
+      "correct": true
+    },
+    {
+      "prompt": "20,18,19,13,82",
+      "target": "20*13=260,18*19=342,342-260=82",
+      "prediction": "20*13=260,18*19=342,360-264=82",
+      "correct": false
+    },
+    {
+      "prompt": "22,7,19,15,29",
+      "target": "22+7=29",
+      "prediction": "22+7=29",
+      "correct": true
+    },
+    {
+      "prompt": "1,13,7,2,82",
+      "target": "13-1=12,7*12=84,84-2=82",
+      "prediction": "1+-=3,13*7=91,91-9=82",
+      "correct": false
+    },
+    {
+      "prompt": "16,2,19,10,16",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "10,12,20,3,50",
+      "target": "10*20=200,12/3=4,200/4=50",
+      "prediction": "10*12=120,120/3=60,60-20=50",
+      "correct": false
+    },
+    {
+      "prompt": "1,7,12,18,22",
+      "target": "1+7=8,12+18=30,30-8=22",
+      "prediction": "1+7=8,12+18=30,30-8=22",
+      "correct": true
+    },
+    {
+      "prompt": "4,20,16,6,50",
+      "target": "4*16=64,20-6=14,64-14=50",
+      "prediction": "4*20=80,16+6=22,80-20=50",
+      "correct": false
+    },
+    {
+      "prompt": "1,12,16,2,18",
+      "target": "1+12=13,16+2=18",
+      "prediction": "1+12=13,16+2=18",
+      "correct": true
+    },
+    {
+      "prompt": "22,6,10,11,77",
+      "target": "10-6=4,22*4=88,88-11=77",
+      "prediction": "22*11=33,10*33=462,462/6=77",
+      "correct": false
+    },
+    {
+      "prompt": "16,9,21,3,27",
+      "target": "16*9=144,144/3=48,48-21=27",
+      "prediction": "16+9=25,9*23=27",
+      "correct": false
+    },
+    {
+      "prompt": "16,19,22,18,18",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "3,15,2,9,99",
+      "target": "3*15=45,2*45=90,9+90=99",
+      "prediction": "3*2=6,15*6=90,9+91=89",
+      "correct": false
+    },
+    {
+      "prompt": "19,11,23,7,54",
+      "target": "11*7=77,77-23=54",
+      "prediction": "11*7=77,77-23=54",
+      "correct": true
+    },
+    {
+      "prompt": "12,2,7,10,76",
+      "target": "12/2=6,7*10=70,6+70=76",
+      "prediction": "12*7=84,2+84=86,86-10=76",
+      "correct": true
+    },
+    {
+      "prompt": "1,5,2,25,47",
+      "target": "1+25=26,2*26=52,52-5=47",
+      "prediction": "25-1=24,2*24=48,52-5=47",
+      "correct": true
+    },
+    {
+      "prompt": "13,22,19,22,22",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "10,13,2,18,40",
+      "target": "10-2=8,18-13=5,8*5=40",
+      "prediction": "10*2=26,18+22=40",
+      "correct": false
+    },
+    {
+      "prompt": "6,9,11,9,96",
+      "target": "9-6=3,11*9=99,99-3=96",
+      "prediction": "9-6=3,11*9=99,99-3=96",
+      "correct": true
+    },
+    {
+      "prompt": "12,3,15,3,20",
+      "target": "12+3=15,15/3=5,15+5=20",
+      "prediction": "12+3=15,15/3=5,15+5=20",
+      "correct": true
+    },
+    {
+      "prompt": "15,2,3,10,55",
+      "target": "15*3=45,10+45=55",
+      "prediction": "15*3=45,10+45=55",
+      "correct": true
+    },
+    {
+      "prompt": "20,22,15,1,34",
+      "target": "20+15=35,35-1=34",
+      "prediction": "20+15=35,35-1=34",
+      "correct": true
+    },
+    {
+      "prompt": "2,4,20,5,30",
+      "target": "2+4=6,5*6=30",
+      "prediction": "2+4=6,5*6=30",
+      "correct": true
+    },
+    {
+      "prompt": "12,17,11,14,43",
+      "target": "12+17=29,14+29=43",
+      "prediction": "12+17=29,14+29=43",
+      "correct": true
+    },
+    {
+      "prompt": "20,3,9,20,10",
+      "target": "20/20=1,9+1=10",
+      "prediction": "20-3=11,9+20=30,30-20=",
+      "correct": false
+    },
+    {
+      "prompt": "4,2,5,24,34",
+      "target": "4-2=2,5*2=10,24+10=34",
+      "prediction": "4*5=10,24+10=34",
+      "correct": false
+    },
+    {
+      "prompt": "5,1,25,15,75",
+      "target": "5*1=5,25*15=375,375/5=75",
+      "prediction": "5*1=5,25*15=5",
+      "correct": false
+    },
+    {
+      "prompt": "24,25,4,13,32",
+      "target": "24+25=49,4+13=17,49-17=32",
+      "prediction": "24-4=20,25+13=38,40-18=32",
+      "correct": false
+    },
+    {
+      "prompt": "8,13,9,11,25",
+      "target": "13-8=5,9+11=20,5+20=25",
+      "prediction": "8+13=21,11-9=2,21+4=25",
+      "correct": true
+    },
+    {
+      "prompt": "4,21,15,18,49",
+      "target": "21-18=3,15*3=45,4+45=49",
+      "prediction": "4*18=70,21+11=494+45=49",
+      "correct": false
+    },
+    {
+      "prompt": "23,13,1,12,10",
+      "target": "23-13=10",
+      "prediction": "23-13=10",
+      "correct": true
+    },
+    {
+      "prompt": "13,8,11,7,85",
+      "target": "11*7=77,8+77=85",
+      "prediction": "11*7=78,8+77=85",
+      "correct": false
+    },
+    {
+      "prompt": "21,23,2,9,51",
+      "target": "21+23=44,9-2=7,44+7=51",
+      "prediction": "21+23=44,9-2=7,44+7=51",
+      "correct": true
+    },
+    {
+      "prompt": "15,14,17,11,54",
+      "target": "15-11=4,17*4=68,68-14=54",
+      "prediction": "17-14=3,15*3=68,68-14=54",
+      "correct": false
+    },
+    {
+      "prompt": "2,7,21,2,51",
+      "target": "2+7=9,21*2=42,9+42=51",
+      "prediction": "2+21=23,2*23=46,56451",
+      "correct": false
+    },
+    {
+      "prompt": "24,20,6,3,70",
+      "target": "24+6=30,3*30=90,90-20=70",
+      "prediction": "24-6=18,3*18=90,90-20=70",
+      "correct": false
+    },
+    {
+      "prompt": "8,21,21,23,52",
+      "target": "8+21=29,23+29=52",
+      "prediction": "8+21=29,23+29=52",
+      "correct": true
+    },
+    {
+      "prompt": "1,12,21,19,22",
+      "target": "1+21=22",
+      "prediction": "1+21=22",
+      "correct": true
+    },
+    {
+      "prompt": "2,15,17,24,24",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "7,23,3,4,55",
+      "target": "7*23=161,4+161=165,165/3=55",
+      "prediction": "7*4=28,3*28=84,78-23=55",
+      "correct": true
+    },
+    {
+      "prompt": "17,14,15,11,10",
+      "target": "14+11=25,25-15=10",
+      "prediction": "14+15=25,25-15=10",
+      "correct": false
+    },
+    {
+      "prompt": "6,13,2,5,76",
+      "target": "6*13=78,78-2=76",
+      "prediction": "6*13=78,78-2=76",
+      "correct": true
+    },
+    {
+      "prompt": "22,20,23,6,69",
+      "target": "22-20=2,23*6=138,138/2=69",
+      "prediction": "22+20=42,23+6=29,42+27=69",
+      "correct": true
+    },
+    {
+      "prompt": "12,11,20,1,23",
+      "target": "12+11=23",
+      "prediction": "12+11=23",
+      "correct": true
+    },
+    {
+      "prompt": "20,16,5,22,100",
+      "target": "20*5=100",
+      "prediction": "20+5=100",
+      "correct": false
+    },
+    {
+      "prompt": "22,5,12,8,79",
+      "target": "22-5=17,12*8=96,96-17=79",
+      "prediction": "22*8=96,5+12=17,96-17=79",
+      "correct": false
+    },
+    {
+      "prompt": "14,16,6,10,44",
+      "target": "14*10=140,16*6=96,140-96=44",
+      "prediction": "14+16=30,6+10=16,30+16=44",
+      "correct": false
+    },
+    {
+      "prompt": "16,10,4,21,94",
+      "target": "16/4=4,21*4=84,10+84=94",
+      "prediction": "16-10=6,4*21=84,6+84=94",
+      "correct": false
+    },
+    {
+      "prompt": "20,2,2,6,62",
+      "target": "20/2=10,6*10=60,2+60=62",
+      "prediction": "20/2=10,6*10=60,2+60=62",
+      "correct": true
+    },
+    {
+      "prompt": "4,6,18,20,57",
+      "target": "18+20=38,6*38=228,228/4=57",
+      "prediction": "18*20=360,360/6=60,60-4=57",
+      "correct": false
+    },
+    {
+      "prompt": "4,14,23,12,23",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "14,5,18,12,24",
+      "target": "14-5=9,18*12=216,216/9=24",
+      "prediction": "14-5=9,18*12=216,216/9424",
+      "correct": false
+    },
+    {
+      "prompt": "11,21,8,4,48",
+      "target": "11+4=15,21-15=6,8*6=48",
+      "prediction": "11+21=32,8*4=32,22+=48",
+      "correct": false
+    },
+    {
+      "prompt": "19,19,10,14,19",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "24,11,22,16,54",
+      "target": "24-22=2,11+16=27,2*27=54",
+      "prediction": "24-22=2,11+16=27,2*27=54",
+      "correct": true
+    },
+    {
+      "prompt": "7,12,17,22,27",
+      "target": "12-7=5,22+5=27",
+      "prediction": "17-12=5,22+5=27",
+      "correct": true
+    },
+    {
+      "prompt": "3,4,13,8,39",
+      "target": "3*13=39",
+      "prediction": "3*13=39",
+      "correct": true
+    },
+    {
+      "prompt": "2,25,1,18,50",
+      "target": "2*25=50",
+      "prediction": "2*25=50",
+      "correct": true
+    },
+    {
+      "prompt": "11,16,10,7,37",
+      "target": "11+16=27,10+27=37",
+      "prediction": "11+16=27,10+27=37",
+      "correct": true
+    },
+    {
+      "prompt": "10,1,21,7,18",
+      "target": "10+1=11,7+11=18",
+      "prediction": "10+1=11,7+11=18",
+      "correct": true
+    },
+    {
+      "prompt": "18,6,9,19,44",
+      "target": "18/9=2,19*2=38,6+38=44",
+      "prediction": "18/9=2,19*2=38,6+38=44",
+      "correct": true
+    },
+    {
+      "prompt": "21,1,16,23,32",
+      "target": "21*1=21,23-21=2,16*2=32",
+      "prediction": "21*1=21,23-21=2,16*2=32",
+      "correct": true
+    },
+    {
+      "prompt": "2,3,25,20,56",
+      "target": "3+25=28,2*28=56",
+      "prediction": "3+25=28,2*28=56",
+      "correct": true
+    },
+    {
+      "prompt": "9,18,5,21,39",
+      "target": "9+5=14,18+21=39",
+      "prediction": "9+5=14,18+21=39",
+      "correct": true
+    },
+    {
+      "prompt": "10,25,6,25,19",
+      "target": "10+25=35,25-6=19",
+      "prediction": "10+25=35,25-6=19",
+      "correct": true
+    },
+    {
+      "prompt": "1,23,19,20,80",
+      "target": "1*23=23,23-19=4,20*4=80",
+      "prediction": "1*23=23,23-19=4,20*4=80",
+      "correct": true
+    },
+    {
+      "prompt": "4,25,14,2,68",
+      "target": "4+14=18,25*2=50,18+50=68",
+      "prediction": "4+25=29,2*29=58,14+58=68",
+      "correct": false
+    },
+    {
+      "prompt": "1,11,3,6,64",
+      "target": "11*6=66,1+66=67,67-3=64",
+      "prediction": "11*6=66,1+66=67,67-3=64",
+      "correct": true
+    },
+    {
+      "prompt": "1,3,6,6,27",
+      "target": "1+6=7,3*7=21,6+21=27",
+      "prediction": "1+6=7,3*7=21,6+21=27",
+      "correct": true
+    },
+    {
+      "prompt": "21,25,9,19,35",
+      "target": "25-9=16,19+16=35",
+      "prediction": "21-9=16,19+16=35",
+      "correct": false
+    },
+    {
+      "prompt": "14,12,23,19,11",
+      "target": "14+19=33,23-12=11",
+      "prediction": "14+19=33,23-12=11",
+      "correct": true
+    },
+    {
+      "prompt": "3,8,25,7,45",
+      "target": "8+7=15,3*15=45",
+      "prediction": "8+7=15,3*15=45",
+      "correct": true
+    },
+    {
+      "prompt": "15,22,23,13,72",
+      "target": "22-13=9,23-15=8,9*8=72",
+      "prediction": "22-15=7,23-13=9,8*9=72",
+      "correct": false
+    },
+    {
+      "prompt": "11,15,9,22,13",
+      "target": "11+15=26,9+26=35,35-22=13",
+      "prediction": "11+15=26,22-9=13",
+      "correct": true
+    },
+    {
+      "prompt": "19,5,25,2,69",
+      "target": "25*2=50,19+50=69",
+      "prediction": "25*2=50,19+50=69",
+      "correct": true
+    },
+    {
+      "prompt": "12,7,10,7,13",
+      "target": "7/7=1,12+1=13",
+      "prediction": "12-7=5,105=25,25-12=13",
+      "correct": false
+    },
+    {
+      "prompt": "20,12,7,17,18",
+      "target": "20-12=8,17-7=10,8+10=18",
+      "prediction": "20-12=8,17-7=10,8+10=18",
+      "correct": true
+    },
+    {
+      "prompt": "4,7,17,6,26",
+      "target": "4*17=68,7*6=42,68-42=26",
+      "prediction": "4+7=11,17-6=11,11+=26",
+      "correct": false
+    },
+    {
+      "prompt": "7,6,25,23,29",
+      "target": "7+25=32,6+23=29",
+      "prediction": "7+25=32,6+23=29",
+      "correct": true
+    },
+    {
+      "prompt": "7,9,7,22,22",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "7,19,6,9,81",
+      "target": "19-7=12,6*12=72,9+72=81",
+      "prediction": "19-7=12,6*12=72,9+72=81",
+      "correct": true
+    },
+    {
+      "prompt": "15,5,15,10,90",
+      "target": "15*5=75,15+75=90",
+      "prediction": "15-5=10,15-10=5,10*5=90",
+      "correct": false
+    },
+    {
+      "prompt": "14,11,17,10,96",
+      "target": "11*10=110,110-14=96",
+      "prediction": "11*10=110,110-14=96",
+      "correct": true
+    },
+    {
+      "prompt": "13,12,10,15,43",
+      "target": "12-10=2,15*2=30,13+30=43",
+      "prediction": "12-10=2,15*2=30,13+30=43",
+      "correct": true
+    },
+    {
+      "prompt": "25,22,11,8,64",
+      "target": "25-22=3,11-3=8,8*8=64",
+      "prediction": "25+22=47,11+8=19*8=64",
+      "correct": false
+    },
+    {
+      "prompt": "14,17,7,18,16",
+      "target": "14*17=238,238/7=34,34-18=16",
+      "prediction": "14+7=21,17+18=35,35-216",
+      "correct": false
+    },
+    {
+      "prompt": "8,8,24,14,21",
+      "target": "8+8=16,24*14=336,336/16=21",
+      "prediction": "8+8=16,24*14=336,336/16=21",
+      "correct": true
+    },
+    {
+      "prompt": "17,20,21,14,81",
+      "target": "17-14=3,20*3=60,21+60=81",
+      "prediction": "17-14=3,20*3=60,21+60=81",
+      "correct": true
+    },
+    {
+      "prompt": "10,19,22,18,12",
+      "target": "19+18=37,22-10=12",
+      "prediction": "19+18=37,22-10=12",
+      "correct": true
+    },
+    {
+      "prompt": "11,23,6,20,43",
+      "target": "11+6=17,23+20=43",
+      "prediction": "11+6=17,23+20=43",
+      "correct": true
+    },
+    {
+      "prompt": "6,15,2,15,75",
+      "target": "6*15=90,90-15=75",
+      "prediction": "6*15=90,90-15=75",
+      "correct": true
+    },
+    {
+      "prompt": "13,3,15,21,58",
+      "target": "13*15=195,195-21=174,174/3=58",
+      "prediction": "13*15=195,195/3=75,75-25=58",
+      "correct": false
+    },
+    {
+      "prompt": "3,4,24,15,65",
+      "target": "3*15=45,24-4=20,45+20=65",
+      "prediction": "3*24=75,4+75=80,85-10=65",
+      "correct": false
+    },
+    {
+      "prompt": "21,14,6,12,53",
+      "target": "21+14=35,6+12=18,35+18=53",
+      "prediction": "21+14=35,6+12=18,35+18=53",
+      "correct": true
+    },
+    {
+      "prompt": "16,15,5,20,100",
+      "target": "16+15=31,5*20=100",
+      "prediction": "16+15=31,5*20=100",
+      "correct": true
+    },
+    {
+      "prompt": "23,3,3,5,57",
+      "target": "23-5=18,3*18=54,3+54=57",
+      "prediction": "23+3=28,3*18=54,3+54=57",
+      "correct": false
+    },
+    {
+      "prompt": "6,11,14,23,20",
+      "target": "6+11=17,14+23=37,37-17=20",
+      "prediction": "6+14=20",
+      "correct": true
+    },
+    {
+      "prompt": "15,6,17,2,38",
+      "target": "15+6=21,17+21=38",
+      "prediction": "15+6=21,17+21=38",
+      "correct": true
+    },
+    {
+      "prompt": "17,12,21,25,22",
+      "target": "21-17=4,12/4=3,25-3=22",
+      "prediction": "21-17=4,12/4=3,25-3=22",
+      "correct": true
+    },
+    {
+      "prompt": "3,13,1,8,29",
+      "target": "3-1=2,8*2=16,13+16=29",
+      "prediction": "3-1=2,8*2=16,13+16=29",
+      "correct": true
+    },
+    {
+      "prompt": "3,21,2,24,81",
+      "target": "3+2=5,21*5=105,105-24=81",
+      "prediction": "3+24=27,2*27=54,21+54=81",
+      "correct": false
+    },
+    {
+      "prompt": "8,8,2,10,26",
+      "target": "8+8=16,10+16=26",
+      "prediction": "8+8=16,10+16=26",
+      "correct": true
+    },
+    {
+      "prompt": "24,15,1,21,42",
+      "target": "24-21=3,15-1=14,3*14=42",
+      "prediction": "24-1=23,25-21=2,21*2=42",
+      "correct": false
+    },
+    {
+      "prompt": "10,7,14,18,32",
+      "target": "10+7=17,14+18=32",
+      "prediction": "10+7=17,14+18=32",
+      "correct": true
+    },
+    {
+      "prompt": "24,6,20,8,50",
+      "target": "24+6=30,20+30=50",
+      "prediction": "24+6=30,20+30=50",
+      "correct": true
+    },
+    {
+      "prompt": "3,9,22,11,49",
+      "target": "3*9=27,22+27=49",
+      "prediction": "3*9=27,22+27=49",
+      "correct": true
+    },
+    {
+      "prompt": "9,19,4,6,42",
+      "target": "9+19=28,6*28=168,168/4=42",
+      "prediction": "9*4=36,6+36=42",
+      "correct": true
+    },
+    {
+      "prompt": "20,1,3,24,34",
+      "target": "3-1=2,20/2=10,24+10=34",
+      "prediction": "3-1=2,20/2=10,24+10=34",
+      "correct": true
+    },
+    {
+      "prompt": "5,25,15,10,42",
+      "target": "25+15=40,10/5=2,40+2=42",
+      "prediction": "25+15=40,10/5=2,40+2=42",
+      "correct": true
+    },
+    {
+      "prompt": "5,24,23,10,48",
+      "target": "24*10=240,240/5=48",
+      "prediction": "5*24=1240,240/5=48",
+      "correct": false
+    },
+    {
+      "prompt": "6,23,11,24,92",
+      "target": "23*24=552,552/6=92",
+      "prediction": "23*24=552,552/6=92",
+      "correct": true
+    },
+    {
+      "prompt": "23,8,18,14,26",
+      "target": "23-18=5,8*5=40,40-14=26",
+      "prediction": "23-18=5,8*5=40,40-14=26",
+      "correct": true
+    },
+    {
+      "prompt": "20,18,21,23,60",
+      "target": "21-18=3,20*3=60",
+      "prediction": "21-18=3,20*3=60",
+      "correct": true
+    },
+    {
+      "prompt": "10,6,4,16,12",
+      "target": "10+6=16,16-4=12",
+      "prediction": "10+6=16,16-4=12",
+      "correct": true
+    },
+    {
+      "prompt": "4,8,19,16,100",
+      "target": "4*19=76,8+16=24,76+24=100",
+      "prediction": "4*19=76,8+16=24,76+24=100",
+      "correct": true
+    },
+    {
+      "prompt": "9,12,4,23,62",
+      "target": "12*4=48,23-9=14,48+14=62",
+      "prediction": "12*9=3,,12*4=48,24+48=62",
+      "correct": false
+    },
+    {
+      "prompt": "22,23,21,11,11",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "10,6,15,19,15",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "20,11,3,11,96",
+      "target": "20-11=9,11*9=99,99-3=96",
+      "prediction": "20+11=31,3*31=96",
+      "correct": false
+    },
+    {
+      "prompt": "1,24,4,16,22",
+      "target": "1*24=24,24/4=6,16+6=22",
+      "prediction": "14/4=24,16/4=6,16+6=22",
+      "correct": false
+    },
+    {
+      "prompt": "2,4,19,6,36",
+      "target": "2+4=6,6*6=36",
+      "prediction": "2+4=6,6*6=36",
+      "correct": true
+    },
+    {
+      "prompt": "4,25,24,14,17",
+      "target": "4+24=28,25-14=11,28-11=17",
+      "prediction": "4+25=29,24-14=11,29-11=17",
+      "correct": false
+    },
+    {
+      "prompt": "18,2,3,11,75",
+      "target": "18*2=36,36-11=25,3*25=75",
+      "prediction": "18*3=54,11+14=25,3*25=75",
+      "correct": true
+    },
+    {
+      "prompt": "8,4,9,14,39",
+      "target": "8+9=17,4*14=56,56-17=39",
+      "prediction": "8+9=17,4*14=56,56-17=39",
+      "correct": true
+    },
+    {
+      "prompt": "2,17,10,4,57",
+      "target": "10*4=40,17+40=57",
+      "prediction": "1*14=40,17+40=57",
+      "correct": false
+    },
+    {
+      "prompt": "3,24,9,23,77",
+      "target": "9*23=207,24+207=231,231/3=77",
+      "prediction": "3*23=207,24+207=231,231/3=77",
+      "correct": false
+    },
+    {
+      "prompt": "7,23,5,25,23",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "14,12,7,12,24",
+      "target": "14-12=2,12*2=24",
+      "prediction": "14+12=26,12/7=24",
+      "correct": false
+    },
+    {
+      "prompt": "23,3,21,6,20",
+      "target": "23+3=26,26-6=20",
+      "prediction": "23-3=20",
+      "correct": true
+    },
+    {
+      "prompt": "12,5,18,8,66",
+      "target": "8-5=3,18*3=54,12+54=66",
+      "prediction": "12*5=60,18+8=26,",
+      "correct": false
+    },
+    {
+      "prompt": "20,19,25,18,62",
+      "target": "19+25=44,18+44=62",
+      "prediction": "19+25=44,18+44=62",
+      "correct": true
+    },
+    {
+      "prompt": "4,3,6,21,26",
+      "target": "4-3=1,6+21=27,27-1=26",
+      "prediction": "4-3=1,6+21=27,27-1=26",
+      "correct": true
+    },
+    {
+      "prompt": "9,16,2,12,58",
+      "target": "9+12=21,2*21=42,16+42=58",
+      "prediction": "9+12=21,2*21=42,16+42=58",
+      "correct": true
+    },
+    {
+      "prompt": "12,21,20,25,78",
+      "target": "12+21=33,20+25=45,33+45=78",
+      "prediction": "12+21=33,20+25=45,33+45=78",
+      "correct": true
+    },
+    {
+      "prompt": "1,2,5,12,26",
+      "target": "1+12=13,2*13=26",
+      "prediction": "1+12=13,2*13=26",
+      "correct": true
+    },
+    {
+      "prompt": "12,23,7,13,22",
+      "target": "12+23=35,35-13=22",
+      "prediction": "12+23=35,35-13=22",
+      "correct": true
+    },
+    {
+      "prompt": "2,11,20,7,99",
+      "target": "2+20=22,11*7=77,22+77=99",
+      "prediction": "2+7=9,11*9=99",
+      "correct": true
+    },
+    {
+      "prompt": "24,3,1,15,57",
+      "target": "24*3=72,1*15=15,72-15=57",
+      "prediction": "24*3=72,1*15=15,72-15=57",
+      "correct": true
+    },
+    {
+      "prompt": "16,10,22,11,32",
+      "target": "16*22=352,352/11=32",
+      "prediction": "16+11=27,10+22=32",
+      "correct": true
+    },
+    {
+      "prompt": "10,21,12,18,18",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "19,15,4,8,13",
+      "target": "4*8=32,32-19=13",
+      "prediction": "19+8=27,15-8=13",
+      "correct": false
+    },
+    {
+      "prompt": "14,10,15,4,70",
+      "target": "15-10=5,14*5=70",
+      "prediction": "15*40=0,10+60=70",
+      "correct": false
+    },
+    {
+      "prompt": "19,5,16,15,20",
+      "target": "19+16=35,5+15=20",
+      "prediction": "19+16=35,5+15=20",
+      "correct": true
+    },
+    {
+      "prompt": "3,19,1,15,57",
+      "target": "3*19=57",
+      "prediction": "3*1=3,19*3=57",
+      "correct": true
+    },
+    {
+      "prompt": "2,13,4,9,55",
+      "target": "13-2=11,9-4=5,11*5=55",
+      "prediction": "13-2=11,9-4=5,11*5=55",
+      "correct": true
+    },
+    {
+      "prompt": "7,8,21,6,71",
+      "target": "7*8=56,21-6=15,56+15=71",
+      "prediction": "7*8=56,21-6=15,56+15=71",
+      "correct": true
+    },
+    {
+      "prompt": "6,13,7,20,100",
+      "target": "6*20=120,13+7=20,120-20=100",
+      "prediction": "13+7=20,6**20=40,120-20=100",
+      "correct": false
+    },
+    {
+      "prompt": "25,17,13,9,59",
+      "target": "25-17=8,9*8=72,72-13=59",
+      "prediction": "25-17=8,9*8=72,72-13=59",
+      "correct": true
+    },
+    {
+      "prompt": "18,3,8,16,21",
+      "target": "18+3=21",
+      "prediction": "18+3=21",
+      "correct": true
+    },
+    {
+      "prompt": "25,1,25,4,47",
+      "target": "25+1=26,25-4=21,26+21=47",
+      "prediction": "25+1=26,25-4=21,26+21=47",
+      "correct": true
+    },
+    {
+      "prompt": "5,22,14,21,70",
+      "target": "5*14=70",
+      "prediction": "5*14=70",
+      "correct": true
+    },
+    {
+      "prompt": "21,24,5,2,74",
+      "target": "21+5=26,24*2=48,26+48=74",
+      "prediction": "21+5=26,24*2=48,26+48=74",
+      "correct": true
+    },
+    {
+      "prompt": "16,24,2,8,10",
+      "target": "16+24=40,2+8=10",
+      "prediction": "16+24=40,2+8=10",
+      "correct": true
+    },
+    {
+      "prompt": "4,18,17,9,27",
+      "target": "4+17=21,18+9=27",
+      "prediction": "4+18=22,18+9=27",
+      "correct": true
+    },
+    {
+      "prompt": "17,18,12,3,69",
+      "target": "17+18=35,35-12=23,3*23=69",
+      "prediction": "17+12=29,3*29=87,87-18=69",
+      "correct": true
+    },
+    {
+      "prompt": "3,3,15,16,31",
+      "target": "3+3=6,15+16=31",
+      "prediction": "3+3=6,15+16=31",
+      "correct": true
+    },
+    {
+      "prompt": "3,1,13,6,40",
+      "target": "3*13=39,1+39=40",
+      "prediction": "3-1=2,13*3=39,1+39=40",
+      "correct": true
+    },
+    {
+      "prompt": "21,5,15,21,45",
+      "target": "21+21=42,15/5=3,42+3=45",
+      "prediction": "21+5=26,26-21=3,15*3=45",
+      "correct": false
+    },
+    {
+      "prompt": "3,1,5,10,90",
+      "target": "3+1=4,5+4=9,10*9=90",
+      "prediction": "3+1=4,5+4=9,10*9=90",
+      "correct": true
+    },
+    {
+      "prompt": "5,7,23,23,92",
+      "target": "5+23=28,23*28=644,644/7=92",
+      "prediction": "5*23=,25+23=46,2*4",
+      "correct": false
+    },
+    {
+      "prompt": "22,18,13,14,88",
+      "target": "18-14=4,22*4=88",
+      "prediction": "18-14=4,22*4=88",
+      "correct": true
+    },
+    {
+      "prompt": "16,15,5,5,25",
+      "target": "16+15=31,5*5=25",
+      "prediction": "16+15=31,5*5=25",
+      "correct": true
+    },
+    {
+      "prompt": "15,7,20,16,89",
+      "target": "15*7=105,105-16=89",
+      "prediction": "15*7=105,105-16=89",
+      "correct": true
+    },
+    {
+      "prompt": "21,14,6,4,77",
+      "target": "14*4=56,21+56=77",
+      "prediction": "14*4=56,21+56=77",
+      "correct": true
+    },
+    {
+      "prompt": "17,3,13,12,76",
+      "target": "17*3=51,13+12=25,51+25=76",
+      "prediction": "17+12=29,3*29=87,29+13=76",
+      "correct": false
+    },
+    {
+      "prompt": "25,15,3,8,53",
+      "target": "15*3=45,8+45=53",
+      "prediction": "15*3=45,8+45=53",
+      "correct": true
+    },
+    {
+      "prompt": "21,22,2,16,20",
+      "target": "21*2=42,42-22=20",
+      "prediction": "21*2=42,42-22=20",
+      "correct": true
+    },
+    {
+      "prompt": "8,6,11,17,28",
+      "target": "8+6=14,11+17=28",
+      "prediction": "8+6=14,11+17=28",
+      "correct": true
+    },
+    {
+      "prompt": "18,3,1,12,37",
+      "target": "3*12=36,1+36=37",
+      "prediction": "3*12=36,1+36=37",
+      "correct": true
+    },
+    {
+      "prompt": "21,6,4,12,25",
+      "target": "21+4=25",
+      "prediction": "21+6=27,12/4=8,27-2=25",
+      "correct": false
+    },
+    {
+      "prompt": "24,19,6,13,52",
+      "target": "24/6=4,13*4=52",
+      "prediction": "24+19=43,13-6=9,43+9=52",
+      "correct": false
+    },
+    {
+      "prompt": "5,18,8,7,44",
+      "target": "7-5=2,18*2=36,8+36=44",
+      "prediction": "7-5=2,18*2=36,8+36=44",
+      "correct": true
+    },
+    {
+      "prompt": "2,10,6,4,30",
+      "target": "2*10=20,6+4=10,20+10=30",
+      "prediction": "2*10=20,6+4=10,2,120/4=30",
+      "correct": false
+    },
+    {
+      "prompt": "22,10,19,9,100",
+      "target": "19-9=10,10*10=100",
+      "prediction": "19-9=10,10*10=100",
+      "correct": true
+    },
+    {
+      "prompt": "17,11,24,3,72",
+      "target": "17+11=28,24*3=72",
+      "prediction": "17+11=28,24*3=72",
+      "correct": true
+    },
+    {
+      "prompt": "12,23,13,24,10",
+      "target": "12+24=36,23-13=10",
+      "prediction": "12+23=36,24-24=10",
+      "correct": false
+    },
+    {
+      "prompt": "18,6,22,19,96",
+      "target": "6*19=114,114-18=96",
+      "prediction": "22-19=3,1814-18=96",
+      "correct": false
+    },
+    {
+      "prompt": "24,21,2,10,79",
+      "target": "24*2=48,21+10=31,48+31=79",
+      "prediction": "24+10=34,2*34=68,21+5-27=79",
+      "correct": false
+    },
+    {
+      "prompt": "3,24,7,17,55",
+      "target": "3*24=72,72-17=55",
+      "prediction": "3*24=72,72-17=55",
+      "correct": true
+    },
+    {
+      "prompt": "22,8,3,12,31",
+      "target": "22-3=19,12+19=31",
+      "prediction": "22+3=25,12-8=4,2",
+      "correct": false
+    },
+    {
+      "prompt": "7,4,19,13,35",
+      "target": "7-4=3,19+13=32,3+32=35",
+      "prediction": "7-4=3,19+13=32,3+32=35",
+      "correct": true
+    },
+    {
+      "prompt": "10,21,25,3,98",
+      "target": "10+25=35,21*3=63,35+63=98",
+      "prediction": "11+25=35,21*3=63,35+63=98",
+      "correct": false
+    },
+    {
+      "prompt": "14,18,18,7,38",
+      "target": "14/7=2,18+18=36,2+36=38",
+      "prediction": "14+18=32,18/7=2,32+2=38",
+      "correct": false
+    },
+    {
+      "prompt": "1,25,21,19,14",
+      "target": "1+25=26,21+19=40,40-26=14",
+      "prediction": "1+25=26,21+19=40,40-26=14",
+      "correct": true
+    },
+    {
+      "prompt": "7,15,18,4,15",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "11,6,2,9,30",
+      "target": "6+9=15,2*15=30",
+      "prediction": "6+9=15,2*15=30",
+      "correct": true
+    },
+    {
+      "prompt": "11,8,12,19,23",
+      "target": "11-8=3,12/3=4,19+4=23",
+      "prediction": "11-8=3,12/3=4,19+-12=23",
+      "correct": false
+    },
+    {
+      "prompt": "7,5,14,4,30",
+      "target": "7+5=12,14+4=18,12+18=30",
+      "prediction": "7+5=12,14+4=18,12+18=30",
+      "correct": true
+    },
+    {
+      "prompt": "19,24,4,12,20",
+      "target": "19+12=31,24-4=20",
+      "prediction": "19+12=31,24-4=20",
+      "correct": true
+    },
+    {
+      "prompt": "14,23,14,5,51",
+      "target": "14+23=37,14+37=51",
+      "prediction": "14+23=37,14+37=51",
+      "correct": true
+    },
+    {
+      "prompt": "2,18,9,11,14",
+      "target": "2+11=13,18+9=27,27-13=14",
+      "prediction": "2+11=13,18+9=27,27-13=14",
+      "correct": true
+    },
+    {
+      "prompt": "20,2,20,13,100",
+      "target": "20-2=18,18-13=5,20*5=100",
+      "prediction": "20+2=12,18-13=5,20*5=100",
+      "correct": false
+    },
+    {
+      "prompt": "22,14,15,13,44",
+      "target": "15+13=28,22*28=616,616/14=44",
+      "prediction": "15+15=28,22*28=612,662/14=44",
+      "correct": false
+    },
+    {
+      "prompt": "11,5,18,6,55",
+      "target": "11*5=55",
+      "prediction": "11*5=55",
+      "correct": true
+    },
+    {
+      "prompt": "17,18,22,14,48",
+      "target": "17-14=3,22*3=66,66-18=48",
+      "prediction": "17-14=3,22*3=66,66-18=48",
+      "correct": true
+    },
+    {
+      "prompt": "14,19,25,2,59",
+      "target": "14+25=39,2*39=78,78-19=59",
+      "prediction": "19*2=28,25+38=59",
+      "correct": false
+    },
+    {
+      "prompt": "19,5,5,3,19",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "16,18,6,12,68",
+      "target": "16+18=34,12/6=2,34*2=68",
+      "prediction": "16+18=34,12/6=2,34*2=68",
+      "correct": true
+    },
+    {
+      "prompt": "4,15,1,13,65",
+      "target": "4+1=5,13*5=65",
+      "prediction": "4+1=5,13*5=65",
+      "correct": true
+    },
+    {
+      "prompt": "18,13,11,17,28",
+      "target": "18+13=31,11+17=28",
+      "prediction": "18+13=31,11+17=28",
+      "correct": true
+    },
+    {
+      "prompt": "19,17,14,10,46",
+      "target": "19+17=36,10+36=46",
+      "prediction": "19+17=36,10+36=46",
+      "correct": true
+    },
+    {
+      "prompt": "11,13,20,5,34",
+      "target": "11+20=31,13*5=65,65-31=34",
+      "prediction": "11+13=24,20*5=40,60-=34",
+      "correct": false
+    },
+    {
+      "prompt": "2,5,17,23,80",
+      "target": "17+23=40,2*40=80",
+      "prediction": "235=10117-10=8,1,10=-2",
+      "correct": false
+    },
+    {
+      "prompt": "2,13,25,17,38",
+      "target": "2+17=19,13+25=38",
+      "prediction": "2+17=15,13+25=38",
+      "correct": false
+    },
+    {
+      "prompt": "18,6,10,1,17",
+      "target": "18-1=17",
+      "prediction": "18-1=17",
+      "correct": true
+    },
+    {
+      "prompt": "18,23,10,13,25",
+      "target": "18-13=5,10/5=2,23+2=25",
+      "prediction": "18-13=5,10/5=2,23+2=25",
+      "correct": true
+    },
+    {
+      "prompt": "23,4,8,22,31",
+      "target": "23+8=31",
+      "prediction": "23-4=19,22-8=14,19+14=31",
+      "correct": false
+    },
+    {
+      "prompt": "17,15,4,2,52",
+      "target": "15-2=13,4*13=52",
+      "prediction": "17-15=32,22/2=26,2*26=52",
+      "correct": false
+    },
+    {
+      "prompt": "21,16,7,3,86",
+      "target": "21*3=63,16+7=23,63+23=86",
+      "prediction": "21+3=24,16*7=112,112-26=86",
+      "correct": true
+    },
+    {
+      "prompt": "24,9,22,17,50",
+      "target": "24+9=33,17+33=50",
+      "prediction": "24+9=33,17+33=50",
+      "correct": true
+    },
+    {
+      "prompt": "17,13,12,16,42",
+      "target": "17+13=30,12+30=42",
+      "prediction": "17+13=30,12+30=42",
+      "correct": true
+    },
+    {
+      "prompt": "16,22,2,25,35",
+      "target": "16*2=32,25-22=3,32+3=35",
+      "prediction": "16*2=32,22+25=47,57-12=35",
+      "correct": false
+    },
+    {
+      "prompt": "11,18,6,25,66",
+      "target": "11*6=66",
+      "prediction": "11*6=66",
+      "correct": true
+    },
+    {
+      "prompt": "4,8,16,4,68",
+      "target": "4*16=64,8-4=4,64+4=68",
+      "prediction": "4+16=64,8-4=4,64+4=68",
+      "correct": false
+    },
+    {
+      "prompt": "4,18,2,7,23",
+      "target": "4-2=2,18+7=25,25-2=23",
+      "prediction": "4-2=2,18+7=25,25-2=23",
+      "correct": true
+    },
+    {
+      "prompt": "5,24,15,2,26",
+      "target": "5+15=20,24+2=26",
+      "prediction": "5+15=20,24+2=26",
+      "correct": true
+    },
+    {
+      "prompt": "10,11,10,7,23",
+      "target": "10*10=100,11*7=77,100-77=23",
+      "prediction": "10+10=20,11*7=77,77-20=23",
+      "correct": false
+    },
+    {
+      "prompt": "24,25,14,2,39",
+      "target": "24+2=26,25+14=39",
+      "prediction": "24+2=26,25+14=39",
+      "correct": true
+    },
+    {
+      "prompt": "17,8,8,16,26",
+      "target": "17*16=272,272/8=34,34-8=26",
+      "prediction": "17-8=2,861/8=2,24+2=26",
+      "correct": false
+    },
+    {
+      "prompt": "24,1,19,21,45",
+      "target": "24*1=24,21+24=45",
+      "prediction": "24*1=24,21+24=45",
+      "correct": true
+    },
+    {
+      "prompt": "22,18,3,12,44",
+      "target": "22+18=40,12/3=4,40+4=44",
+      "prediction": "22+18=40,12/3=4,40+4=44",
+      "correct": true
+    },
+    {
+      "prompt": "6,25,4,16,90",
+      "target": "6+4=10,25-16=9,10*9=90",
+      "prediction": "6*25=150,4+16=20,110-20=90",
+      "correct": true
+    },
+    {
+      "prompt": "8,14,16,22,38",
+      "target": "8+14=22,16+22=38",
+      "prediction": "8+14=22,16+22=38",
+      "correct": true
+    },
+    {
+      "prompt": "7,2,23,8,61",
+      "target": "7+8=15,2*23=46,15+46=61",
+      "prediction": "7+8=15,2*13=48,23+48=61",
+      "correct": false
+    },
+    {
+      "prompt": "18,4,8,3,35",
+      "target": "4*8=32,3+32=35",
+      "prediction": "18+4=22,8+3=11,24+11=35",
+      "correct": true
+    },
+    {
+      "prompt": "22,10,19,21,70",
+      "target": "22-19=3,10*21=210,210/3=70",
+      "prediction": "22+10=32,19+21=40,32+/3=70",
+      "correct": false
+    },
+    {
+      "prompt": "20,9,18,6,28",
+      "target": "20+6=26,18/9=2,26+2=28",
+      "prediction": "20+18=38,9*6=54,6-2=28",
+      "correct": false
+    },
+    {
+      "prompt": "5,9,3,19,37",
+      "target": "5-3=2,9*2=18,19+18=37",
+      "prediction": "5-3=2,9*2=18,19+18=37",
+      "correct": true
+    },
+    {
+      "prompt": "22,17,21,13,38",
+      "target": "22+13=35,17+21=38",
+      "prediction": "22+13=35,17+21=38",
+      "correct": true
+    },
+    {
+      "prompt": "15,18,9,6,57",
+      "target": "18-15=3,9*6=54,3+54=57",
+      "prediction": "15-6=9,,*8=723723-6=57",
+      "correct": false
+    },
+    {
+      "prompt": "5,17,24,6,72",
+      "target": "5+24=29,29-17=12,6*12=72",
+      "prediction": "5+17=22,24-22=12,6*12=72",
+      "correct": false
+    },
+    {
+      "prompt": "9,6,17,25,51",
+      "target": "9-6=3,17*3=51",
+      "prediction": "9+6=3,17*3=51",
+      "correct": false
+    },
+    {
+      "prompt": "10,16,9,10,35",
+      "target": "10+16=26,9+26=35",
+      "prediction": "10+16=26,9+26=35",
+      "correct": true
+    },
+    {
+      "prompt": "8,4,21,9,67",
+      "target": "8+9=17,4*21=84,84-17=67",
+      "prediction": "4*21=85,8+9==6,84-17=67",
+      "correct": false
+    },
+    {
+      "prompt": "5,15,5,12,15",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "11,10,20,24,64",
+      "target": "11*24=264,10*20=200,264-200=64",
+      "prediction": "11-10=3,21*4=84,84-20=64",
+      "correct": false
+    },
+    {
+      "prompt": "15,8,24,22,39",
+      "target": "15-8=7,24+22=46,46-7=39",
+      "prediction": "15-8=7,24+22=46,46-7=39",
+      "correct": true
+    },
+    {
+      "prompt": "23,17,9,8,14",
+      "target": "23+17=40,40/8=5,9+5=14",
+      "prediction": "23-9=16",
+      "correct": false
+    },
+    {
+      "prompt": "6,1,16,22,44",
+      "target": "6*1=6,16+22=38,6+38=44",
+      "prediction": "6*1=6,16+22=38,6+38=44",
+      "correct": true
+    },
+    {
+      "prompt": "3,21,11,2,42",
+      "target": "3+11=14,21*2=42",
+      "prediction": "3+11=14,21*2=42",
+      "correct": true
+    },
+    {
+      "prompt": "9,7,18,12,48",
+      "target": "9-7=2,18*2=36,12+36=48",
+      "prediction": "9-7=2,18*2=36,12+36=48",
+      "correct": true
+    },
+    {
+      "prompt": "5,17,5,3,28",
+      "target": "5*5=25,3+25=28",
+      "prediction": "5*5=25,3+25=28",
+      "correct": true
+    },
+    {
+      "prompt": "9,5,22,15,26",
+      "target": "9-5=4,22+4=26",
+      "prediction": "9-5=4,22+4=26",
+      "correct": true
+    },
+    {
+      "prompt": "8,9,20,3,31",
+      "target": "8+9=17,3*17=51,51-20=31",
+      "prediction": "8+20=28,9/3==31",
+      "correct": false
+    },
+    {
+      "prompt": "1,19,20,5,96",
+      "target": "19*5=95,1+95=96",
+      "prediction": "19*5=95,1+95=96",
+      "correct": true
+    },
+    {
+      "prompt": "6,6,20,9,39",
+      "target": "6+20=26,9*26=234,234/6=39",
+      "prediction": "20*9=180,180/6=30,9+30=39",
+      "correct": true
+    },
+    {
+      "prompt": "9,23,8,20,23",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "4,18,5,8,38",
+      "target": "4*5=20,18+20=38",
+      "prediction": "4*5=20,18+20=38",
+      "correct": true
+    },
+    {
+      "prompt": "11,8,19,23,39",
+      "target": "11-8=3,19+23=42,42-3=39",
+      "prediction": "11-8=3,19+23=42,42-3=39",
+      "correct": true
+    },
+    {
+      "prompt": "4,3,7,16,89",
+      "target": "7+16=23,4*23=92,92-3=89",
+      "prediction": "7+16=23,4*23=92,92-3=89",
+      "correct": true
+    },
+    {
+      "prompt": "16,9,19,24,28",
+      "target": "16+24=40,9+19=28",
+      "prediction": "16+24=30,9+19=28",
+      "correct": false
+    },
+    {
+      "prompt": "23,6,13,4,52",
+      "target": "23+6=29,13*4=52",
+      "prediction": "23+6=29,13*4=52",
+      "correct": true
+    },
+    {
+      "prompt": "1,12,16,3,28",
+      "target": "1*12=12,16+12=28",
+      "prediction": "1*12=12,16+12=28",
+      "correct": true
+    },
+    {
+      "prompt": "22,6,8,19,29",
+      "target": "6*8=48,48-19=29",
+      "prediction": "22*8=172,6*19=152,172-152=29",
+      "correct": false
+    },
+    {
+      "prompt": "12,19,2,6,42",
+      "target": "12/6=2,19+2=21,2*21=42",
+      "prediction": "12/6=6,19-2=21,2*21=42",
+      "correct": false
+    },
+    {
+      "prompt": "23,16,1,18,58",
+      "target": "23+16=39,1+18=19,39+19=58",
+      "prediction": "23+16=39,1+18=19,39+19=58",
+      "correct": true
+    },
+    {
+      "prompt": "23,11,12,4,48",
+      "target": "23+11=34,12*4=48",
+      "prediction": "23+11=34,12*4=48",
+      "correct": true
+    },
+    {
+      "prompt": "6,7,15,13,64",
+      "target": "13-6=7,7*7=49,15+49=64",
+      "prediction": "6*13=78,7+15=22,78-22=64",
+      "correct": false
+    },
+    {
+      "prompt": "22,20,23,20,62",
+      "target": "22+20=42,20+42=62",
+      "prediction": "22+20=42,20+42=62",
+      "correct": true
+    },
+    {
+      "prompt": "5,11,15,24,23",
+      "target": "5+11=16,15+24=39,39-16=23",
+      "prediction": "5+11=16,15+24=39,39-16=23",
+      "correct": true
+    },
+    {
+      "prompt": "11,1,22,20,31",
+      "target": "11*1=11,22+20=42,42-11=31",
+      "prediction": "11*1=11,20+11=31",
+      "correct": true
+    },
+    {
+      "prompt": "20,16,10,7,22",
+      "target": "16-10=6,7*6=42,42-20=22",
+      "prediction": "20/10=2,7*2=12,12-10=22",
+      "correct": false
+    },
+    {
+      "prompt": "16,13,7,22,58",
+      "target": "16+13=29,7+22=29,29+29=58",
+      "prediction": "16+13=29,7+22=29,29+29=58",
+      "correct": true
+    },
+    {
+      "prompt": "20,16,9,20,17",
+      "target": "20/20=1,16+1=17",
+      "prediction": "20/20=1,9-+=3,20-3=17",
+      "correct": false
+    },
+    {
+      "prompt": "2,20,6,25,44",
+      "target": "2*25=50,50-6=44",
+      "prediction": "2*25=50,50-6=44",
+      "correct": true
+    },
+    {
+      "prompt": "6,14,16,9,86",
+      "target": "14-9=5,16*5=80,6+80=86",
+      "prediction": "14-9=5,16*5=80,6+80=86",
+      "correct": true
+    },
+    {
+      "prompt": "12,11,24,7,73",
+      "target": "12*7=84,84-11=73",
+      "prediction": "12*7=84,14-11=73,97-24=73",
+      "correct": false
+    },
+    {
+      "prompt": "19,1,8,9,28",
+      "target": "19+1=20,8+20=28",
+      "prediction": "19+1=20,8+20=28",
+      "correct": true
+    },
+    {
+      "prompt": "15,4,14,1,78",
+      "target": "15+1=16,4*16=64,14+64=78",
+      "prediction": "15+1=16,4*16=64,14+64=78",
+      "correct": true
+    },
+    {
+      "prompt": "15,23,11,18,14",
+      "target": "15-11=4,18-4=14",
+      "prediction": "15+11=26,36-18=14",
+      "correct": false
+    },
+    {
+      "prompt": "5,25,23,19,42",
+      "target": "5+25=30,23+19=42",
+      "prediction": "5+25=30,23+19=42",
+      "correct": true
+    },
+    {
+      "prompt": "20,6,5,4,84",
+      "target": "20+6=26,26-5=21,4*21=84",
+      "prediction": "20-6=15,6+15=21,4*21=84",
+      "correct": false
+    },
+    {
+      "prompt": "25,7,18,8,41",
+      "target": "25-18=7,7*7=49,49-8=41",
+      "prediction": "25-18=7,7*7=49,49-8=41",
+      "correct": true
+    },
+    {
+      "prompt": "5,13,2,15,26",
+      "target": "5+15=20,13*2=26",
+      "prediction": "5+13=18,1*12=26",
+      "correct": false
+    },
+    {
+      "prompt": "25,8,25,16,41",
+      "target": "25+8=33,25+16=41",
+      "prediction": "25+8=33,25+16=41",
+      "correct": true
+    },
+    {
+      "prompt": "2,12,14,9,35",
+      "target": "12+14=26,9+26=35",
+      "prediction": "12+14=26,9+26=35",
+      "correct": true
+    },
+    {
+      "prompt": "5,22,2,2,48",
+      "target": "22+2=24,2*24=48",
+      "prediction": "5*22=27,2*27=54,54-2=48",
+      "correct": false
+    },
+    {
+      "prompt": "12,17,14,10,28",
+      "target": "12-10=2,14*2=28",
+      "prediction": "12-10=2,14*2=28",
+      "correct": true
+    },
+    {
+      "prompt": "20,17,24,22,54",
+      "target": "24-22=2,17*2=34,20+34=54",
+      "prediction": "20-17=3,17*3=34,20+34=54",
+      "correct": false
+    },
+    {
+      "prompt": "12,8,10,3,24",
+      "target": "12+10=22,8*3=24",
+      "prediction": "12-104,10-3=7,3*8=24",
+      "correct": false
+    },
+    {
+      "prompt": "10,5,15,21,38",
+      "target": "10/5=2,15+21=36,2+36=38",
+      "prediction": "10/5=2,15+21=36,2+36=38",
+      "correct": true
+    },
+    {
+      "prompt": "2,10,12,6,92",
+      "target": "2*10=20,12*6=72,20+72=92",
+      "prediction": "2+6=8,10*8=80,12+80=92",
+      "correct": true
+    },
+    {
+      "prompt": "15,6,8,6,24",
+      "target": "15-6=9,9-6=3,8*3=24",
+      "prediction": "15-6=9,9-6=3,8*3=24",
+      "correct": true
+    },
+    {
+      "prompt": "8,15,24,13,25",
+      "target": "15+13=28,24/8=3,28-3=25",
+      "prediction": "15+13=28,24/8=3,28+3=25",
+      "correct": false
+    },
+    {
+      "prompt": "21,3,2,6,81",
+      "target": "21+6=27,3*27=81",
+      "prediction": "21+6=27,3*27=81",
+      "correct": true
+    },
+    {
+      "prompt": "16,25,16,1,33",
+      "target": "16+16=32,1+32=33",
+      "prediction": "16+16=32,1+32=33",
+      "correct": true
+    },
+    {
+      "prompt": "18,5,20,1,60",
+      "target": "18*20=360,5+1=6,360/6=60",
+      "prediction": "18*20=0,005+==6,360/6=60",
+      "correct": false
+    },
+    {
+      "prompt": "22,20,4,11,82",
+      "target": "22/11=2,20*4=80,2+80=82",
+      "prediction": "22/11=2,4*11=84,2+80=82",
+      "correct": false
+    },
+    {
+      "prompt": "24,22,7,18,53",
+      "target": "24+22=46,7+46=53",
+      "prediction": "24+22=46,7+46=53",
+      "correct": true
+    },
+    {
+      "prompt": "4,2,13,25,13",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "2,6,13,20,86",
+      "target": "13-2=11,6*11=66,20+66=86",
+      "prediction": "2*13=11,6*11=66,20+66=86",
+      "correct": false
+    },
+    {
+      "prompt": "15,12,13,17,50",
+      "target": "12+13=25,17-15=2,25*2=50",
+      "prediction": "12+12=25,17-15=2,25*2=50",
+      "correct": false
+    },
+    {
+      "prompt": "15,7,24,21,42",
+      "target": "15+7=22,24-22=2,21*2=42",
+      "prediction": "15+7=22,24-22=2,21*2=42",
+      "correct": true
+    },
+    {
+      "prompt": "4,11,18,3,26",
+      "target": "4*11=44,44-18=26",
+      "prediction": "41*3=33,34-18=26",
+      "correct": false
+    },
+    {
+      "prompt": "5,2,22,13,60",
+      "target": "22-5=17,13+17=30,2*30=60",
+      "prediction": "5+22=27,2*27=54,13+54=60",
+      "correct": false
+    },
+    {
+      "prompt": "5,2,22,12,70",
+      "target": "5+2=7,22-12=10,7*10=70",
+      "prediction": "2+12=14,5*14=70",
+      "correct": true
+    },
+    {
+      "prompt": "25,19,14,18,79",
+      "target": "25-18=7,14*7=98,98-19=79",
+      "prediction": "25-18=7,14*7=98,98-19=79",
+      "correct": true
+    },
+    {
+      "prompt": "7,21,6,18,70",
+      "target": "21*18=378,378/6=63,7+63=70",
+      "prediction": "21/7=3,18*3=63,7+63=70",
+      "correct": false
+    },
+    {
+      "prompt": "15,11,12,13,16",
+      "target": "15-11=4,12+4=16",
+      "prediction": "15-11=4,12+4=16",
+      "correct": true
+    },
+    {
+      "prompt": "3,3,10,6,16",
+      "target": "3+3=6,10+6=16",
+      "prediction": "3+3=6,10+6=16",
+      "correct": true
+    },
+    {
+      "prompt": "2,24,24,10,32",
+      "target": "24-2=22,10+22=32",
+      "prediction": "24-2=22,10+22=32",
+      "correct": true
+    },
+    {
+      "prompt": "2,15,1,24,76",
+      "target": "15-1=14,24+14=38,2*38=76",
+      "prediction": "15-1=14,24+14=38,2*38=76",
+      "correct": true
+    },
+    {
+      "prompt": "24,11,19,23,18",
+      "target": "24-19=5,23-5=18",
+      "prediction": "24+11=35,35-13=1823-5=18",
+      "correct": false
+    },
+    {
+      "prompt": "9,4,6,4,49",
+      "target": "4+6=10,4*10=40,9+40=49",
+      "prediction": "9+6=14,4*14=56,56-9=49",
+      "correct": false
+    },
+    {
+      "prompt": "2,21,21,10,22",
+      "target": "2*10=20,21+21=42,42-20=22",
+      "prediction": "21/21=1,10+1=11,2*11=22",
+      "correct": true
+    },
+    {
+      "prompt": "19,8,10,2,58",
+      "target": "19+10=29,2*29=58",
+      "prediction": "19+10=29,2*29=58",
+      "correct": true
+    },
+    {
+      "prompt": "11,9,2,18,83",
+      "target": "11*9=99,2+99=101,101-18=83",
+      "prediction": "18*9=99,2+99=101,101-18=83",
+      "correct": false
+    },
+    {
+      "prompt": "6,4,15,18,68",
+      "target": "6*15=90,4+18=22,90-22=68",
+      "prediction": "6*15=90,4+90=96,86-18=68",
+      "correct": false
+    },
+    {
+      "prompt": "24,3,5,2,21",
+      "target": "24-3=21",
+      "prediction": "24-3=21",
+      "correct": true
+    },
+    {
+      "prompt": "17,12,22,20,25",
+      "target": "17-12=5,20+5=25",
+      "prediction": "17-12=5,20+5=25",
+      "correct": true
+    },
+    {
+      "prompt": "21,2,20,18,39",
+      "target": "21-2=19,20+19=39",
+      "prediction": "21+18=39",
+      "correct": true
+    },
+    {
+      "prompt": "18,9,13,23,58",
+      "target": "23-18=5,9*5=45,13+45=58",
+      "prediction": "23-18=5,9*5=45,13+45=58",
+      "correct": true
+    },
+    {
+      "prompt": "25,13,23,4,78",
+      "target": "25-23=2,4+2=6,13*6=78",
+      "prediction": "25-43=1,,22=6=1313*6=78",
+      "correct": false
+    },
+    {
+      "prompt": "9,3,25,12,16",
+      "target": "9/3=3,25-12=13,3+13=16",
+      "prediction": "9-3=6,12+6=16",
+      "correct": false
+    },
+    {
+      "prompt": "11,13,19,3,27",
+      "target": "11+13=24,3+24=27",
+      "prediction": "11+13=24,3+24=27",
+      "correct": true
+    },
+    {
+      "prompt": "13,9,2,6,24",
+      "target": "13+9=22,2+22=24",
+      "prediction": "13+9=22,2+22=24",
+      "correct": true
+    },
+    {
+      "prompt": "20,23,4,9,34",
+      "target": "20+23=43,43-9=34",
+      "prediction": "20+23=43,43-9=34",
+      "correct": true
+    },
+    {
+      "prompt": "17,18,19,5,16",
+      "target": "17+18=35,35-19=16",
+      "prediction": "17+18=35,35-19=16",
+      "correct": true
+    },
+    {
+      "prompt": "22,4,1,23,41",
+      "target": "22-4=18,1*23=23,18+23=41",
+      "prediction": "22-4=18,1*23=23,18+23=41",
+      "correct": true
+    },
+    {
+      "prompt": "15,22,9,1,12",
+      "target": "22-9=13,13-1=12",
+      "prediction": "12-1=13,23-1=12",
+      "correct": false
+    },
+    {
+      "prompt": "17,15,15,23,30",
+      "target": "17-15=2,15*2=30",
+      "prediction": "17+15=32,15+15=30",
+      "correct": true
+    },
+    {
+      "prompt": "9,7,14,24,59",
+      "target": "14-9=5,7*5=35,24+35=59",
+      "prediction": "9*7=63,63-14=59",
+      "correct": false
+    },
+    {
+      "prompt": "25,6,18,12,84",
+      "target": "25-18=7,12*7=84",
+      "prediction": "25-18=7,12*7=84",
+      "correct": true
+    },
+    {
+      "prompt": "5,2,1,12,83",
+      "target": "5+2=7,12*7=84,84-1=83",
+      "prediction": "5+2=7,12*7=84,84-1=83",
+      "correct": true
+    },
+    {
+      "prompt": "12,6,24,13,25",
+      "target": "12/6=2,24/2=12,13+12=25",
+      "prediction": "12+13=25",
+      "correct": true
+    },
+    {
+      "prompt": "22,19,19,3,57",
+      "target": "22+19=41,19-3=16,41+16=57",
+      "prediction": "22+19=41,19*3=57",
+      "correct": true
+    },
+    {
+      "prompt": "20,18,15,5,53",
+      "target": "20+18=38,15+38=53",
+      "prediction": "20+18=38,15+38=53",
+      "correct": true
+    },
+    {
+      "prompt": "16,25,8,20,100",
+      "target": "16+8=24,24-20=4,25*4=100",
+      "prediction": "16+8=24,24-20=4,25*4=100",
+      "correct": true
+    },
+    {
+      "prompt": "5,3,7,11,93",
+      "target": "3+11=14,7*14=98,98-5=93",
+      "prediction": "3+11=14,7*14=98,98-5=93",
+      "correct": true
+    },
+    {
+      "prompt": "4,13,5,7,87",
+      "target": "4*13=52,5*7=35,52+35=87",
+      "prediction": "13*7=91,91-4=87",
+      "correct": true
+    },
+    {
+      "prompt": "22,16,5,25,47",
+      "target": "22+25=47",
+      "prediction": "22+25=47",
+      "correct": true
+    },
+    {
+      "prompt": "9,4,6,17,62",
+      "target": "4*17=68,68-6=62",
+      "prediction": "9*6=36,66866=62",
+      "correct": false
+    },
+    {
+      "prompt": "9,10,1,15,45",
+      "target": "9*1=9,15-10=5,9*5=45",
+      "prediction": "9*1=9,15-10=5,9*5=45",
+      "correct": true
+    },
+    {
+      "prompt": "3,18,23,5,40",
+      "target": "3+23=26,26-18=8,5*8=40",
+      "prediction": "3+5=8,23-18=5,8*5*8=40",
+      "correct": false
+    },
+    {
+      "prompt": "22,7,16,16,21",
+      "target": "16/16=1,22-1=21",
+      "prediction": "22-16=6,16+6=21",
+      "correct": false
+    },
+    {
+      "prompt": "5,23,7,17,97",
+      "target": "23-7=16,5*16=80,17+80=97",
+      "prediction": "23-7=16,5*16=80,17+80=97",
+      "correct": true
+    },
+    {
+      "prompt": "10,12,15,7,75",
+      "target": "10+7=17,17-12=5,15*5=75",
+      "prediction": "10+7=17,17-12=5,15*5=75",
+      "correct": true
+    },
+    {
+      "prompt": "21,5,1,23,93",
+      "target": "21+1=22,5*23=115,115-22=93",
+      "prediction": "21+1=22,5*23=115,115-22=93",
+      "correct": true
+    },
+    {
+      "prompt": "11,5,24,20,29",
+      "target": "11+20=31,5+24=29",
+      "prediction": "11+20=31,5+24=29",
+      "correct": true
+    },
+    {
+      "prompt": "3,8,11,21,15",
+      "target": "3+11=14,8+21=29,29-14=15",
+      "prediction": "3+11=14,8+21=19,29-14=15",
+      "correct": false
+    },
+    {
+      "prompt": "14,15,5,15,40",
+      "target": "14*5=70,15+15=30,70-30=40",
+      "prediction": "14+15=29,15*5=75,75-29=40",
+      "correct": false
+    },
+    {
+      "prompt": "4,14,22,1,32",
+      "target": "4*1=4,14+22=36,36-4=32",
+      "prediction": "4*1=4,14+22=36,36-4=32",
+      "correct": true
+    },
+    {
+      "prompt": "7,13,1,23,10",
+      "target": "7+1=8,23-13=10",
+      "prediction": "7+1=8,23-13=10",
+      "correct": true
+    },
+    {
+      "prompt": "19,1,3,8,76",
+      "target": "19*8=152,3-1=2,152/2=76",
+      "prediction": "1+3=4,19*4=76",
+      "correct": true
+    },
+    {
+      "prompt": "25,16,21,17,84",
+      "target": "25-21=4,17*4=68,16+68=84",
+      "prediction": "25-21=4,17*4=68,16+68=84",
+      "correct": true
+    },
+    {
+      "prompt": "7,15,10,21,67",
+      "target": "21-15=6,10*6=60,7+60=67",
+      "prediction": "7*10=70,15+70=67",
+      "correct": false
+    },
+    {
+      "prompt": "9,23,4,11,35",
+      "target": "4*11=44,44-9=35",
+      "prediction": "11-9=2,4*2=14,23+12=35",
+      "correct": false
+    },
+    {
+      "prompt": "11,25,23,10,59",
+      "target": "11+25=36,23+36=59",
+      "prediction": "11+25=36,23+36=59",
+      "correct": true
+    },
+    {
+      "prompt": "2,15,14,19,43",
+      "target": "2*14=28,15+28=43",
+      "prediction": "2*14=28,15+28=43",
+      "correct": true
+    },
+    {
+      "prompt": "9,7,8,8,14",
+      "target": "9-7=2,8+8=16,16-2=14",
+      "prediction": "9-7=2,8+8=16,16-2=14",
+      "correct": true
+    },
+    {
+      "prompt": "19,3,22,9,41",
+      "target": "19+22=41",
+      "prediction": "19+22=41",
+      "correct": true
+    },
+    {
+      "prompt": "21,20,12,8,17",
+      "target": "21-12=9,8+9=17",
+      "prediction": "21-12=9,8+9=17",
+      "correct": true
+    },
+    {
+      "prompt": "20,16,3,2,82",
+      "target": "20+2=22,3*22=66,16+66=82",
+      "prediction": "20+2=22,3*22=66,16+66=82",
+      "correct": true
+    },
+    {
+      "prompt": "23,6,14,18,65",
+      "target": "14*18=252,252/6=42,23+42=65",
+      "prediction": "23+14=37,6*18=84,81-37=65",
+      "correct": false
+    },
+    {
+      "prompt": "11,2,24,7,12",
+      "target": "11-2=9,9-7=2,24/2=12",
+      "prediction": "11-7=4,24/2=,24/2=12",
+      "correct": false
+    },
+    {
+      "prompt": "6,7,12,23,77",
+      "target": "6*7=42,12+23=35,42+35=77",
+      "prediction": "7*12=82,6+82=90,,2+15=77",
+      "correct": false
+    },
+    {
+      "prompt": "3,6,1,17,44",
+      "target": "3+1=4,17-6=11,4*11=44",
+      "prediction": "3*17=51,6+1=7,51-7=44",
+      "correct": true
+    },
+    {
+      "prompt": "24,10,22,22,30",
+      "target": "24-10=14,22+22=44,44-14=30",
+      "prediction": "24-10=14,22+22=44,44-14=30",
+      "correct": true
+    },
+    {
+      "prompt": "7,5,1,2,70",
+      "target": "7*5=35,1*2=2,35*2=70",
+      "prediction": "7*5=35,1*2=2,35*2=70",
+      "correct": true
+    },
+    {
+      "prompt": "14,9,14,16,28",
+      "target": "14+14=28",
+      "prediction": "14+14=28",
+      "correct": true
+    },
+    {
+      "prompt": "14,21,5,11,36",
+      "target": "14-11=3,5*3=15,21+15=36",
+      "prediction": "14+21=35,5*11=55,55-35=36",
+      "correct": false
+    },
+    {
+      "prompt": "7,15,1,4,87",
+      "target": "7+15=22,4*22=88,88-1=87",
+      "prediction": "7+15=22,4*22=88,88-1=87",
+      "correct": true
+    },
+    {
+      "prompt": "6,9,15,12,72",
+      "target": "6*12=72",
+      "prediction": "6*12=72",
+      "correct": true
+    },
+    {
+      "prompt": "24,12,21,6,28",
+      "target": "24*21=504,12+6=18,504/18=28",
+      "prediction": "24/12=2,21*2=25,,168/6=28",
+      "correct": false
+    },
+    {
+      "prompt": "10,16,20,7,26",
+      "target": "10+16=26",
+      "prediction": "10+16=26",
+      "correct": true
+    },
+    {
+      "prompt": "15,20,18,16,57",
+      "target": "20-16=4,18*4=72,72-15=57",
+      "prediction": "15+20=35,18-15=27",
+      "correct": false
+    },
+    {
+      "prompt": "4,25,5,10,34",
+      "target": "4+25=29,5+29=34",
+      "prediction": "4+25=29,5+29=34",
+      "correct": true
+    },
+    {
+      "prompt": "24,6,25,18,22",
+      "target": "24/6=4,18+4=22",
+      "prediction": "24/6=4,18+4=22",
+      "correct": true
+    },
+    {
+      "prompt": "23,21,17,6,29",
+      "target": "23-21=2,6*2=12,17+12=29",
+      "prediction": "23+6=29",
+      "correct": true
+    },
+    {
+      "prompt": "1,8,3,14,15",
+      "target": "1+8=9,14-9=5,3*5=15",
+      "prediction": "1+8=9,14-9=5,3*5=15",
+      "correct": true
+    },
+    {
+      "prompt": "2,13,23,25,48",
+      "target": "2+13=15,23+25=48",
+      "prediction": "2+13=15,23+25=48",
+      "correct": true
+    },
+    {
+      "prompt": "12,14,2,21,59",
+      "target": "12*2=24,14+21=35,24+35=59",
+      "prediction": "12*2=24,14+21=35,24+35=59",
+      "correct": true
+    },
+    {
+      "prompt": "4,17,22,22,12",
+      "target": "17-4=13,22/22=1,13-1=12",
+      "prediction": "17-4=11,22/22=1,13-1=12",
+      "correct": false
+    },
+    {
+      "prompt": "3,10,5,11,23",
+      "target": "3*11=33,33-10=23",
+      "prediction": "3*11=33,33-10=23",
+      "correct": true
+    },
+    {
+      "prompt": "24,12,13,3,49",
+      "target": "24+12=36,13+36=49",
+      "prediction": "24+12=36,13+36=49",
+      "correct": true
+    },
+    {
+      "prompt": "7,9,18,11,23",
+      "target": "7+9=16,18-11=7,16+7=23",
+      "prediction": "9-7=2,18*2=34,34-11=23",
+      "correct": false
+    },
+    {
+      "prompt": "9,4,19,2,99",
+      "target": "4*2=8,19-8=11,9*11=99",
+      "prediction": "9+19=28,4*23=108,108-9=99",
+      "correct": false
+    },
+    {
+      "prompt": "1,21,16,19,30",
+      "target": "21-19=2,16-1=15,2*15=30",
+      "prediction": "1+-1=22,16-16=5,2*15=30",
+      "correct": false
+    },
+    {
+      "prompt": "15,8,3,16,59",
+      "target": "8-3=5,15*5=75,75-16=59",
+      "prediction": "15+8=23,3*275,75-16=5959",
+      "correct": false
+    },
+    {
+      "prompt": "13,13,3,19,21",
+      "target": "13+13=26,26-19=7,3*7=21",
+      "prediction": "13/13=1,,26-19=7,3*7=21",
+      "correct": true
+    },
+    {
+      "prompt": "2,9,10,24,39",
+      "target": "2*24=48,48-9=39",
+      "prediction": "2*24=48,48-9=39",
+      "correct": true
+    },
+    {
+      "prompt": "14,2,8,19,77",
+      "target": "14-2=12,8*12=96,96-19=77",
+      "prediction": "14*8=1119-8=11,7*11=7=77",
+      "correct": false
+    },
+    {
+      "prompt": "23,15,17,8,21",
+      "target": "23+15=38,38-17=21",
+      "prediction": "15-13=2,8/2=4,17-4=21",
+      "correct": false
+    },
+    {
+      "prompt": "11,3,19,10,24",
+      "target": "11+3=14,10+14=24",
+      "prediction": "11+3=14,10+14=24",
+      "correct": true
+    },
+    {
+      "prompt": "3,4,8,22,28",
+      "target": "3*8=24,4+24=28",
+      "prediction": "3*8=24,22/4=28",
+      "correct": false
+    },
+    {
+      "prompt": "4,1,8,3,36",
+      "target": "4*1=4,8+4=12,3*12=36",
+      "prediction": "4*1=4,8+4=12,3*12=36",
+      "correct": true
+    },
+    {
+      "prompt": "9,14,21,4,19",
+      "target": "9+14=23,23-4=19",
+      "prediction": "9+14=23,23-4=19",
+      "correct": true
+    },
+    {
+      "prompt": "5,2,4,8,46",
+      "target": "5*8=40,2+4=6,40+6=46",
+      "prediction": "5*8=40,2+4=6,40+6=46",
+      "correct": true
+    },
+    {
+      "prompt": "17,2,15,8,34",
+      "target": "17+2=19,15+19=34",
+      "prediction": "17+2=19,15+19=34",
+      "correct": true
+    },
+    {
+      "prompt": "16,21,19,22,55",
+      "target": "21+19=40,22*40=880,880/16=55",
+      "prediction": "16+19=35,22+33=55",
+      "correct": true
+    },
+    {
+      "prompt": "5,12,9,25,12",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "2,5,21,5,43",
+      "target": "2*21=42,5/5=1,42+1=43",
+      "prediction": "2*21=42,5/5=1,42+1=43",
+      "correct": true
+    },
+    {
+      "prompt": "22,3,24,9,57",
+      "target": "22*3=66,66-9=57",
+      "prediction": "22*3=66,66-9=57",
+      "correct": true
+    },
+    {
+      "prompt": "9,16,10,7,19",
+      "target": "9+10=19",
+      "prediction": "9+10=19",
+      "correct": true
+    },
+    {
+      "prompt": "22,15,8,12,29",
+      "target": "22+15=37,37-8=29",
+      "prediction": "22+15=37,37-8=29",
+      "correct": true
+    },
+    {
+      "prompt": "19,5,4,16,14",
+      "target": "19-5=14",
+      "prediction": "19+5=14",
+      "correct": false
+    },
+    {
+      "prompt": "24,15,17,21,38",
+      "target": "24+15=39,17+21=38",
+      "prediction": "24+15=39,17+21=38",
+      "correct": true
+    },
+    {
+      "prompt": "24,6,24,3,38",
+      "target": "24+6=30,24/3=8,30+8=38",
+      "prediction": "24+6=30,24/3=8,30+8=38",
+      "correct": true
+    },
+    {
+      "prompt": "7,13,15,23,38",
+      "target": "7+13=20,15+23=38",
+      "prediction": "7+13=20,15+23=38",
+      "correct": true
+    },
+    {
+      "prompt": "15,25,4,18,14",
+      "target": "15+25=40,18-4=14",
+      "prediction": "15+25=40,18-4=14",
+      "correct": true
+    },
+    {
+      "prompt": "21,10,1,12,23",
+      "target": "21-10=11,1*12=12,11+12=23",
+      "prediction": "21-10=11,1*12=12,11+12=23",
+      "correct": true
+    },
+    {
+      "prompt": "13,14,13,21,91",
+      "target": "13*14=182,13*21=273,273-182=91",
+      "prediction": "13*14=182,13*21=273,273-182=91",
+      "correct": true
+    },
+    {
+      "prompt": "8,18,15,11,24",
+      "target": "18+15=33,8*33=264,264/11=24",
+      "prediction": "8+18=26,15-11=4,26-4=24",
+      "correct": false
+    },
+    {
+      "prompt": "25,20,14,16,70",
+      "target": "25-20=5,14*5=70",
+      "prediction": "25-20=5,14*5=70",
+      "correct": true
+    },
+    {
+      "prompt": "5,18,6,23,90",
+      "target": "5*18=90",
+      "prediction": "5*18=90",
+      "correct": true
+    },
+    {
+      "prompt": "23,21,20,13,30",
+      "target": "23+20=43,43-13=30",
+      "prediction": "23-21=23,43-13=30",
+      "correct": false
+    },
+    {
+      "prompt": "5,13,6,19,65",
+      "target": "5*13=65",
+      "prediction": "5*13=65",
+      "correct": true
+    },
+    {
+      "prompt": "3,6,25,16,22",
+      "target": "3+25=28,6+16=22",
+      "prediction": "3+25=28,6+16=22",
+      "correct": true
+    },
+    {
+      "prompt": "8,11,2,22,16",
+      "target": "8+11=19,2*19=38,38-22=16",
+      "prediction": "8-2=16",
+      "correct": false
+    },
+    {
+      "prompt": "8,5,25,8,61",
+      "target": "8*8=64,5*25=125,125-64=61",
+      "prediction": "8*8=64,25-8=17,64+15=61",
+      "correct": false
+    },
+    {
+      "prompt": "14,8,21,3,25",
+      "target": "14+8=22,3+22=25",
+      "prediction": "14+8=22,3+22=25",
+      "correct": true
+    },
+    {
+      "prompt": "13,2,11,6,81",
+      "target": "13+2=15,11*6=66,15+66=81",
+      "prediction": "13+2=15,11*6=66,15+66=81",
+      "correct": true
+    },
+    {
+      "prompt": "8,17,7,21,74",
+      "target": "21-8=13,7*13=91,91-17=74",
+      "prediction": "8*7=56,17+56=74",
+      "correct": false
+    },
+    {
+      "prompt": "11,24,16,21,13",
+      "target": "24-11=13",
+      "prediction": "24-11=13",
+      "correct": true
+    },
+    {
+      "prompt": "7,18,7,12,20",
+      "target": "7+18=25,7+25=32,32-12=20",
+      "prediction": "7+7=14,18-12=6,132-12=20",
+      "correct": false
+    },
+    {
+      "prompt": "2,22,4,3,28",
+      "target": "2+22=24,4+24=28",
+      "prediction": "2+22=24,4+24=28",
+      "correct": true
+    },
+    {
+      "prompt": "2,23,3,9,96",
+      "target": "23+9=32,3*32=96",
+      "prediction": "23+9=22,9*32=36",
+      "correct": false
+    },
+    {
+      "prompt": "20,4,8,8,84",
+      "target": "8+8=16,4*16=64,20+64=84",
+      "prediction": "20-4=16,8*8=64,20+64=84",
+      "correct": true
+    },
+    {
+      "prompt": "17,18,12,4,84",
+      "target": "18*4=72,12+72=84",
+      "prediction": "17-4=13,18-12=7,12*7=84",
+      "correct": false
+    },
+    {
+      "prompt": "24,18,21,5,57",
+      "target": "24-5=19,21-18=3,19*3=57",
+      "prediction": "24-21=3,18+5=19,3*19=57",
+      "correct": false
+    },
+    {
+      "prompt": "13,21,19,2,63",
+      "target": "19-13=6,21*6=126,126/2=63",
+      "prediction": "13+29=32,2*32=76,76-13=63",
+      "correct": false
+    },
+    {
+      "prompt": "25,8,21,7,12",
+      "target": "25+8=33,33-21=12",
+      "prediction": "25+8=33,33-21=12",
+      "correct": true
+    },
+    {
+      "prompt": "3,23,17,7,93",
+      "target": "3+23=26,17*7=119,119-26=93",
+      "prediction": "17+7=20,3*20=70,23+70=93",
+      "correct": false
+    },
+    {
+      "prompt": "18,22,11,13,26",
+      "target": "22/11=2,13*2=26",
+      "prediction": "18-11=7,22+13=35,35-7=26",
+      "correct": false
+    },
+    {
+      "prompt": "18,25,5,3,26",
+      "target": "18+5=23,3+23=26",
+      "prediction": "18+25=43,5*3=15,43-25=26",
+      "correct": false
+    },
+    {
+      "prompt": "4,6,22,24,90",
+      "target": "4*24=96,96-6=90",
+      "prediction": "4*24=96,96-6=90",
+      "correct": true
+    },
+    {
+      "prompt": "25,20,23,1,17",
+      "target": "25-20=5,23-1=22,22-5=17",
+      "prediction": "25-20=5,23-1=22,22-5=17",
+      "correct": true
+    },
+    {
+      "prompt": "8,6,17,17,94",
+      "target": "6*17=102,102-8=94",
+      "prediction": "6*17=102,102-8=94",
+      "correct": true
+    },
+    {
+      "prompt": "3,11,7,5,20",
+      "target": "11-3=8,7+5=12,8+12=20",
+      "prediction": "3+5=8,11+7=4,5*4=2020",
+      "correct": false
+    },
+    {
+      "prompt": "24,8,12,22,38",
+      "target": "24-8=16,22+16=38",
+      "prediction": "24-8=16,22+16=38",
+      "correct": true
+    },
+    {
+      "prompt": "10,21,17,20,55",
+      "target": "17*20=340,340/10=34,21+34=55",
+      "prediction": "21*20=420,420/10=34,11+34=55",
+      "correct": false
+    },
+    {
+      "prompt": "8,18,15,1,41",
+      "target": "8+18=26,15*1=15,26+15=41",
+      "prediction": "8+18=26,15*1=15,26+15=41",
+      "correct": true
+    },
+    {
+      "prompt": "21,6,13,20,99",
+      "target": "6*13=78,21+78=99",
+      "prediction": "6*13=12,2120-21=99",
+      "correct": false
+    },
+    {
+      "prompt": "17,15,9,23,69",
+      "target": "23-17=6,9*6=54,15+54=69",
+      "prediction": "23-17=6,9*6=54,15+54=69",
+      "correct": true
+    },
+    {
+      "prompt": "17,14,5,20,60",
+      "target": "17-14=3,20*3=60",
+      "prediction": "17-14=3,20*3=60",
+      "correct": true
+    },
+    {
+      "prompt": "4,9,15,6,16",
+      "target": "4+15=19,9-6=3,19-3=16",
+      "prediction": "4+6=10,15-9=6,10+6=16",
+      "correct": true
+    },
+    {
+      "prompt": "11,14,1,23,11",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "13,22,14,10,30",
+      "target": "13*22=286,14+286=300,300/10=30",
+      "prediction": "13+14=27,27*27=422,32=30",
+      "correct": false
+    },
+    {
+      "prompt": "20,13,3,23,53",
+      "target": "20+13=33,23-3=20,33+20=53",
+      "prediction": "20+13=33,23-3=20,33+20=53",
+      "correct": true
+    },
+    {
+      "prompt": "18,3,7,14,25",
+      "target": "18+7=25",
+      "prediction": "18+3=25",
+      "correct": false
+    },
+    {
+      "prompt": "17,21,16,13,68",
+      "target": "17-13=4,21*4=84,84-16=68",
+      "prediction": "21-17=4,13*4=52,16+52=68",
+      "correct": true
+    },
+    {
+      "prompt": "6,1,11,2,12",
+      "target": "6-1=5,11-5=6,2*6=12",
+      "prediction": "6+1=7,11-5=6,2*6=12",
+      "correct": true
+    },
+    {
+      "prompt": "8,11,9,2,36",
+      "target": "8*9=72,72/2=36",
+      "prediction": "8*9=72,79/2=36",
+      "correct": false
+    },
+    {
+      "prompt": "6,3,7,20,80",
+      "target": "6-3=3,7-3=4,20*4=80",
+      "prediction": "6-3=3,7-3=4,20*4=80",
+      "correct": true
+    },
+    {
+      "prompt": "3,13,19,8,44",
+      "target": "3*19=57,57-13=44",
+      "prediction": "13+8=21,3*21=63,63-19=44",
+      "correct": true
+    },
+    {
+      "prompt": "4,13,14,19,32",
+      "target": "4+14=18,13+19=32",
+      "prediction": "4+14=18,13+19=32",
+      "correct": true
+    },
+    {
+      "prompt": "14,16,6,5,68",
+      "target": "14*6=84,84-16=68",
+      "prediction": "14*5=70,16-6=2,7",
+      "correct": false
+    },
+    {
+      "prompt": "11,7,7,22,95",
+      "target": "11-7=4,22*4=88,7+88=95",
+      "prediction": "11*7=4,22*4=88,7+88=95",
+      "correct": false
+    },
+    {
+      "prompt": "10,21,7,23,23",
+      "target": "",
+      "prediction": "",
+      "correct": true
+    },
+    {
+      "prompt": "8,3,10,7,54",
+      "target": "8+10=18,3*18=54",
+      "prediction": "8+10=18,3*18=54",
+      "correct": true
+    },
+    {
+      "prompt": "9,6,23,2,19",
+      "target": "9+6=15,23+15=38,38/2=19",
+      "prediction": "9+6=15,23+15=38,38/2=19",
+      "correct": true
+    },
+    {
+      "prompt": "15,23,8,13,66",
+      "target": "15+23=38,8*13=104,104-38=66",
+      "prediction": "15+23=38,8*13=104,104-38=66",
+      "correct": true
+    },
+    {
+      "prompt": "6,4,22,3,24",
+      "target": "6-4=2,22+2=24",
+      "prediction": "6-4=2,22+2=24",
+      "correct": true
+    },
+    {
+      "prompt": "15,7,8,12,37",
+      "target": "15-8=7,7*7=49,49-12=37",
+      "prediction": "15+8=23,7*12=84,84-27=37",
+      "correct": false
+    },
+    {
+      "prompt": "13,22,7,11,68",
+      "target": "22-13=9,7*11=77,77-9=68",
+      "prediction": "22-13=9,7**11=77",
+      "correct": false
+    },
+    {
+      "prompt": "19,16,9,4,57",
+      "target": "16-9=7,7-4=3,19*3=57",
+      "prediction": "19-16=3,9*4=56,3*19=57",
+      "correct": false
+    },
+    {
+      "prompt": "3,18,3,25,10",
+      "target": "3+25=28,28-18=10",
+      "prediction": "3+3=6,18-6=15,25-15=10",
+      "correct": false
+    },
+    {
+      "prompt": "24,22,23,3,53",
+      "target": "24/3=8,22+23=45,8+45=53",
+      "prediction": "24+23=47,22/3=6,47+6=53",
+      "correct": false
+    },
+    {
+      "prompt": "18,20,19,5,82",
+      "target": "20*5=100,100-18=82",
+      "prediction": "20*5=100,100-18=82",
+      "correct": true
+    },
+    {
+      "prompt": "14,23,25,3,38",
+      "target": "14+23=37,25*3=75,75-37=38",
+      "prediction": "14+23=37,37/3=13,25+13=38",
+      "correct": false
+    },
+    {
+      "prompt": "19,9,10,24,62",
+      "target": "19+9=28,10+24=34,28+34=62",
+      "prediction": "19+9=28,10+24=34,28+34=62",
+      "correct": true
+    },
+    {
+      "prompt": "17,2,1,21,14",
+      "target": "17-2=15,15-1=14",
+      "prediction": "17-2=15,15-1=14",
+      "correct": true
+    },
+    {
+      "prompt": "14,8,22,5,52",
+      "target": "14-8=6,5*6=30,22+30=52",
+      "prediction": "14*5=70,8+70=74,74-22=52",
+      "correct": false
+    },
+    {
+      "prompt": "25,12,12,2,10",
+      "target": "25+12=37,12-2=10",
+      "prediction": "25+12=37,12-2=10",
+      "correct": true
+    },
+    {
+      "prompt": "9,7,19,8,74",
+      "target": "9*7=63,19-8=11,63+11=74",
+      "prediction": "19-9=11,7*11=77,7+-7=74",
+      "correct": false
+    },
+    {
+      "prompt": "17,9,20,22,31",
+      "target": "17+20=37,9+22=31",
+      "prediction": "17+20=37,9+22=31",
+      "correct": true
+    },
+    {
+      "prompt": "4,6,22,18,16",
+      "target": "4*6=24,22+18=40,40-24=16",
+      "prediction": "4+18=0,22-18=4,10+4=16",
+      "correct": false
+    },
+    {
+      "prompt": "22,17,22,12,82",
+      "target": "22-17=5,12*5=60,22+60=82",
+      "prediction": "22-17=5,12*5=60,22+60=82",
+      "correct": true
+    },
+    {
+      "prompt": "6,19,25,2,56",
+      "target": "6*25=150,150/2=75,75-19=56",
+      "prediction": "6*19=114,25*2=50,114-50=56",
+      "correct": false
+    },
+    {
+      "prompt": "16,18,12,16,10",
+      "target": "16+12=28,28-18=10",
+      "prediction": "16-12=28,28-18=10",
+      "correct": false
+    },
+    {
+      "prompt": "5,16,16,6,94",
+      "target": "16+6=22,5*22=110,110-16=94",
+      "prediction": "16+6=22,5*22=110,110-16=94",
+      "correct": true
+    },
+    {
+      "prompt": "19,3,15,12,38",
+      "target": "19+15=34,12/3=4,34+4=38",
+      "prediction": "19*12=228,15/3=6,225=38",
+      "correct": false
+    },
+    {
+      "prompt": "14,13,3,5,73",
+      "target": "14*5=70,3+70=73",
+      "prediction": "14*5=70,3+70=73",
+      "correct": true
+    },
+    {
+      "prompt": "9,7,21,10,26",
+      "target": "9+7=16,10+16=26",
+      "prediction": "9+7=16,10+16=26",
+      "correct": true
+    },
+    {
+      "prompt": "7,9,9,19,27",
+      "target": "7+9=16,19-16=3,9*3=27",
+      "prediction": "7+9=16,19-16=3,9*3=27",
+      "correct": true
+    },
+    {
+      "prompt": "8,1,15,4,21",
+      "target": "8+1=9,4*9=36,36-15=21",
+      "prediction": "8-1=7,4*7=26,36-15=21",
+      "correct": false
+    },
+    {
+      "prompt": "7,4,15,6,11",
+      "target": "7+4=11",
+      "prediction": "7+4=11",
+      "correct": true
+    },
+    {
+      "prompt": "18,10,11,1,39",
+      "target": "18+10=28,11*1=11,28+11=39",
+      "prediction": "18+10=28,11*1=11,28+11=39",
+      "correct": true
+    },
+    {
+      "prompt": "7,16,5,21,32",
+      "target": "7-5=2,16*2=32",
+      "prediction": "7-5=2,16*2=32",
+      "correct": true
+    },
+    {
+      "prompt": "21,16,7,14,29",
+      "target": "16*7=112,112/14=8,21+8=29",
+      "prediction": "21+7=28,16-14=2,27+2=2=29",
+      "correct": false
+    },
+    {
+      "prompt": "21,12,5,10,95",
+      "target": "21-12=9,10+9=19,5*19=95",
+      "prediction": "21*12=9310+9=19,9,5*19=95",
+      "correct": false
+    },
+    {
+      "prompt": "13,22,20,17,10",
+      "target": "13+17=30,30-20=10",
+      "prediction": "13+17=30,30-20=10",
+      "correct": true
+    },
+    {
+      "prompt": "20,10,14,4,66",
+      "target": "20-10=10,14*4=56,10+56=66",
+      "prediction": "20*4=80,80-14=66",
+      "correct": true
+    },
+    {
+      "prompt": "2,18,12,16,64",
+      "target": "2*18=36,12+16=28,36+28=64",
+      "prediction": "2*12=26,18+16=34,36+38=64",
+      "correct": false
+    },
+    {
+      "prompt": "3,15,3,21,78",
+      "target": "3*21=63,15+63=78",
+      "prediction": "3*15=45,3*45==86",
+      "correct": false
+    },
+    {
+      "prompt": "22,6,20,25,21",
+      "target": "22-6=16,20-16=4,25-4=21",
+      "prediction": "22-6=16,20-16=4,25-4=21",
+      "correct": true
+    },
+    {
+      "prompt": "5,12,21,3,47",
+      "target": "5*21=105,105/3=35,12+35=47",
+      "prediction": "5*12=60,,105/3=35,12+35=47",
+      "correct": true
+    },
+    {
+      "prompt": "18,25,14,7,22",
+      "target": "18+25=43,14+7=21,43-21=22",
+      "prediction": "18+24=32,24=22",
+      "correct": false
+    },
+    {
+      "prompt": "10,22,25,2,50",
+      "target": "10+22=32,25*2=50",
+      "prediction": "10+22=32,25*2=50",
+      "correct": true
+    },
+    {
+      "prompt": "6,17,5,16,18",
+      "target": "6+17=23,23-5=18",
+      "prediction": "6+17=23,23-5=18",
+      "correct": true
+    },
+    {
+      "prompt": "14,25,16,13,28",
+      "target": "25+16=41,41-13=28",
+      "prediction": "14+25=39,29-13=28",
+      "correct": false
+    },
+    {
+      "prompt": "23,8,21,11,55",
+      "target": "23+21=44,11+44=55",
+      "prediction": "23+21=44,11+44=55",
+      "correct": true
+    },
+    {
+      "prompt": "25,21,5,14,76",
+      "target": "25-21=4,5+14=19,4*19=76",
+      "prediction": "25-21=4,5+14=19,4*19=76",
+      "correct": true
+    },
+    {
+      "prompt": "2,17,23,10,14",
+      "target": "2+17=19,23+10=33,33-19=14",
+      "prediction": "2+17=19,24-10=14",
+      "correct": true
+    },
+    {
+      "prompt": "13,6,3,16,100",
+      "target": "13-3=10,16-6=10,10*10=100",
+      "prediction": "13-3=10,6*16=80,10+10=100",
+      "correct": false
+    },
+    {
+      "prompt": "24,7,2,11,39",
+      "target": "24-7=17,2*11=22,17+22=39",
+      "prediction": "24+7=31,11+1=39",
+      "correct": false
+    },
+    {
+      "prompt": "22,17,15,21,18",
+      "target": "22+17=39,39-21=18",
+      "prediction": "22+17=39,39-21=18",
+      "correct": true
+    }
+  ]
+}

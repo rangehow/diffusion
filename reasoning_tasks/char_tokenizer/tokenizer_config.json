@@ -1,0 +1,10 @@
+{
+  "tokenizer_class": "ReasoningCharTokenizer",
+  "vocab_size": 22,
+  "bos_token": "[BOS]",
+  "eos_token": "[EOS]",
+  "pad_token": "[PAD]",
+  "mask_token": "[MASK]",
+  "sep_token": "[SEP]",
+  "model_max_length": 512
+}

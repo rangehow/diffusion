@@ -1,0 +1,13 @@
+{
+  "method_name": "original",
+  "config": {
+    "method": "original",
+    "block_size": 16,
+    "steps": 16,
+    "gumbel_temperature": 0.7
+  },
+  "num_samples": 10042,
+  "generation_time": 1400.0723496116698,
+  "tokens_per_second": 459.0391347834694,
+  "timestamp": "2026-01-25T21:51:17.247989"
+}

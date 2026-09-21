@@ -1,0 +1,82 @@
+{
+  "high_temp": {
+    "gen_ppl_mean": 126.07281062166616,
+    "gen_ppl_median": 75.0284423828125,
+    "gen_ppl_min": 3.190269947052002,
+    "gen_ppl_max": 10909.560546875,
+    "full_ppl_mean": 64.21021587163465,
+    "full_ppl_median": 39.96820068359375,
+    "num_valid_samples": 10042,
+    "num_inf_samples": 0
+  },
+  "llama": {
+    "gen_ppl_mean": 11.497831725682396,
+    "gen_ppl_median": 7.928305149078369,
+    "gen_ppl_min": 1.1898505687713623,
+    "gen_ppl_max": 2905.70703125,
+    "full_ppl_mean": 7.844584774244499,
+    "full_ppl_median": 6.75508975982666,
+    "num_valid_samples": 10040,
+    "num_inf_samples": 2
+  },
+  "low_temp": {
+    "gen_ppl_mean": 3.727876261265433,
+    "gen_ppl_median": 3.020573377609253,
+    "gen_ppl_min": 1.3492928743362427,
+    "gen_ppl_max": 1749.258056640625,
+    "full_ppl_mean": 4.069995545149087,
+    "full_ppl_median": 3.9099814891815186,
+    "num_valid_samples": 10042,
+    "num_inf_samples": 0
+  },
+  "original": {
+    "gen_ppl_mean": 9.480913025607295,
+    "gen_ppl_median": 8.604350090026855,
+    "gen_ppl_min": 1.3339489698410034,
+    "gen_ppl_max": 2393.828369140625,
+    "full_ppl_mean": 8.35088446645522,
+    "full_ppl_median": 7.56857967376709,
+    "num_valid_samples": 10042,
+    "num_inf_samples": 0
+  },
+  "quality_confidence": {
+    "gen_ppl_mean": 37.32184313369733,
+    "gen_ppl_median": 9.75493335723877,
+    "gen_ppl_min": 1.4615120887756348,
+    "gen_ppl_max": 11149.6279296875,
+    "full_ppl_mean": 13.62223907909268,
+    "full_ppl_median": 9.24488353729248,
+    "num_valid_samples": 10042,
+    "num_inf_samples": 0
+  },
+  "quality_constant": {
+    "gen_ppl_mean": 9.14896768434806,
+    "gen_ppl_median": 8.65241813659668,
+    "gen_ppl_min": 1.6371872425079346,
+    "gen_ppl_max": 104.28983306884766,
+    "full_ppl_mean": 8.228983707219998,
+    "full_ppl_median": 7.635947227478027,
+    "num_valid_samples": 10042,
+    "num_inf_samples": 0
+  },
+  "quality_cosine": {
+    "gen_ppl_mean": 5.0472682111649325,
+    "gen_ppl_median": 4.551182746887207,
+    "gen_ppl_min": 1.2966257333755493,
+    "gen_ppl_max": 332.5364074707031,
+    "full_ppl_mean": 5.099963763277266,
+    "full_ppl_median": 4.8490986824035645,
+    "num_valid_samples": 10042,
+    "num_inf_samples": 0
+  },
+  "quality_linear": {
+    "gen_ppl_mean": 4.875676237333108,
+    "gen_ppl_median": 4.401497840881348,
+    "gen_ppl_min": 1.323901891708374,
+    "gen_ppl_max": 232.22930908203125,
+    "full_ppl_mean": 4.963724914881082,
+    "full_ppl_median": 4.723377704620361,
+    "num_valid_samples": 10042,
+    "num_inf_samples": 0
+  }
+}

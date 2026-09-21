@@ -1,0 +1,14 @@
+{
+  "method_name": "high_temp",
+  "config": {
+    "method": "original",
+    "block_size": 16,
+    "steps": 16,
+    "gumbel_temperature": 1.0
+  },
+  "num_samples": 10042,
+  "generation_time": 2818.2737719602883,
+  "tokens_per_second": 456.08627976051434,
+  "timestamp": "2026-01-26T17:23:01.012486",
+  "num_gpus": 8
+}

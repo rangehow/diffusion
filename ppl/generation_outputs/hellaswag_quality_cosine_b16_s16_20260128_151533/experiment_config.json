@@ -1,0 +1,20 @@
+{
+  "config_name": "quality_cosine_b16_s16",
+  "diffusion_model_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/niu_1B_100b_daum_2node/checkpoint-309339",
+  "llama_model_path": null,
+  "hellaswag_path": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main",
+  "max_new_tokens": 128,
+  "num_samples": 10042,
+  "gen_batch_size": 1,
+  "temperature": 0.7,
+  "num_gpus": 8,
+  "timestamp": "2026-01-28T15:15:34.912738",
+  "diffusion_config": {
+    "block_size": 16,
+    "steps": 8,
+    "gumbel_temperature": 0.7,
+    "final_temperature": 0.2
+  },
+  "use_gumbel": true,
+  "gumbel_temperature": 0.7
+}

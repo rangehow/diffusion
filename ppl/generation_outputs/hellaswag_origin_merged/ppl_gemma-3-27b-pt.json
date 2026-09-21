@@ -1,0 +1,66 @@
+{
+  "ppl_model_name": "gemma-3-27b-pt",
+  "ppl_model_path": "/mnt/hdfs/zw04mlnn01/checkpoint/llm_platform/shxs/model/google/gemma-3-27b-pt/main",
+  "gen_dir": "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/ppl/generation_outputs/hellaswag_origin_merged",
+  "timestamp": "2026-01-28T17:14:26.682127",
+  "num_gpus_used": 8,
+  "batch_size": 16,
+  "max_length": 2048,
+  "results": {
+    "llama": {
+      "ppl_mean": 7.877892038471265,
+      "ppl_std": 5.8326226241631325,
+      "ppl_median": 6.778921127319336,
+      "ppl_min": 2.214193344116211,
+      "ppl_max": 357.5853271484375,
+      "num_valid": 10042,
+      "num_total": 10042,
+      "generation_time_sec": 25379.068397772964,
+      "tokens_per_second": 50.64709152652715
+    },
+    "quality_cosine_b16_s16": {
+      "ppl_mean": 48.414858434072556,
+      "ppl_std": 37.53168831899452,
+      "ppl_median": 40.26055908203125,
+      "ppl_min": 3.6642367839813232,
+      "ppl_max": 1193.0787353515625,
+      "num_valid": 10042,
+      "num_total": 10042,
+      "generation_time_sec": 11618.703075070865,
+      "tokens_per_second": 110.62990350083976
+    },
+    "quality_cosine_b16_s8": {
+      "ppl_mean": 7.967860758743826,
+      "ppl_std": 3.1359138033430445,
+      "ppl_median": 7.474035263061523,
+      "ppl_min": 2.1156792640686035,
+      "ppl_max": 52.345970153808594,
+      "num_valid": 10042,
+      "num_total": 10042,
+      "generation_time_sec": 21949.64056213014,
+      "tokens_per_second": 58.56023001204256
+    },
+    "quality_cosine_b32_s8": {
+      "ppl_mean": 64.10319119529215,
+      "ppl_std": 52.49979805270513,
+      "ppl_median": 50.77421569824219,
+      "ppl_min": 4.506571292877197,
+      "ppl_max": 1187.7470703125,
+      "num_valid": 10042,
+      "num_total": 10042,
+      "generation_time_sec": 5979.938537930138,
+      "tokens_per_second": 214.94802862052703
+    },
+    "quality_cosine_b64_s4": {
+      "ppl_mean": 81.5157258475926,
+      "ppl_std": 65.301351513716,
+      "ppl_median": 65.2864761352539,
+      "ppl_min": 4.753376483917236,
+      "ppl_max": 1199.24560546875,
+      "num_valid": 10042,
+      "num_total": 10042,
+      "generation_time_sec": 3059.1765542412177,
+      "tokens_per_second": 420.1705842109587
+    }
+  }
+}

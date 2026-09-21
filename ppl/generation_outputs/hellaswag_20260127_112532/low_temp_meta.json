@@ -1,0 +1,14 @@
+{
+  "method_name": "low_temp",
+  "config": {
+    "method": "original",
+    "block_size": 16,
+    "steps": 16,
+    "gumbel_temperature": 0.3
+  },
+  "num_samples": 10042,
+  "generation_time": 16733.54482480092,
+  "tokens_per_second": 76.8143279536882,
+  "timestamp": "2026-01-27T17:19:22.999644",
+  "num_gpus": 8
+}

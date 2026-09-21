@@ -1,0 +1,14 @@
+{
+  "method_name": "quality_cosine_b16_s8",
+  "config": {
+    "block_size": 16,
+    "steps": 8,
+    "gumbel_temperature": 0.7,
+    "final_temperature": 0.2
+  },
+  "num_samples": 10042,
+  "generation_time": 9834.68260147376,
+  "tokens_per_second": 130.69826979544638,
+  "timestamp": "2026-01-28T11:42:21.433408",
+  "num_gpus": 8
+}

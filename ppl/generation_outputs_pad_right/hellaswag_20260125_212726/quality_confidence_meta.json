@@ -1,0 +1,17 @@
+{
+  "method_name": "quality_confidence",
+  "config": {
+    "method": "quality",
+    "block_size": 16,
+    "steps": 16,
+    "gumbel_temperature": 0.7,
+    "temperature_schedule": "cosine",
+    "final_temperature": 0.2,
+    "use_confidence_masking": true,
+    "confidence_threshold": 0.9
+  },
+  "num_samples": 10042,
+  "generation_time": 1411.8162126941606,
+  "tokens_per_second": 455.22072506417976,
+  "timestamp": "2026-01-25T23:25:12.640353"
+}
