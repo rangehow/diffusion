@@ -1,0 +1,27 @@
+[
+  {
+    "id": "85a20040",
+    "timestamp_utc": "2026-01-14T05:22:25.317183+00:00",
+    "metrics": {
+      "acc": 0.26356644352656317,
+      "acc_norm_char": 0.26356644352656317,
+      "acc_norm_token": 0.26356644352656317,
+      "total": 14042
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 5,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "mmlu"
+    }
+  }
+]

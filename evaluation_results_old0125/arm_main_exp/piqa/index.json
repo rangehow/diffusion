@@ -1,0 +1,22 @@
+[
+  {
+    "id": "804234fa",
+    "timestamp_utc": "2026-01-13T07:01:23.780354+00:00",
+    "metrics": {
+      "acc": 0.7513601741022851,
+      "acc_norm_char": 0.7551686615886833,
+      "acc_norm_token": 0.7595212187159956,
+      "total": 1838
+    },
+    "params": {
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "causal",
+      "task": "piqa"
+    }
+  }
+]

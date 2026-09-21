@@ -1,0 +1,28 @@
+[
+  {
+    "id": "6b731d74",
+    "timestamp_utc": "2026-01-18T07:43:46.516788+00:00",
+    "metrics": {
+      "acc": 0.28052180840470026,
+      "acc_norm_char": 0.3118900617406891,
+      "acc_norm_token": 0.30462059350726944,
+      "total": 10042
+    },
+    "params": {
+      "diffusion": {
+        "block_size": 16,
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "bd3lm"
+      },
+      "fewshot": {
+        "num": 3,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "hellaswag"
+    }
+  }
+]

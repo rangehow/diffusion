@@ -1,0 +1,60 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "winogrande"             --num_fewshot "5"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: winogrande
+Few-shot: 5
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: winogrande (5-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: winogrande
+[winogrande] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/winogrande/main
+[winogrande] Loading from local path...
+[winogrande] Preprocessing train (num_proc=16): 100%|██████████| 40398/40398 [00:00<?, ? examples/s][winogrande] Preprocessing train (num_proc=16): 40790 examples [00:00, 787.37 examples/s]           [winogrande] Preprocessing train (num_proc=16): 46824 examples [00:00, 14058.48 examples/s][winogrande] Preprocessing train (num_proc=16): 62860 examples [00:00, 48054.52 examples/s][winogrande] Preprocessing train (num_proc=16): 78648 examples [00:00, 55335.61 examples/s][winogrande] Preprocessing train (num_proc=16): 80796 examples [00:01, 36666.15 examples/s]
+[winogrande] Setting up 'random' sampler with seed 42
+[winogrande] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/winogrande/main
+[winogrande] Loading from local path...
+[winogrande] Preprocessing validation (num_proc=16): 100%|██████████| 1267/1267 [00:00<?, ? examples/s][winogrande] Preprocessing validation (num_proc=16): 1347 examples [00:00, 303.02 examples/s]          [winogrande] Preprocessing validation (num_proc=16): 1744 examples [00:00, 1505.57 examples/s][winogrande] Preprocessing validation (num_proc=16): 2218 examples [00:00, 2506.09 examples/s][winogrande] Preprocessing validation (num_proc=16): 2534 examples [00:00, 1850.87 examples/s]
+[winogrande] Processing (num_proc=16): 100%|██████████| 1267/1267 [00:00<?, ? examples/s][winogrande] Processing (num_proc=16): 1346 examples [00:00, 145.97 examples/s]          [winogrande] Processing (num_proc=16): 2060 examples [00:00, 1578.18 examples/s][winogrande] Processing (num_proc=16): 2455 examples [00:00, 2095.91 examples/s][winogrande] Processing (num_proc=16): 2534 examples [00:00, 1405.37 examples/s]
+
+--- Sample Preview (winogrande) ---
+Prompt:
+Natalie was scared of the dark, but Jennifer was not so Natalie had a teddy bear to sleep with.
+
+James run out of cash when he went on the vacation with its cost. The cost is high.
+
+I returned the dish with the shallot but kept the one with the onion because the onion was cooked correctly.
+
+Cleaning a piano is easy to Nick but not Leslie because Nick makes it simple using a feather duster.
+
+Tanya was a better judge of a boy's character than Betty and this showed because Tanya had a nice boyfrien...
+Token IDs (first 20): [50285, 47, 3165, 466, 369, 16060, 273, 253, 3644, 13, 533, 26355, 369, 417, 594, 50033, 574, 247, 28263, 6421]
+
+Choices (2 options):
+  1. 'Sarah always got the easier cases....' -> [15458, 1900, 1694, 253, 6927, 2219, 15, 50279]
+  2. 'Maria always got the easier cases....' -> [17100, 1900, 1694, 253, 6927, 2219, 15, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 2534 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 317 samples
+[INFO] GPU 1: 317 samples
+[INFO] GPU 2: 317 samples
+[INFO] GPU 3: 317 samples
+[INFO] GPU 4: 317 samples
+[INFO] GPU 5: 317 samples
+[INFO] GPU 6: 316 samples
+[INFO] GPU 7: 316 samples

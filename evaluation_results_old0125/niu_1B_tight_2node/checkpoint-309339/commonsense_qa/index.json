@@ -1,0 +1,22 @@
+[
+  {
+    "id": "bab97fcd",
+    "timestamp_utc": "2026-01-22T09:41:10.420572+00:00",
+    "metrics": {
+      "acc": 0.506961506961507,
+      "acc_norm_char": 0.5176085176085176,
+      "acc_norm_token": 0.4905814905814906,
+      "total": 1221
+    },
+    "params": {
+      "fewshot": {
+        "num": 7,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "causal",
+      "task": "commonsense_qa"
+    }
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "8ebd1adc",
+    "timestamp_utc": "2026-01-22T09:29:31.376642+00:00",
+    "metrics": {
+      "acc": 0.7279651795429815,
+      "acc_norm_char": 0.7306855277475517,
+      "acc_norm_token": 0.735038084874864,
+      "total": 1838
+    },
+    "params": {
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "causal",
+      "task": "piqa"
+    }
+  }
+]

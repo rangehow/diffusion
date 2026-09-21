@@ -1,0 +1,183 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828"             --model_type "causal"             --tasks "hellaswag"             --num_fewshot "3"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+Type: causal
+Tasks: hellaswag
+Few-shot: 3
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+============================================================
+
+============================================================
+Evaluating: hellaswag (3-shot)
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: hellaswag
+[hellaswag] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main
+[hellaswag] Loading from local path...
+Map:   0%|          | 0/39905 [00:00<?, ? examples/s]Map:   2%|▏         | 817/39905 [00:00<00:04, 8104.83 examples/s]Map:   5%|▌         | 2000/39905 [00:00<00:03, 9494.94 examples/s]Map:   8%|▊         | 3082/39905 [00:00<00:03, 10066.79 examples/s]Map:  10%|█         | 4164/39905 [00:00<00:03, 10353.99 examples/s]Map:  13%|█▎        | 5207/39905 [00:00<00:03, 10379.32 examples/s]Map:  16%|█▌        | 6281/39905 [00:00<00:03, 10495.79 examples/s]Map:  19%|█▉        | 7689/39905 [00:00<00:03, 10693.39 examples/s]Map:  22%|██▏       | 8831/39905 [00:00<00:02, 10907.03 examples/s]Map:  26%|██▌       | 10221/39905 [00:00<00:02, 10264.39 examples/s]Map:  29%|██▊       | 11379/39905 [00:01<00:02, 10619.10 examples/s]Map:  32%|███▏      | 12635/39905 [00:01<00:02, 10735.22 examples/s]Map:  35%|███▍      | 13846/39905 [00:01<00:02, 11113.11 examples/s]Map:  38%|███▊      | 15081/39905 [00:01<00:02, 10038.08 examples/s]Map:  41%|████▏     | 16488/39905 [00:01<00:02, 9407.50 examples/s] Map:  44%|████▍     | 17535/39905 [00:01<00:02, 9060.84 examples/s]Map:  46%|████▋     | 18533/39905 [00:01<00:02, 8806.11 examples/s]Map:  49%|████▉     | 19604/39905 [00:01<00:02, 8838.07 examples/s]Map:  51%|█████▏    | 20532/39905 [00:02<00:02, 8626.64 examples/s]Map:  54%|█████▍    | 21528/39905 [00:02<00:02, 8458.97 examples/s]Map:  57%|█████▋    | 22552/39905 [00:02<00:02, 8437.79 examples/s]Map:  59%|█████▉    | 23498/39905 [00:02<00:01, 8318.45 examples/s]Map:  62%|██████▏   | 24570/39905 [00:02<00:01, 8429.36 examples/s]Map:  64%|██████▍   | 25544/39905 [00:02<00:01, 8392.02 examples/s]Map:  66%|██████▋   | 26511/39905 [00:02<00:01, 8324.10 examples/s]Map:  69%|██████▉   | 27513/39905 [00:02<00:01, 8287.44 examples/s]Map:  72%|███████▏  | 28595/39905 [00:03<00:01, 8522.06 examples/s]Map:  74%|███████▍  | 29528/39905 [00:03<00:01, 8432.24 examples/s]Map:  77%|███████▋  | 30529/39905 [00:03<00:01, 8440.96 examples/s]Map:  79%|███████▉  | 31596/39905 [00:03<00:00, 8636.30 examples/s]Map:  82%|████████▏ | 32527/39905 [00:03<00:00, 8526.51 examples/s]Map:  84%|████████▍ | 33541/39905 [00:03<00:00, 8545.15 examples/s]Map:  87%|████████▋ | 34591/39905 [00:03<00:00, 8702.44 examples/s]Map:  89%|████████▉ | 35606/39905 [00:03<00:00, 8734.87 examples/s]Map:  92%|█████████▏| 36544/39905 [00:03<00:00, 8630.02 examples/s]Map:  94%|█████████▍| 37576/39905 [00:04<00:00, 8651.44 examples/s]Map:  97%|█████████▋| 38603/39905 [00:04<00:00, 8739.15 examples/s]Map:  99%|█████████▉| 39551/39905 [00:04<00:00, 8649.14 examples/s]Map: 100%|██████████| 39905/39905 [00:04<00:00, 8523.10 examples/s]
+[hellaswag] Setting up 'random' sampler with seed 42
+[hellaswag] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main
+[hellaswag] Loading from local path...
+Map:   0%|          | 0/10042 [00:00<?, ? examples/s]Map:  11%|█         | 1103/10042 [00:00<00:00, 10946.21 examples/s]Map:  29%|██▉       | 2958/10042 [00:00<00:00, 11907.31 examples/s]Map:  44%|████▍     | 4425/10042 [00:00<00:00, 8830.10 examples/s] Map:  55%|█████▍    | 5493/10042 [00:00<00:00, 8275.45 examples/s]Map:  65%|██████▌   | 6532/10042 [00:00<00:00, 7998.58 examples/s]Map:  75%|███████▍  | 7497/10042 [00:00<00:00, 7942.98 examples/s]Map:  85%|████████▍ | 8518/10042 [00:01<00:00, 7864.25 examples/s]Map:  94%|█████████▍| 9484/10042 [00:01<00:00, 7856.97 examples/s]Map: 100%|██████████| 10042/10042 [00:01<00:00, 7530.69 examples/s]
+[hellaswag] Processing (num_proc=16):   0%|          | 0/10042 [00:00<?, ? examples/s][hellaswag] Processing (num_proc=16):   6%|▋         | 628/10042 [00:03<00:53, 177.06 examples/s][hellaswag] Processing (num_proc=16):  38%|███▊      | 3767/10042 [00:03<00:04, 1385.15 examples/s][hellaswag] Processing (num_proc=16): 100%|██████████| 10042/10042 [00:03<00:00, 2580.36 examples/s]
+
+--- Sample Preview (hellaswag) ---
+Prompt:
+Making a sandwich: Several food items and dishes are laid out on a table. Meat product and other items are used to create a sandwich. Then a bento shaper is used to create an image in the sandwich.
+
+Throwing darts: A man in a black vest is standing in a room. He throws darts at a dart board on the wall. A woman stands next to him watching.
+
+Food and Entertaining: How to make money by having a house party. Find a couple friends to help plan the party. Planning a killer house party is a lot easier...
+Token IDs (first 20): [50285, 35338, 247, 25749, 27, 12090, 2739, 4957, 285, 17114, 403, 10090, 562, 327, 247, 2829, 15, 47696, 1885, 285]
+
+Choices (4 options):
+  1. 'is using wrap to wrap a pair of skis....' -> [310, 970, 16384, 281, 16384, 247, 4667, 273, 1629, 261, 15]
+  2. 'is ripping level tiles off....' -> [310, 4172, 2784, 1268, 28390, 745, 15]
+  3. 'is holding a rubik's cube....' -> [310, 5877, 247, 7692, 1479, 434, 23636, 15]
+  4. 'starts pulling up roofing on a roof....' -> [7866, 14252, 598, 10699, 272, 327, 247, 10699, 15]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 40168 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 5021 samples
+[INFO] GPU 1: 5021 samples
+[INFO] GPU 2: 5021 samples
+[INFO] GPU 3: 5021 samples
+[INFO] GPU 4: 5021 samples
+[INFO] GPU 5: 5021 samples
+[INFO] GPU 6: 5021 samples
+[INFO] GPU 7: 5021 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 6] Starting on cuda:6, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 7] Starting on cuda:7, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 2] Starting on cuda:2, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 0] Starting on cuda:0, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 5] Starting on cuda:5, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 4] Starting on cuda:4, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 1] Starting on cuda:1, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 3] Starting on cuda:3, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828"             --model_type "causal"             --tasks "hellaswag"             --num_fewshot "3"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+Type: causal
+Tasks: hellaswag
+Few-shot: 3
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+============================================================
+
+============================================================
+Evaluating: hellaswag (3-shot)
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: hellaswag
+[hellaswag] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main
+[hellaswag] Loading from local path...
+[hellaswag] Setting up 'random' sampler with seed 42
+[hellaswag] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main
+[hellaswag] Loading from local path...
+[hellaswag] Processing (num_proc=16): 100%|██████████| 10042/10042 [00:00<?, ? examples/s][hellaswag] Processing (num_proc=16): 10670 examples [00:03, 180.06 examples/s]           [hellaswag] Processing (num_proc=16): 13809 examples [00:03, 1401.40 examples/s][hellaswag] Processing (num_proc=16): 20084 examples [00:03, 2602.06 examples/s]
+
+--- Sample Preview (hellaswag) ---
+Prompt:
+Making a sandwich: Several food items and dishes are laid out on a table. Meat product and other items are used to create a sandwich. Then a bento shaper is used to create an image in the sandwich.
+
+Throwing darts: A man in a black vest is standing in a room. He throws darts at a dart board on the wall. A woman stands next to him watching.
+
+Food and Entertaining: How to make money by having a house party. Find a couple friends to help plan the party. Planning a killer house party is a lot easier...
+Token IDs (first 20): [50285, 35338, 247, 25749, 27, 12090, 2739, 4957, 285, 17114, 403, 10090, 562, 327, 247, 2829, 15, 47696, 1885, 285]
+
+Choices (4 options):
+  1. 'is using wrap to wrap a pair of skis....' -> [310, 970, 16384, 281, 16384, 247, 4667, 273, 1629, 261, 15]
+  2. 'is ripping level tiles off....' -> [310, 4172, 2784, 1268, 28390, 745, 15]
+  3. 'is holding a rubik's cube....' -> [310, 5877, 247, 7692, 1479, 434, 23636, 15]
+  4. 'starts pulling up roofing on a roof....' -> [7866, 14252, 598, 10699, 272, 327, 247, 10699, 15]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 40168 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 5021 samples
+[INFO] GPU 1: 5021 samples
+[INFO] GPU 2: 5021 samples
+[INFO] GPU 3: 5021 samples
+[INFO] GPU 4: 5021 samples
+[INFO] GPU 5: 5021 samples
+[INFO] GPU 6: 5021 samples
+[INFO] GPU 7: 5021 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 3] Starting on cuda:3, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 6] Starting on cuda:6, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 7] Starting on cuda:7, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 0] Starting on cuda:0, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 5] Starting on cuda:5, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 4] Starting on cuda:4, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 2] Starting on cuda:2, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 1] Starting on cuda:1, processing 5021 samples
+[INFO] Loaded model using AutoModelForCausalLM: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-57828
+[Worker 1] Completed 5021 samples
+[Worker 7] Completed 5021 samples
+[Worker 6] Completed 5021 samples
+[Worker 4] Completed 5021 samples
+[Worker 3] Completed 5021 samples
+[Worker 0] Completed 5021 samples
+[Worker 5] Completed 5021 samples
+[Worker 2] Completed 5021 samples
+[INFO] Waiting for 8 workers to complete...
+[INFO] Successfully collected 40168 results from all workers
+
+[STATS] hellaswag option lengths:
+  Tokens - avg: 29.86, min: 2, max: 88
+  Chars  - avg: 135.10
+✓ Detailed results saved: evaluation_results/arm_1B_fineweb_edu_100b_potential/checkpoint-57828/hellaswag/744876db.results.json
+
+============================================================
+Results for: HELLASWAG
+Model: arm_1B_fineweb_edu_100b_potential_checkpoint-57828
+============================================================
+acc: 0.3183 (3196/10042)
+acc_norm_char: 0.3502 (3517/10042)
+acc_norm_token: 0.3505 (3520/10042)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

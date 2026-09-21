@@ -1,0 +1,16 @@
+{
+  "diffusion": {
+    "block_size": 16,
+    "mc_num": 32,
+    "mode": "mc",
+    "type": "bd3lm"
+  },
+  "fewshot": {
+    "num": 5,
+    "sampler": "random",
+    "seed": 42
+  },
+  "limit": 0,
+  "model_type": "discrete_diffusion",
+  "task": "mmlu"
+}

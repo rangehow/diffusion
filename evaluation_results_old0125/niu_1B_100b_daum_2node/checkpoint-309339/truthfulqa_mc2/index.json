@@ -1,0 +1,21 @@
+[
+  {
+    "id": "db420152",
+    "timestamp_utc": "2026-01-22T08:34:13.659506+00:00",
+    "metrics": {
+      "mc2_prob_mass_score": 0.3504679522265009,
+      "scored_count": 817,
+      "total_questions": 817
+    },
+    "params": {
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "causal",
+      "task": "truthfulqa_mc2"
+    }
+  }
+]

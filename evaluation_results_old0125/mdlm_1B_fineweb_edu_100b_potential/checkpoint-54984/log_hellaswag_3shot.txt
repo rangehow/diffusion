@@ -1,0 +1,135 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984"             --model_type "discrete_diffusion"             --tasks "hellaswag"             --num_fewshot "3"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+Type: discrete_diffusion
+Tasks: hellaswag
+Few-shot: 3
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: hellaswag (3-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: hellaswag
+[hellaswag] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main
+[hellaswag] Loading from local path...
+Map:   0%|          | 0/39905 [00:00<?, ? examples/s]Map:   3%|▎         | 1120/39905 [00:00<00:03, 11112.37 examples/s]Map:   6%|▌         | 2238/39905 [00:00<00:03, 11149.72 examples/s]Map:   9%|▉         | 3720/39905 [00:00<00:03, 11812.68 examples/s]Map:  13%|█▎        | 5080/39905 [00:00<00:03, 10511.03 examples/s]Map:  16%|█▌        | 6291/39905 [00:00<00:03, 11006.81 examples/s]Map:  19%|█▉        | 7712/39905 [00:00<00:02, 11169.11 examples/s]Map:  22%|██▏       | 8867/39905 [00:00<00:02, 11277.21 examples/s]Map:  26%|██▌       | 10308/39905 [00:00<00:02, 10633.07 examples/s]Map:  29%|██▉       | 11713/39905 [00:01<00:02, 11148.71 examples/s]Map:  33%|███▎      | 13277/39905 [00:01<00:02, 10888.92 examples/s]Map:  37%|███▋      | 14657/39905 [00:01<00:02, 11192.20 examples/s]Map:  40%|████      | 16000/39905 [00:01<00:02, 9636.65 examples/s] Map:  44%|████▍     | 17550/39905 [00:01<00:02, 9310.46 examples/s]Map:  46%|████▋     | 18541/39905 [00:01<00:02, 9016.45 examples/s]Map:  49%|████▉     | 19574/39905 [00:01<00:02, 8428.63 examples/s]Map:  52%|█████▏    | 20554/39905 [00:02<00:02, 8365.30 examples/s]Map:  54%|█████▍    | 21533/39905 [00:02<00:02, 8285.56 examples/s]Map:  57%|█████▋    | 22574/39905 [00:02<00:02, 8369.32 examples/s]Map:  59%|█████▉    | 23545/39905 [00:02<00:01, 8377.86 examples/s]Map:  62%|██████▏   | 24572/39905 [00:02<00:01, 8439.60 examples/s]Map:  64%|██████▍   | 25569/39905 [00:02<00:01, 8457.80 examples/s]Map:  67%|██████▋   | 26553/39905 [00:02<00:01, 8455.14 examples/s]Map:  69%|██████▉   | 27531/39905 [00:02<00:01, 8416.65 examples/s]Map:  72%|███████▏  | 28602/39905 [00:03<00:01, 8624.88 examples/s]Map:  74%|███████▍  | 29557/39905 [00:03<00:01, 8534.37 examples/s]Map:  77%|███████▋  | 30529/39905 [00:03<00:01, 8492.08 examples/s]Map:  79%|███████▉  | 31599/39905 [00:03<00:00, 8625.45 examples/s]Map:  82%|████████▏ | 32555/39905 [00:03<00:00, 8591.60 examples/s]Map:  84%|████████▍ | 33558/39905 [00:03<00:00, 8602.87 examples/s]Map:  87%|████████▋ | 34592/39905 [00:03<00:00, 8745.13 examples/s]Map:  89%|████████▉ | 35603/39905 [00:03<00:00, 8771.38 examples/s]Map:  92%|█████████▏| 36556/39905 [00:03<00:00, 8437.38 examples/s]Map:  94%|█████████▍| 37579/39905 [00:04<00:00, 8525.41 examples/s]Map:  97%|█████████▋| 38597/39905 [00:04<00:00, 8642.13 examples/s]Map:  99%|█████████▉| 39558/39905 [00:04<00:00, 8617.75 examples/s]Map: 100%|██████████| 39905/39905 [00:04<00:00, 8630.11 examples/s]
+[hellaswag] Setting up 'random' sampler with seed 42
+[hellaswag] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/Rowan/hellaswag/main
+[hellaswag] Loading from local path...
+Map:   0%|          | 0/10042 [00:00<?, ? examples/s]Map:  10%|█         | 1039/10042 [00:00<00:00, 10314.90 examples/s]Map:  21%|██        | 2076/10042 [00:00<00:00, 10342.49 examples/s]Map:  31%|███       | 3135/10042 [00:00<00:00, 10450.94 examples/s]Map:  44%|████▍     | 4427/10042 [00:00<00:00, 8755.13 examples/s] Map:  54%|█████▍    | 5462/10042 [00:00<00:00, 7974.83 examples/s]Map:  66%|██████▌   | 6579/10042 [00:00<00:00, 7909.10 examples/s]Map:  75%|███████▍  | 7482/10042 [00:00<00:00, 7800.51 examples/s]Map:  85%|████████▍ | 8512/10042 [00:01<00:00, 7850.71 examples/s]Map:  95%|█████████▍| 9508/10042 [00:01<00:00, 7870.05 examples/s]Map: 100%|██████████| 10042/10042 [00:01<00:00, 7488.81 examples/s]
+[hellaswag] Processing (num_proc=16):   0%|          | 0/10042 [00:00<?, ? examples/s][hellaswag] Processing (num_proc=16):   6%|▋         | 628/10042 [00:03<00:51, 182.87 examples/s][hellaswag] Processing (num_proc=16):  38%|███▊      | 3767/10042 [00:03<00:04, 1414.19 examples/s][hellaswag] Processing (num_proc=16): 100%|██████████| 10042/10042 [00:03<00:00, 2632.64 examples/s]
+
+--- Sample Preview (hellaswag) ---
+Prompt:
+Making a sandwich: Several food items and dishes are laid out on a table. Meat product and other items are used to create a sandwich. Then a bento shaper is used to create an image in the sandwich.
+
+Throwing darts: A man in a black vest is standing in a room. He throws darts at a dart board on the wall. A woman stands next to him watching.
+
+Food and Entertaining: How to make money by having a house party. Find a couple friends to help plan the party. Planning a killer house party is a lot easier...
+Token IDs (first 20): [50285, 35338, 247, 25749, 27, 12090, 2739, 4957, 285, 17114, 403, 10090, 562, 327, 247, 2829, 15, 47696, 1885, 285]
+
+Choices (4 options):
+  1. 'is using wrap to wrap a pair of skis....' -> [310, 970, 16384, 281, 16384, 247, 4667, 273, 1629, 261, 15, 50279]
+  2. 'is ripping level tiles off....' -> [310, 4172, 2784, 1268, 28390, 745, 15, 50279]
+  3. 'is holding a rubik's cube....' -> [310, 5877, 247, 7692, 1479, 434, 23636, 15, 50279]
+  4. 'starts pulling up roofing on a roof....' -> [7866, 14252, 598, 10699, 272, 327, 247, 10699, 15, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 40168 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 5021 samples
+[INFO] GPU 1: 5021 samples
+[INFO] GPU 2: 5021 samples
+[INFO] GPU 3: 5021 samples
+[INFO] GPU 4: 5021 samples
+[INFO] GPU 5: 5021 samples
+[INFO] GPU 6: 5021 samples
+[INFO] GPU 7: 5021 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 4] Starting on cuda:4, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 1] Starting on cuda:1, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 5] Starting on cuda:5, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 0] Starting on cuda:0, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 7] Starting on cuda:7, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 2] Starting on cuda:2, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 6] Starting on cuda:6, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 3] Starting on cuda:3, processing 5021 samples
+[INFO] Disabled torch.dynamo for evaluation
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 2] Completed 5021 samples
+[Worker 1] Completed 5021 samples
+[Worker 0] Completed 5021 samples
+[Worker 7] Completed 5021 samples
+[Worker 5] Completed 5021 samples
+[Worker 4] Completed 5021 samples
+[Worker 3] Completed 5021 samples
+[Worker 6] Completed 5021 samples
+[INFO] Waiting for 8 workers to complete...
+[INFO] Successfully collected 40168 results from all workers
+
+[STATS] hellaswag option lengths:
+  Tokens - avg: 30.86, min: 3, max: 89
+  Chars  - avg: 135.10
+✓ Detailed results saved: evaluation_results/mdlm_1B_fineweb_edu_100b_potential/checkpoint-54984/hellaswag/169376a5.results.json
+
+============================================================
+Results for: HELLASWAG
+Model: mdlm_1B_fineweb_edu_100b_potential_checkpoint-54984
+============================================================
+acc: 0.3537 (3552/10042)
+acc_norm_char: 0.4100 (4117/10042)
+acc_norm_token: 0.4066 (4083/10042)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

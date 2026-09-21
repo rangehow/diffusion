@@ -1,0 +1,28 @@
+[
+  {
+    "id": "33dcefa6",
+    "timestamp_utc": "2026-01-14T08:00:00.103021+00:00",
+    "metrics": {
+      "acc": 0.5169692186266772,
+      "acc_norm_char": 0.5193370165745856,
+      "acc_norm_token": 0.5138121546961326,
+      "total": 1267
+    },
+    "params": {
+      "diffusion": {
+        "block_size": 16,
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "bd3lm"
+      },
+      "fewshot": {
+        "num": 5,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "winogrande"
+    }
+  }
+]

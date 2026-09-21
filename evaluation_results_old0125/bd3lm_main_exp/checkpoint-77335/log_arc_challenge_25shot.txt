@@ -1,0 +1,282 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "arc_challenge"             --num_fewshot "25"             --batch_size "4"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "bd3lm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: arc_challenge
+Few-shot: 25
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: bd3lm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: arc_challenge (25-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: arc_challenge
+[arc_challenge] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main
+[arc_challenge] Loading from local path...
+[arc_challenge] Setting up 'random' sampler with seed 42
+[arc_challenge] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main
+[arc_challenge] Loading from local path...
+[arc_challenge] Processing (num_proc=16): 100%|██████████| 1172/1172 [00:00<?, ? examples/s][arc_challenge] Processing (num_proc=16): 1245 examples [00:01, 45.20 examples/s]           [arc_challenge] Processing (num_proc=16): 2125 examples [00:01, 714.73 examples/s][arc_challenge] Processing (num_proc=16): 2344 examples [00:01, 595.17 examples/s]
+
+--- Sample Preview (arc_challenge) ---
+Prompt:
+Question: Which of the following best explains how stems transport water to other parts of the plant?
+Answer: through a system of tubes
+
+Question: Rubbing sandpaper on a piece of wood produces what two types of energy?
+Answer: sound and heat
+
+Question: If enough heat is taken away from a container of water, what will happen to the water?
+Answer: It will become a solid.
+
+Question: During sexual reproduction, a sperm cell fertilizes an egg cell to form a fertilized egg. The fertilized egg then dev...
+Token IDs (first 20): [50285, 23433, 27, 6758, 273, 253, 1563, 1682, 11424, 849, 23880, 4616, 1824, 281, 643, 4243, 273, 253, 4444, 32]
+
+Choices (4 options):
+  1. 'Planetary density will decrease....' -> [9224, 12745, 4038, 588, 6379, 15, 50279]
+  2. 'Planetary years will become longer....' -> [9224, 12745, 1107, 588, 2489, 3356, 15, 50279]
+  3. 'Planetary days will become shorter....' -> [9224, 12745, 1897, 588, 2489, 12217, 15, 50279]
+  4. 'Planetary gravity will become stronger....' -> [9224, 12745, 12926, 588, 2489, 10046, 15, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 4687 samples across 8 GPUs...
+[INFO] Batch size per GPU: 4
+[INFO] GPU 0: 586 samples
+[INFO] GPU 1: 586 samples
+[INFO] GPU 2: 586 samples
+[INFO] GPU 3: 586 samples
+[INFO] GPU 4: 586 samples
+[INFO] GPU 5: 586 samples
+[INFO] GPU 6: 586 samples
+[INFO] GPU 7: 585 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 0] Starting on cuda:0, processing 586 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+[Worker 1] Starting on cuda:1, processing 586 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+[Worker 4] Starting on cuda:4, processing 586 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+[Worker 7] Starting on cuda:7, processing 585 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+[Worker 3] Starting on cuda:3, processing 586 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+[Worker 6] Starting on cuda:6, processing 586 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+[Worker 5] Starting on cuda:5, processing 586 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+[Worker 2] Starting on cuda:2, processing 586 samples
+flex_attention enabled
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/bd3lm_main_exp/checkpoint-77335
+[INFO] Diffusion type: bd3lm
+[INFO] Eval mode: mc
+AUTOTUNE flex_attention(16x24x2254x64, 16x24x2254x64, 16x24x2254x64, 16x24x2254, 1x1x18, 1x1x18x18, 1x1x18, 1x1x18x18)
+strides: [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [54096, 2254, 1], [18, 18, 1], [324, 324, 18, 1], [18, 18, 1], [324, 324, 18, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 6.3876 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 6.8290 ms 93.5% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 7.7793 ms 82.1% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 8.8769 ms 72.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_1 9.0106 ms 70.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.4831 seconds and 110.6797 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1976x64, 16x24x1976x64, 16x24x1976x64, 16x24x1976, 1x1x16, 1x1x16x16, 1x1x16, 1x1x16x16)
+strides: [9105408, 64, 4608, 1], [9105408, 64, 4608, 1], [9105408, 64, 4608, 1], [47424, 1976, 1], [16, 16, 1], [256, 256, 16, 1], [16, 16, 1], [256, 256, 16, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 4.9717 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 5.6631 ms 87.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 6.0077 ms 82.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_1 7.0436 ms 70.6% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 7.1027 ms 70.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+SingleProcess AUTOTUNE benchmarking takes 0.3773 seconds and 112.1777 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1978x64, 16x24x1978x64, 16x24x1978x64, 16x24x1978, 1x1x16, 1x1x16x16, 1x1x16, 1x1x16x16)
+strides: [9114624, 64, 4608, 1], [9114624, 64, 4608, 1], [9114624, 64, 4608, 1], [47472, 1978, 1], [16, 16, 1], [256, 256, 16, 1], [16, 16, 1], [256, 256, 16, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 4.9193 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 5.1345 ms 95.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 6.0073 ms 81.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 7.0259 ms 70.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_1 7.3435 ms 67.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.3807 seconds and 111.5569 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1978x64, 16x24x1978x64, 16x24x1978x64, 16x24x1978, 1x1x16, 1x1x16x16, 1x1x16, 1x1x16x16)
+strides: [9114624, 64, 4608, 1], [9114624, 64, 4608, 1], [9114624, 64, 4608, 1], [47472, 1978, 1], [16, 16, 1], [256, 256, 16, 1], [16, 16, 1], [256, 256, 16, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 4.9224 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 5.1277 ms 96.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 5.9949 ms 82.1% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 7.0491 ms 69.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_1 7.3413 ms 67.1% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.3769 seconds and 112.8801 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x2254x64, 16x24x2254x64, 16x24x2254x64, 16x24x2254, 1x1x18, 1x1x18x18, 1x1x18, 1x1x18x18)
+strides: [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [54096, 2254, 1], [18, 18, 1], [324, 324, 18, 1], [18, 18, 1], [324, 324, 18, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 6.3912 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 6.8852 ms 92.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 7.8533 ms 81.4% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 8.9520 ms 71.4% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_1 9.0580 ms 70.6% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.4127 seconds and 113.3198 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1978x64, 16x24x1978x64, 16x24x1978x64, 16x24x1978, 1x1x16, 1x1x16x16, 1x1x16, 1x1x16x16)
+strides: [9114624, 64, 4608, 1], [9114624, 64, 4608, 1], [9114624, 64, 4608, 1], [47472, 1978, 1], [16, 16, 1], [256, 256, 16, 1], [16, 16, 1], [256, 256, 16, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 4.9203 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 5.1307 ms 95.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 5.9876 ms 82.2% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 7.0276 ms 70.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_1 7.3565 ms 66.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.3723 seconds and 113.0587 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x2254x64, 16x24x2254x64, 16x24x2254x64, 16x24x2254, 1x1x18, 1x1x18x18, 1x1x18, 1x1x18x18)
+strides: [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [54096, 2254, 1], [18, 18, 1], [324, 324, 18, 1], [18, 18, 1], [324, 324, 18, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 6.3874 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 6.8375 ms 93.4% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 7.7805 ms 82.1% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 8.8956 ms 71.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_1 9.0097 ms 70.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.6205 seconds and 113.9771 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x2254x64, 16x24x2254x64, 16x24x2254x64, 16x24x2254, 1x1x18, 1x1x18x18, 1x1x18, 1x1x18x18)
+strides: [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [10386432, 64, 4608, 1], [54096, 2254, 1], [18, 18, 1], [324, 324, 18, 1], [18, 18, 1], [324, 324, 18, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_0 6.3869 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_4 6.8359 ms 93.4% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_3 7.7800 ms 82.1% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_2 8.8942 ms 71.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_1 8.9894 ms 71.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.4727 seconds and 115.6240 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1852x64, 16x24x1852x64, 16x24x1852x64, 16x24x1852, 1x1x15, 1x1x15x15, 1x1x15, 1x1x15x15)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 7.0839 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 7.8455 ms 90.3% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_9 8.0619 ms 87.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_6 8.6499 ms 81.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 12.3446 ms 57.4% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.4522 seconds and 74.8369 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1856x64, 16x24x1856x64, 16x24x1856x64, 16x24x1856, 1x1x15, 1x1x15x15, 1x1x15, 1x1x15x15)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 7.0857 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 7.8476 ms 90.3% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_9 8.0738 ms 87.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_6 8.6266 ms 82.1% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 12.3647 ms 57.3% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.4566 seconds and 74.9870 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1846x64, 16x24x1846x64, 16x24x1846x64, 16x24x1846, 1x1x15, 1x1x15x15, 1x1x15, 1x1x15x15)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 7.0758 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 7.8657 ms 90.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_9 8.0639 ms 87.7% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_6 8.6378 ms 81.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 12.4119 ms 57.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.4544 seconds and 76.5150 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x2140x64, 16x24x2140x64, 16x24x2140x64, 16x24x2140, 1x1x17, 1x1x17x17, 1x1x17, 1x1x17x17)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 9.3236 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 10.0329 ms 92.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_9 11.0316 ms 84.5% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_6 11.1000 ms 84.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 16.6902 ms 55.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.5259 seconds and 76.6846 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x2140x64, 16x24x2140x64, 16x24x2140x64, 16x24x2140, 1x1x17, 1x1x17x17, 1x1x17, 1x1x17x17)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 9.4319 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 10.0402 ms 93.9% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_6 11.0359 ms 85.5% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_9 11.0377 ms 85.5% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 16.5932 ms 56.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.6087 seconds and 77.2530 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x2140x64, 16x24x2140x64, 16x24x2140x64, 16x24x2140, 1x1x17, 1x1x17x17, 1x1x17, 1x1x17x17)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 9.3642 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 10.0354 ms 93.3% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_9 11.0448 ms 84.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_6 11.0948 ms 84.4% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 16.4740 ms 56.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.5266 seconds and 77.2572 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x2144x64, 16x24x2144x64, 16x24x2144x64, 16x24x2144, 1x1x17, 1x1x17x17, 1x1x17, 1x1x17x17)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 9.3350 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 10.0349 ms 93.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_9 11.0465 ms 84.5% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_6 11.0871 ms 84.2% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 16.4596 ms 56.7% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.5238 seconds and 77.1996 seconds precompiling for 5 choices
+AUTOTUNE flex_attention(16x24x1844x64, 16x24x1844x64, 16x24x1844x64, 16x24x1844, 1x1x15, 1x1x15x15, 1x1x15, 1x1x15x15)
+strides: [s0*s36, 64, s36, 1], [s36*s69, 64, s36, 1], [s36*s49, 64, s36, 1], [24*s0, s0, 1], [s26, s26, 1], [s58*s65, s58*s65, s65, 1], [s31, s31, 1], [s29*s80, s29*s80, s29, 1]
+dtypes: torch.bfloat16, torch.bfloat16, torch.bfloat16, torch.float32, torch.int32, torch.int32, torch.int32, torch.int32
+  triton_flex_attention_5 7.0592 ms 100.0% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_7 7.8598 ms 89.8% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=2, num_warps=8
+  triton_flex_attention_9 8.0796 ms 87.4% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=64, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_6 8.6397 ms 81.7% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=128, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+  triton_flex_attention_8 12.4705 ms 56.6% BLOCKS_ARE_CONTIGUOUS=False, BLOCK_M=64, BLOCK_N=128, FLOAT32_PRECISION="'ieee'", GQA_SHARED_HEADS=1, HAS_FULL_BLOCKS=True, IS_DIVISIBLE=False, OUTPUT_LOGSUMEXP=False, PRESCALE_QK=False, QK_HEAD_DIM=64, QK_HEAD_DIM_ROUNDED=64, ROWS_GUARANTEED_SAFE=False, SAFE_HEAD_DIM=True, SM_SCALE=0.125, SPARSE_KV_BLOCK_SIZE=128, SPARSE_Q_BLOCK_SIZE=128, USE_TMA=False, V_HEAD_DIM=64, V_HEAD_DIM_ROUNDED=64, WRITE_DQ=True, num_stages=3, num_warps=4
+SingleProcess AUTOTUNE benchmarking takes 0.4537 seconds and 76.2576 seconds precompiling for 5 choices
+[Worker 4] Completed 586 samples
+[Worker 5] Completed 586 samples
+[Worker 7] Completed 585 samples
+[Worker 6] Completed 586 samples
+[Worker 1] Completed 586 samples
+[Worker 3] Completed 586 samples
+[Worker 2] Completed 586 samples
+[Worker 0] Completed 586 samples
+[INFO] Waiting for 8 workers to complete...
+[INFO] Successfully collected 4687 results from all workers
+
+[STATS] arc_challenge option lengths:
+  Tokens - avg: 7.01, min: 2, max: 46
+  Chars  - avg: 29.09
+✓ Detailed results saved: evaluation_results/bd3lm_main_exp/checkpoint-77335/arc_challenge/da677395.results.json
+
+============================================================
+Results for: ARC_CHALLENGE
+Model: bd3lm_main_exp_checkpoint-77335
+============================================================
+acc: 0.2517 (295/1172)
+acc_norm_char: 0.2773 (325/1172)
+acc_norm_token: 0.2730 (320/1172)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

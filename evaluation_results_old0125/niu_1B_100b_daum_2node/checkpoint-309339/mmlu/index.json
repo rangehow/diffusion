@@ -1,0 +1,22 @@
+[
+  {
+    "id": "36d0062f",
+    "timestamp_utc": "2026-01-22T07:44:45.011673+00:00",
+    "metrics": {
+      "acc": 0.256943455348241,
+      "acc_norm_char": 0.256943455348241,
+      "acc_norm_token": 0.256943455348241,
+      "total": 14042
+    },
+    "params": {
+      "fewshot": {
+        "num": 5,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "causal",
+      "task": "mmlu"
+    }
+  }
+]

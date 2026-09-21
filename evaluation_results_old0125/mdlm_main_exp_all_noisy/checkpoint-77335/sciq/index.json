@@ -1,0 +1,27 @@
+[
+  {
+    "id": "dc572fcc",
+    "timestamp_utc": "2026-01-13T08:51:38.464087+00:00",
+    "metrics": {
+      "acc": 0.411,
+      "acc_norm_char": 0.293,
+      "acc_norm_token": 0.373,
+      "total": 1000
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "sciq"
+    }
+  }
+]

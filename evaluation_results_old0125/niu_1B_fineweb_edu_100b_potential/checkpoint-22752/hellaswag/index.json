@@ -1,0 +1,22 @@
+[
+  {
+    "id": "90494ab0",
+    "timestamp_utc": "2026-01-17T11:37:08.286643+00:00",
+    "metrics": {
+      "acc": 0.3276239792869946,
+      "acc_norm_char": 0.3776140211113324,
+      "acc_norm_token": 0.3761202947619996,
+      "total": 10042
+    },
+    "params": {
+      "fewshot": {
+        "num": 3,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "causal",
+      "task": "hellaswag"
+    }
+  }
+]

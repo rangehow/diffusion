@@ -1,0 +1,28 @@
+[
+  {
+    "id": "b4d3f01c",
+    "timestamp_utc": "2026-01-15T06:30:15.105032+00:00",
+    "metrics": {
+      "acc": 0.766,
+      "acc_norm_char": 0.744,
+      "acc_norm_token": 0.796,
+      "total": 1000
+    },
+    "params": {
+      "diffusion": {
+        "block_size": 16,
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "bd3lm"
+      },
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "sciq"
+    }
+  }
+]

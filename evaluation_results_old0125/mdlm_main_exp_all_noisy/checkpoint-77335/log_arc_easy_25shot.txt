@@ -1,0 +1,198 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "arc_easy"             --num_fewshot "25"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: arc_easy
+Few-shot: 25
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: arc_easy (25-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: arc_easy
+[arc_easy] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main
+[arc_easy] Loading from local path...
+[arc_easy] Setting up 'random' sampler with seed 42
+[arc_easy] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main
+[arc_easy] Loading from local path...
+[arc_easy] Processing (num_proc=16):   0%|          | 0/2376 [00:00<?, ? examples/s][arc_easy] Processing (num_proc=16):   6%|▋         | 149/2376 [00:02<00:31, 69.86 examples/s][arc_easy] Processing (num_proc=16):  56%|█████▋    | 1340/2376 [00:02<00:01, 770.45 examples/s][arc_easy] Processing (num_proc=16): 100%|██████████| 2376/2376 [00:02<00:00, 934.05 examples/s]
+
+--- Sample Preview (arc_easy) ---
+Prompt:
+Question: Which cell part is correctly paired with its function?
+Answer: nucleus-controls cell activities
+
+Question: When someone plays the flute, sound is produced because the air in the flute is
+Answer: vibrating.
+
+Question: In humans, a trait can be determined by one pair or many pairs of
+Answer: microbes
+
+Question: Where is most of Earth's water located?
+Answer: oceans
+
+Question: What is the first step in designing a product?
+Answer: identify the need or want
+
+Question: Which geologic proces...
+Token IDs (first 20): [50285, 23433, 27, 6758, 894, 629, 310, 9113, 18433, 342, 697, 1159, 32, 187, 32869, 27, 13787, 14, 38211, 894]
+
+Choices (4 options):
+  1. 'Sunlight is the source of energy for nearly all ec...' -> [4146, 3243, 310, 253, 2603, 273, 2341, 323, 4829, 512, 36870, 15, 50279]
+  2. 'Most ecosystems are found on land instead of in wa...' -> [5595, 36870, 403, 1119, 327, 2659, 3185, 273, 275, 1824, 15, 50279]
+  3. 'Carbon dioxide is more available than other gases....' -> [32676, 21295, 310, 625, 2130, 685, 643, 21379, 15, 50279]
+  4. 'The producers in all ecosystems are plants....' -> [380, 18014, 275, 512, 36870, 403, 6244, 15, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 9501 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 1188 samples
+[INFO] GPU 1: 1188 samples
+[INFO] GPU 2: 1188 samples
+[INFO] GPU 3: 1188 samples
+[INFO] GPU 4: 1188 samples
+[INFO] GPU 5: 1187 samples
+[INFO] GPU 6: 1187 samples
+[INFO] GPU 7: 1187 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 2] Starting on GPU 2, processing 1188 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 0] Starting on GPU 0, processing 1188 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 6] Starting on GPU 6, processing 1187 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 5] Starting on GPU 5, processing 1187 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 1] Starting on GPU 1, processing 1188 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 7] Starting on GPU 7, processing 1187 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 4] Starting on GPU 4, processing 1188 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 3] Starting on GPU 3, processing 1188 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+Worker 0 error: CUDA out of memory. Tried to allocate 3.47 GiB. GPU 0 has a total capacity of 139.72 GiB of which 1.07 GiB is free. Process 2315700 has 8.66 GiB memory in use. Process 2315723 has 17.38 GiB memory in use. Process 2315701 has 11.61 GiB memory in use. Process 2315709 has 17.39 GiB memory in use. Process 2315703 has 22.62 GiB memory in use. Process 2315711 has 34.45 GiB memory in use. Process 2315717 has 11.40 GiB memory in use. Process 2315702 has 15.08 GiB memory in use. Of the allocated memory 7.13 GiB is allocated by PyTorch, and 896.84 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 95, in _worker_init
+    logprobs = adapter.compute_logprobs(batch)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 70, in compute_logprobs
+    return self._compute_mc(batch)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 121, in _compute_mc
+    loss = self._forward_loss(mc_batch, cont_mask_unpadded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 180, in _forward_loss
+    outputs = self.model(**model_inputs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/.cache/modules/transformers_modules/checkpoint_hyphen_77335/modeling_llada.py", line 1383, in forward
+    loss = ForMaskedLMLoss(
+           ^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/.cache/modules/transformers_modules/checkpoint_hyphen_77335/modeling_llada.py", line 1159, in ForMaskedLMLoss
+    per_token_loss = F.cross_entropy(logits, labels, ignore_index=ignore_index, reduction="none")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/functional.py", line 3462, in cross_entropy
+    return torch._C._nn.cross_entropy_loss(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.47 GiB. GPU 0 has a total capacity of 139.72 GiB of which 1.07 GiB is free. Process 2315700 has 8.66 GiB memory in use. Process 2315723 has 17.38 GiB memory in use. Process 2315701 has 11.61 GiB memory in use. Process 2315709 has 17.39 GiB memory in use. Process 2315703 has 22.62 GiB memory in use. Process 2315711 has 34.45 GiB memory in use. Process 2315717 has 11.40 GiB memory in use. Process 2315702 has 15.08 GiB memory in use. Of the allocated memory 7.13 GiB is allocated by PyTorch, and 896.84 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+[Worker 5] Completed 1187 samples
+[Worker 2] Completed 1188 samples
+[Worker 1] Completed 1188 samples
+[Worker 7] Completed 1187 samples
+[Worker 6] Completed 1187 samples
+[Worker 3] Completed 1188 samples
+[Worker 4] Completed 1188 samples
+[INFO] Waiting for 8 workers to complete...
+[WARNING] 1 worker(s) had errors:
+Worker 0 error: CUDA out of memory. Tried to allocate 3.47 GiB. GPU 0 has a total capacity of 139.72 GiB of which 1.07 GiB is free. Process 2315700 has 8.66 GiB memory in use. Process 2315723 has 17.38 GiB memory in use. Process 2315701 has 11.61 GiB memory in use. Process 2315709 has 17.39 GiB memory in use. Process 2315703 has 22.62 GiB memory in use. Process 2315711 has 34.45 GiB memory in use. Process 2315717 has 11.40 GiB memory in use. Process 2315702 has 15.08 GiB memory in use. Of the allocated memory 7.13 GiB is allocated by PyTorch, and 896.84 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Traceback (most recent call last):
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/engine/simple_evaluator.py", line 95, in _worker_init
+    logprobs = adapter.compute_logprobs(batch)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 70, in compute_logprobs
+    return self._compute_mc(batch)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 121, in _compute_mc
+    loss = self._forward_loss(mc_batch, cont_mask_unpadded)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/eval/models/diffusion.py", line 180, in _forward_loss
+    outputs = self.model(**model_inputs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/.cache/modules/transformers_modules/checkpoint_hyphen_77335/modeling_llada.py", line 1383, in forward
+    loss = ForMaskedLMLoss(
+           ^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/.cache/modules/transformers_modules/checkpoint_hyphen_77335/modeling_llada.py", line 1159, in ForMaskedLMLoss
+    per_token_loss = F.cross_entropy(logits, labels, ignore_index=ignore_index, reduction="none")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/miniforge/lib/python3.12/site-packages/torch/nn/functional.py", line 3462, in cross_entropy
+    return torch._C._nn.cross_entropy_loss(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 3.47 GiB. GPU 0 has a total capacity of 139.72 GiB of which 1.07 GiB is free. Process 2315700 has 8.66 GiB memory in use. Process 2315723 has 17.38 GiB memory in use. Process 2315701 has 11.61 GiB memory in use. Process 2315709 has 17.39 GiB memory in use. Process 2315703 has 22.62 GiB memory in use. Process 2315711 has 34.45 GiB memory in use. Process 2315717 has 11.40 GiB memory in use. Process 2315702 has 15.08 GiB memory in use. Of the allocated memory 7.13 GiB is allocated by PyTorch, and 896.84 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+[INFO] Collected 8313 total results
+
+[STATS] arc_easy option lengths:
+  Tokens - avg: 5.48, min: 2, max: 28
+  Chars  - avg: 22.48
+✓ Detailed results saved: evaluation_results/mdlm_main_exp/checkpoint-77335/arc_easy/ee7528f2.results.json
+
+============================================================
+Results for: ARC_EASY
+Model: mdlm_main_exp_checkpoint-77335
+============================================================
+acc: 0.2702 (642/2376)
+acc_norm_char: 0.2513 (597/2376)
+acc_norm_token: 0.2433 (578/2376)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

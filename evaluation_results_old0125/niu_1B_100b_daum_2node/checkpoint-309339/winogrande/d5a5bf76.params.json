@@ -1,0 +1,10 @@
+{
+  "fewshot": {
+    "num": 5,
+    "sampler": "random",
+    "seed": 42
+  },
+  "limit": 0,
+  "model_type": "causal",
+  "task": "winogrande"
+}

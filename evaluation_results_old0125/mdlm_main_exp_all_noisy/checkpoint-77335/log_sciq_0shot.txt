@@ -1,0 +1,118 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "sciq"             --num_fewshot "0"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: sciq
+Few-shot: 0
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: sciq (0-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: sciq
+[sciq] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/sciq/main
+[sciq] Loading from local path...
+[sciq] Processing (num_proc=16):   0%|          | 0/1000 [00:00<?, ? examples/s][sciq] Processing (num_proc=16):   6%|▋         | 63/1000 [00:00<00:06, 139.55 examples/s][sciq] Processing (num_proc=16):  69%|██████▉   | 690/1000 [00:00<00:00, 1612.64 examples/s][sciq] Processing (num_proc=16): 100%|██████████| 1000/1000 [00:00<00:00, 1287.63 examples/s]
+
+--- Sample Preview (sciq) ---
+Prompt:
+Oxidants and Reductants Compounds that are capable of accepting electrons, such as O 2 or F2, are calledoxidants (or oxidizing agents) because they can oxidize other compounds. In the process of accepting electrons, an oxidant is reduced. Compounds that are capable of donating electrons, such as sodium metal or cyclohexane (C6H12), are calledreductants (or reducing agents) because they can cause the reduction of another compound. In the process of donating electrons, a reductant is oxidized. The...
+Token IDs (first 20): [50285, 25999, 301, 1103, 285, 4410, 10475, 1103, 3631, 2261, 326, 403, 7032, 273, 18738, 14465, 13, 824, 347, 473]
+
+Choices (4 options):
+  1. 'residues...' -> [12359, 50279]
+  2. 'Oxygen...' -> [473, 38190, 50279]
+  3. 'oxidants...' -> [7495, 1103, 50279]
+  4. 'antioxidants...' -> [40536, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 4000 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 500 samples
+[INFO] GPU 1: 500 samples
+[INFO] GPU 2: 500 samples
+[INFO] GPU 3: 500 samples
+[INFO] GPU 4: 500 samples
+[INFO] GPU 5: 500 samples
+[INFO] GPU 6: 500 samples
+[INFO] GPU 7: 500 samples
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+`torch_dtype` is deprecated! Use `dtype` instead!
+[Worker 4] Starting on GPU 4, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 0] Starting on GPU 0, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 2] Starting on GPU 2, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 6] Starting on GPU 6, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 5] Starting on GPU 5, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 3] Starting on GPU 3, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 7] Starting on GPU 7, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 1] Starting on GPU 1, processing 500 samples
+[INFO] Loaded diffusion model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+[INFO] Diffusion type: mdlm
+[INFO] Eval mode: mc
+[Worker 0] Completed 500 samples
+[Worker 3] Completed 500 samples
+[Worker 2] Completed 500 samples
+[Worker 1] Completed 500 samples
+[Worker 4] Completed 500 samples
+[Worker 6] Completed 500 samples
+[Worker 7] Completed 500 samples
+[Worker 5] Completed 500 samples
+[INFO] Waiting for 8 workers to complete...
+[INFO] Collected 4000 total results
+
+[STATS] sciq option lengths:
+  Tokens - avg: 2.85, min: 2, max: 12
+  Chars  - avg: 10.20
+✓ Detailed results saved: evaluation_results/mdlm_main_exp/checkpoint-77335/sciq/dc572fcc.results.json
+
+============================================================
+Results for: SCIQ
+Model: mdlm_main_exp_checkpoint-77335
+============================================================
+acc: 0.4110 (411/1000)
+acc_norm_char: 0.2930 (293/1000)
+acc_norm_token: 0.3730 (373/1000)
+============================================================
+
+
+============================================================
+Evaluation complete!
+============================================================

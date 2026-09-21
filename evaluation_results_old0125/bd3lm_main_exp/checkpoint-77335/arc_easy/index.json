@@ -1,0 +1,28 @@
+[
+  {
+    "id": "e2cfcc5d",
+    "timestamp_utc": "2026-01-14T08:10:09.707665+00:00",
+    "metrics": {
+      "acc": 0.46296296296296297,
+      "acc_norm_char": 0.4684343434343434,
+      "acc_norm_token": 0.48063973063973064,
+      "total": 2376
+    },
+    "params": {
+      "diffusion": {
+        "block_size": 16,
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "bd3lm"
+      },
+      "fewshot": {
+        "num": 25,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "arc_easy"
+    }
+  }
+]

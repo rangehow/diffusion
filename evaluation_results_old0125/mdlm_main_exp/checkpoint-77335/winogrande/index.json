@@ -1,0 +1,27 @@
+[
+  {
+    "id": "db79530b",
+    "timestamp_utc": "2026-01-14T04:56:08.761806+00:00",
+    "metrics": {
+      "acc": 0.5414364640883977,
+      "acc_norm_char": 0.531965272296764,
+      "acc_norm_token": 0.5445935280189423,
+      "total": 1267
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 5,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "winogrande"
+    }
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "f32ec63c",
+    "timestamp_utc": "2026-01-14T04:57:41.289776+00:00",
+    "metrics": {
+      "acc": 0.6066376496191512,
+      "acc_norm_char": 0.5930359085963003,
+      "acc_norm_token": 0.5963003264417845,
+      "total": 1838
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "piqa"
+    }
+  }
+]

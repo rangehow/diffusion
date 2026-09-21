@@ -1,0 +1,28 @@
+[
+  {
+    "id": "db3d3151",
+    "timestamp_utc": "2026-01-14T08:01:40.750845+00:00",
+    "metrics": {
+      "acc": 0.389025389025389,
+      "acc_norm_char": 0.44553644553644556,
+      "acc_norm_token": 0.4406224406224406,
+      "total": 1221
+    },
+    "params": {
+      "diffusion": {
+        "block_size": 16,
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "bd3lm"
+      },
+      "fewshot": {
+        "num": 7,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "commonsense_qa"
+    }
+  }
+]

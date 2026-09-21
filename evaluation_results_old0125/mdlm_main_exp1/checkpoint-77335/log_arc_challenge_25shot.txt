@@ -1,0 +1,61 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335"             --model_type "discrete_diffusion"             --tasks "arc_challenge"             --num_fewshot "25"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/mdlm_main_exp/checkpoint-77335
+Type: discrete_diffusion
+Tasks: arc_challenge
+Few-shot: 25
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+Diffusion Type: mdlm
+Eval Mode: mc
+MC Samples: 32
+============================================================
+
+============================================================
+Evaluating: arc_challenge (25-shot)
+Diffusion eval mode: mc
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: arc_challenge
+[arc_challenge] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main
+[arc_challenge] Loading from local path...
+[arc_challenge] Setting up 'random' sampler with seed 42
+[arc_challenge] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/allenai/ai2_arc/main
+[arc_challenge] Loading from local path...
+[arc_challenge] Processing (num_proc=16): 100%|██████████| 1172/1172 [00:00<?, ? examples/s][arc_challenge] Processing (num_proc=16): 1245 examples [00:01, 47.37 examples/s]           [arc_challenge] Processing (num_proc=16): 1906 examples [00:01, 567.82 examples/s][arc_challenge] Processing (num_proc=16): 2344 examples [00:01, 616.80 examples/s]
+
+--- Sample Preview (arc_challenge) ---
+Prompt:
+Question: Which of the following best explains how stems transport water to other parts of the plant?
+Answer: through a system of tubes
+
+Question: Rubbing sandpaper on a piece of wood produces what two types of energy?
+Answer: sound and heat
+
+Question: If enough heat is taken away from a container of water, what will happen to the water?
+Answer: It will become a solid.
+
+Question: During sexual reproduction, a sperm cell fertilizes an egg cell to form a fertilized egg. The fertilized egg then dev...
+Token IDs (first 20): [50285, 23433, 27, 6758, 273, 253, 1563, 1682, 11424, 849, 23880, 4616, 1824, 281, 643, 4243, 273, 253, 4444, 32]
+
+Choices (4 options):
+  1. 'Planetary density will decrease....' -> [9224, 12745, 4038, 588, 6379, 15, 50279]
+  2. 'Planetary years will become longer....' -> [9224, 12745, 1107, 588, 2489, 3356, 15, 50279]
+  3. 'Planetary days will become shorter....' -> [9224, 12745, 1897, 588, 2489, 12217, 15, 50279]
+  4. 'Planetary gravity will become stronger....' -> [9224, 12745, 12926, 588, 2489, 10046, 15, 50279]
+---
+
+[INFO] Evaluator initialized
+[INFO] Available GPUs: [0, 1, 2, 3, 4, 5, 6, 7]
+[INFO] Multi-GPU mode: True
+[INFO] Evaluating 4687 samples across 8 GPUs...
+[INFO] Batch size per GPU: 16
+[INFO] GPU 0: 586 samples
+[INFO] GPU 1: 586 samples
+[INFO] GPU 2: 586 samples
+[INFO] GPU 3: 586 samples
+[INFO] GPU 4: 586 samples
+[INFO] GPU 5: 586 samples
+[INFO] GPU 6: 586 samples
+[INFO] GPU 7: 585 samples

@@ -1,0 +1,23 @@
+   Command: python -m eval.main             --model_name_or_path "/mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-19908"             --model_type "causal"             --tasks "mmlu"             --num_fewshot "5"             --batch_size "16"             --limit "0"             --output_dir "./evaluation_results"             --diffusion_eval_mode "mc"             --diffusion_type "mdlm"             --mc_num "32"             --trust_remote_code --use_multi_gpu 
+============================================================
+Evaluation Framework v2.0
+============================================================
+Model: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/hadoop-aipnlp/FMG/ruanjunhao04/diffusion/model_output/arm_1B_fineweb_edu_100b_potential/checkpoint-19908
+Type: causal
+Tasks: mmlu
+Few-shot: 5
+Evaluation: Multi-GPU (multiprocessing, no NCCL)
+============================================================
+
+============================================================
+Evaluating: mmlu (5-shot)
+Evaluation method: Multi-GPU (multiprocessing)
+============================================================
+[TASK] Initializing: mmlu
+[mmlu] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/cais/mmlu/main
+[mmlu] Loading from local path...
+[mmlu] Setting up subject-specific samplers...
+[mmlu] Created 57 samplers
+[mmlu] Found local configuration: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-nlp-sh02/BERT_TRAINING_SERVICE/platform/dataset/cais/mmlu/main
+[mmlu] Loading from local path...
+[mmlu] Processing with subject-specific few-shot (num_proc=16):   0%|          | 0/14042 [00:00<?, ? examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):   6%|▋         | 878/14042 [00:05<01:15, 174.19 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  19%|█▉        | 2634/14042 [00:05<00:18, 625.02 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  31%|███▏      | 4390/14042 [00:05<00:07, 1209.66 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  38%|███▊      | 5268/14042 [00:05<00:05, 1537.42 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  50%|█████     | 7024/14042 [00:05<00:03, 2211.48 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  56%|█████▋    | 7901/14042 [00:06<00:02, 2431.24 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  63%|██████▎   | 8778/14042 [00:06<00:02, 1977.47 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  69%|██████▉   | 9655/14042 [00:07<00:02, 2000.61 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  75%|███████▌  | 10532/14042 [00:07<00:01, 2376.97 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  81%|████████▏ | 11410/14042 [00:08<00:01, 1418.70 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16):  88%|████████▊ | 12288/14042 [00:10<00:02, 870.72 examples/s] [mmlu] Processing with subject-specific few-shot (num_proc=16):  94%|█████████▍| 13165/14042 [00:13<00:01, 587.47 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16): 100%|██████████| 14042/14042 [00:13<00:00, 715.88 examples/s][mmlu] Processing with subject-specific few-shot (num_proc=16): 100%|██████████| 14042/14042 [00:14<00:00, 989.83 examples/s]

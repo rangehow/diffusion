@@ -1,0 +1,26 @@
+[
+  {
+    "id": "c3b1c95c",
+    "timestamp_utc": "2026-01-13T08:51:19.791537+00:00",
+    "metrics": {
+      "mc2_prob_mass_score": 0.42497827655420406,
+      "scored_count": 817,
+      "total_questions": 817
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 0,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "truthfulqa_mc2"
+    }
+  }
+]

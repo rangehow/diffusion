@@ -1,0 +1,22 @@
+[
+  {
+    "id": "a69ac21b",
+    "timestamp_utc": "2026-01-22T08:30:16.726708+00:00",
+    "metrics": {
+      "acc": 0.515970515970516,
+      "acc_norm_char": 0.5298935298935299,
+      "acc_norm_token": 0.5004095004095004,
+      "total": 1221
+    },
+    "params": {
+      "fewshot": {
+        "num": 7,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "causal",
+      "task": "commonsense_qa"
+    }
+  }
+]

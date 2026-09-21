@@ -1,0 +1,27 @@
+[
+  {
+    "id": "e3a0ed00",
+    "timestamp_utc": "2026-01-13T09:04:55.497938+00:00",
+    "metrics": {
+      "acc": 0.25426621160409557,
+      "acc_norm_char": 0.2815699658703072,
+      "acc_norm_token": 0.2977815699658703,
+      "total": 1172
+    },
+    "params": {
+      "diffusion": {
+        "mc_num": 32,
+        "mode": "mc",
+        "type": "mdlm"
+      },
+      "fewshot": {
+        "num": 25,
+        "sampler": "random",
+        "seed": 42
+      },
+      "limit": 0,
+      "model_type": "discrete_diffusion",
+      "task": "arc_challenge"
+    }
+  }
+]
